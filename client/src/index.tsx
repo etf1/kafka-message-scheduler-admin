@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import "bulma/css/bulma.css";
 import './index.css';
-import App from './App';
+import App from '_core/app/App';
 import reportWebVitals from './reportWebVitals';
 
 if (process.env.NODE_ENV === 'development') {
