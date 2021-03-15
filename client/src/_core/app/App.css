@@ -1,8 +1,27 @@
-.App {
- 
+
+
+/*source : https://bulmatemplates.github.io/bulma-templates/templates/landing.html */
+
+.app-hero.is-info {
+  background: url("./img/adobe-stock-background.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.app-hero .nav,
+.app-hero.is-success .nav {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.app-hero .subtitle {
+  padding: 2rem 0;
+  line-height: 1.5;
 }
 
-
-.App-header {
- 
+.app-box {
+  min-height: 1000px;
+  padding: 0;
+  background-color: white;
+  border-radius: 6px;
 }

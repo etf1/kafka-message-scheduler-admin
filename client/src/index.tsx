@@ -1,23 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import "bulma/css/bulma.css";
-import './index.css';
-import App from '_core/app/App';
-import reportWebVitals from './reportWebVitals';
+// These must be the first lines in src/index.js
+import "react-app-polyfill/ie11";
+import "react-app-polyfill/stable";
 
-if (process.env.NODE_ENV === 'development') {
-  const { worker } = require('./__test/mocks/browser')
-  worker.start()
+import React, { Suspense } from "react";
+import ReactDOM from "react-dom";
+import "bulma/css/bulma.css";
+import "./index.css";
+import App from "_core/app/App";
+
+import "_core/i18n";
+
+if (process.env.NODE_ENV === "development") {
+  const { worker } = require("./mocks/browser");
+  worker.start();
 }
 
 ReactDOM.render(
   <React.StrictMode>
+    <Suspense fallback={<div></div>}>
     <App />
+    </Suspense>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

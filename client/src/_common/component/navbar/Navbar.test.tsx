@@ -1,6 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Navbar from "./Navbar";
+import { MemoryRouter } from "react-router";
 
 test("renders Navbar main menu part", () => {
   const handleClick = jest.fn();
@@ -14,7 +15,11 @@ test("renders Navbar main menu part", () => {
     },
   ];
 
-  const component = render(<Navbar brand={"Home"} items={items} />);
+  const component = render(
+    <MemoryRouter>
+      <Navbar brand={"Home"} items={items} />
+    </MemoryRouter>
+  );
   const container = component.container;
 
   // checking brand part
@@ -59,8 +64,6 @@ test("renders Navbar main menu part", () => {
   }
 });
 
-
-
 test("renders Navbar right menu part", () => {
   const handleClick = jest.fn();
 
@@ -73,7 +76,11 @@ test("renders Navbar right menu part", () => {
     },
   ];
 
-  const component = render(<Navbar brand={"Home"} rightItems={items} />);
+  const component = render(
+    <MemoryRouter>
+      <Navbar brand={"Home"} rightItems={items} />
+    </MemoryRouter>
+  );
   const container = component.container;
 
   // checking brand part

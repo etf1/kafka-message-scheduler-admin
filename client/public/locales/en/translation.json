@@ -1,0 +1,28 @@
+{
+  "Open": "Open",
+  "Close": "Close",
+  "About-page-title": "About",
+  "Home-menu":"Home",
+  "About-menu":"About",
+  "All-schedules-menu":"All schedules",
+  "Live-schedules-menu":"Live schedules",
+  "Source-menu":"View source",
+  "Schedules": "Schedules",
+  "Scheduler": "Scheduler",
+  "Please choose some scheduler":"Please choose some value",
+  "Start at":"Start at",
+  "End at": "End at",
+  "Calendar-Today-btn-label": "Today",
+  "Calendar-Clear-btn-label": "Clear",
+  "Calendar-Cancel-btn-label":"Cancel",
+  "Calendar-date-format":"MM/dd/yyyy",
+  "ScheduleTable-column-ID":"ID",
+  "ScheduleTable-column-Scheduler":"Scheduler",
+  "ScheduleTable-column-TiggerDate":"Trigger Date",
+  "ScheduleTable-column-CreationDate":"Creation Date",
+  "ScheduleTable-column-TargetTopic":"Target Topic",
+  "ScheduleTable-column-TargetId":"Target ID",
+  "All-schedules-page-title":"All schedules",
+  "Live-schedules-page-title":"Live schedules"
+
+}

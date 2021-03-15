@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 export type Spacer = "-";
 export type MenuDropDown = {
@@ -27,7 +28,8 @@ export const isMenuDefault = (value: any): value is MenuItemDefault => {
   return value !== null && value.hasOwnProperty("label");
 };
 
-const renderItems = (data: MenuItem[]) => {
+const renderItems = (data: MenuItem[], location:{pathname:string}) => {
+ 
   return data.map((item, index) => {
     if (item === "-") {
       return <hr key={"hr"+index} className="navbar-divider" />;
@@ -36,14 +38,14 @@ const renderItems = (data: MenuItem[]) => {
         <div key={"dd"+index} className="navbar-item has-dropdown is-hoverable">
           <span className="navbar-link">{item.label}</span>
 
-          <div className="navbar-dropdown">{renderItems(item.children)}</div>
+          <div className="navbar-dropdown">{renderItems(item.children, location)}</div>
         </div>
       );
     } else if (isMenuItemLink(item)) {
       return (
-        <a  key={"a"+index}  href={item.href} className="navbar-item">
+        <Link key={"a"+index}  to={item.href} className={clsx("navbar-item", (location.pathname === item.href) && "is-active")}>
           {item.label}
-        </a>
+        </Link>
       );
     } else if (isMenuDefault(item)) {
       return (
@@ -62,7 +64,15 @@ export type NavbarProps = {
   items?: MenuItem[];
   rightItems?: MenuItem[];
 };
+/**
+ * 
+ * Main Application Navbar, uses react-router-dom (Link and location)
+ * 
+ * @param props 
+ * @returns The main application navbar
+ */
 const Navbar: React.FC<NavbarProps> = ({ brand, items, rightItems }) => {
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleBurgerClick = () => setIsOpen((isOpen) => !isOpen);
@@ -87,9 +97,8 @@ const Navbar: React.FC<NavbarProps> = ({ brand, items, rightItems }) => {
       </div>
 
       <div id="navbarBasicExample" className={clsx("navbar-menu", isOpen ? "is-active" : null)}>
-        <div className="navbar-start">{items && renderItems(items)}</div>
-
-        <div className="navbar-end">{rightItems && renderItems(rightItems)}</div>
+        <div className="navbar-start">{items && renderItems(items, location)}</div>
+        <div className="navbar-end">{rightItems && renderItems(rightItems, location)}</div>
       </div>
     </nav>
   );
