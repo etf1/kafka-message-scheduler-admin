@@ -1,8 +1,8 @@
-import LiveSchedules from "./LiveSchedules";
+import SchedulesLive from "./SchedulesLive";
 
 const Home = () => {
   return (
-    <LiveSchedules />
+    <SchedulesLive />
   );
 };
 

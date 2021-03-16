@@ -22,7 +22,7 @@ const AppNavbar = () => {
                 <span className="icon">
                   <i className="fa fa-home"></i>
                 </span>
-                <span>{t("Home-menu")}</span>
+                <span>{t("Menu-home")}</span>
               </a>
             </span>
           </div>
@@ -32,7 +32,7 @@ const AppNavbar = () => {
                 <span className="icon">
                   <i className="fa fa-calendar"></i>
                 </span>
-                <span>{t("Live-schedules-menu")}</span>
+                <span>{t("Menu-schedules-live")}</span>
               </Link>
             </span>
             <span className="navbar-item">
@@ -40,19 +40,19 @@ const AppNavbar = () => {
                 <span className="icon">
                   <i className="fa fa-calendar-alt"></i>
                 </span>
-                <span>{t("All-schedules-menu")}</span>
+                <span>{t("Menu-schedules-all")}</span>
               </Link>
             </span>
             <span className="navbar-item">
               <a
                 className="button is-white is-outlined"
-                target="_blank"
+                target="_blank" rel="noreferrer"
                 href="https://github.com/etf1/kafka-message-scheduler-admin"
               >
                 <span className="icon">
                   <i className="fab fa-github"></i>
                 </span>
-                <span>{t("Source-menu")}</span>
+                <span>{t("Menu-Source")}</span>
               </a>
             </span>
           </div>

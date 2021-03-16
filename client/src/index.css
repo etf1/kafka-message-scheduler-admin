@@ -39,6 +39,9 @@ body {
 .space-left {
   margin-left: 1em !important;
 }
+.space-top {
+  margin-top: 1em !important;
+}
 .space-bottom {
   margin-bottom: 1em !important;
 }

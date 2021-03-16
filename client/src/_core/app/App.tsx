@@ -1,12 +1,9 @@
-import React, { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import "./App.css";
-import Navbar, { MenuItem } from "_common/component/navbar/Navbar";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import routes, { ROUTE_ABOUT, ROUTE_HOME } from "../router/routes";
-import { useTranslation } from "react-i18next";
-import { changeLanguage } from "_core/i18n";
+import routes from "../router/routes";
 import AppNavbar from "./AppNavbar";
 
 function App() {

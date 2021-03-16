@@ -5,8 +5,9 @@ import { lazy } from "react";
 const Home = lazy(() => import("business/page/Home"));
 const About = lazy(() => import("business/about/About"));
 
-const LiveSchedules = lazy(() => import("business/page/LiveSchedules"));
-const AllSchedules = lazy(() => import("business/page/AllSchedules"));
+const SchedulesLive = lazy(() => import("business/page/SchedulesLive"));
+const SchedulesAll = lazy(() => import("business/page/SchedulesAll"));
+const ScheduleDetail = lazy(() => import("business/page/ScheduleDetail"));
 
 export type RouteConfig = {
   path: string;
@@ -19,6 +20,7 @@ export const ROUTE_HOME = "/";
 export const ROUTE_ABOUT = "/about";
 export const ROUTE_LIVE_SCHEDULES = "/live";
 export const ROUTE_ALL_SCHEDULES = "/all";
+export const ROUTE_SCHEDULE_DETAIL = "/detail/:schedulerName/:scheduleId";
 
 export const resolvePath = (path: string, variables: Dictionary) => {
   if (path.indexOf(":") > -1) {
@@ -39,13 +41,19 @@ const routes: RouteConfig[] = [
   {
     path: ROUTE_LIVE_SCHEDULES,
     key: "live",
-    component: LiveSchedules,
+    component: SchedulesLive,
     exact: true,
   },
   {
     path: ROUTE_ALL_SCHEDULES,
     key: "all",
-    component: AllSchedules,
+    component: SchedulesAll,
+    exact: true,
+  },
+  {
+    path: ROUTE_SCHEDULE_DETAIL,
+    key: "schedule",
+    component: ScheduleDetail,
     exact: true,
   },
   {

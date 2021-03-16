@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import bulmaCalendar from "bulma-calendar";
 import "bulma-calendar/dist/css/bulma-calendar.min.css";
 import "./Calendar.css";
@@ -26,25 +26,14 @@ function Calendar({ uid, className, onChange, value }: CalendarProps) {
 
   const lang = getShortLanguageFromLS();
 
- 
   useEffect(() => {
    
     // Initialize all input of date type.
     bulmaCalendar.attach(`#${"cal"+uid}[type="date"]`, {type:"date", startDate: refValue.current});
 
-    // Loop on each calendar initialized
-    /*calendars.forEach((calendar) => {
-      // Add listener to date:selected event
-      calendar.on("date:selected", (date) => {
-        console.log(date);
-      });
-    });*/
-
-    // To access to bulmaCalendar instance of an element
     // eslint-disable-next-line no-undef
     const element = document.querySelector(`#${"cal"+uid}`);
     if (element) {
-      // bulmaCalendar instance is available as element.bulmaCalendar
       (element as any).bulmaCalendar.on("select", (datepicker: any) => {
         const dt = parse(datepicker.data.value(), t("Calendar-date-format"), new Date());
         if (!refValue.current || (withoutTime(dt).getTime() !== withoutTime(refValue.current).getTime())){
@@ -52,7 +41,7 @@ function Calendar({ uid, className, onChange, value }: CalendarProps) {
         }
       });
     }
-  }, []);
+  }, [t, uid, onChange]);
 
   return (
     <div className={className}>

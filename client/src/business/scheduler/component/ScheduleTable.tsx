@@ -2,18 +2,16 @@ import { useTranslation } from "react-i18next";
 import { ScheduleInfo } from "../type";
 import fromUnixTime from "date-fns/fromUnixTime";
 import format from "date-fns/format";
-import { CSSProperties } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
+import Styles from "./ScheduleTable.module.css";
+import clsx from "clsx";
+import { resolvePath, ROUTE_SCHEDULE_DETAIL } from "_core/router/routes";
 export type ScheduleTableProps = {
   data: ScheduleInfo[];
-  onClick: (schedule: ScheduleInfo) => void;
+  onClick?: (schedule: ScheduleInfo) => void;
 };
-const styles: { colWithId: CSSProperties } = {
-  colWithId: {
-    textAlign: "left",
-    maxWidth: 210,
-    wordBreak: "break-all",
-  },
-};
+
 const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, onClick }) => {
   const { t } = useTranslation();
   return (
@@ -32,13 +30,22 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, onClick }) => {
       <tbody>
         {data.map((schedule) => {
           return (
-            <tr key={`${schedule.scheduler}/${schedule.id}`} className="pointer">
-              <td style={styles.colWithId}>{schedule.id}</td>
-              <td style={styles.colWithId}>{schedule.scheduler}</td>
+            <tr key={`${schedule.scheduler}/${schedule.id}`} onClick={() => onClick && onClick(schedule)}>
+              <td className={clsx(Styles.ColWithId, Styles.ColWithLink)}>
+                <Link
+                  to={resolvePath(ROUTE_SCHEDULE_DETAIL, {
+                    schedulerName: schedule.scheduler,
+                    scheduleId: schedule.id,
+                  })}
+                >
+                  {schedule.id}
+                </Link>
+              </td>
+              <td className={Styles.colWithId}>{schedule.scheduler}</td>
               <td>{format(fromUnixTime(schedule.timestamp), t("Calendar-date-format"))}</td>
               <td>{format(fromUnixTime(schedule.epoch), t("Calendar-date-format"))}</td>
-              <td style={styles.colWithId}>{schedule.targetTopic}</td>
-              <td style={styles.colWithId}>{schedule.targetId}</td>
+              <td className={Styles.colWithId}>{schedule.targetTopic}</td>
+              <td className={Styles.colWithId}>{schedule.targetId}</td>
             </tr>
           );
         })}

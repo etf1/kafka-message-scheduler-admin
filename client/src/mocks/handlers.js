@@ -9,6 +9,7 @@ export const handlers = [
   rest.get("/api/schedulers", (req, res, ctx) => {
     return res(
       // Respond with a 200 status code
+      // eslint-disable-next-line
       ctx.status(200),
       ctx.json({
         schedulers: [
@@ -63,11 +64,11 @@ export const handlers = [
     const schedulerName = req.url.searchParams.get("scheduler-name");
     const scheduleId = req.url.searchParams.get("schedule-id");
     const max = scheduleId ? (8-scheduleId.length) : req.url.searchParams.get("max") || 150;
-    const sort = req.url.searchParams.get("sort");
+    /*const sort = req.url.searchParams.get("sort");
     const epochFrom = req.url.searchParams.get("epoch-from");
-    const epochTo = req.url.searchParams.get("epoch-to");
+    const epochTo = req.url.searchParams.get("epoch-to");*/
     const schedules = [];
-    if (!scheduleId || scheduleId.length < 6) {
+    if (!scheduleId || scheduleId.length < 8) {
       for (let i = 0; i < max; i++) {
         schedules.push({
           id: `video:ce67bd${getRandomInt(9)}${getRandomInt(9)}-4997-441a-b762-a29e1cc8c44${i}:apps:offline`,
@@ -97,7 +98,7 @@ export const handlers = [
     //const epochFrom = req.url.searchParams.get("epoch-from");
     //const epochTo = req.url.searchParams.get("epoch-to");
     const schedules = [];
-    if (!scheduleId || scheduleId.length < 6) {
+    if (!scheduleId || scheduleId.length < 8) {
       for (let i = 0; i < max; i++) {
         schedules.push({
           id: `video:ce67bd${getRandomInt(9)}${getRandomInt(9)}-4997-441a-b762-a29e1cc8c44${i}:apps:offline`,
@@ -132,7 +133,7 @@ export const handlers = [
         topic: "topic-1",
         "target-topic": "backend.queueing.catalog.video.v1",
         "target-id": `ce67bd8${getRandomInt(9)}-4997-441a-b762-a29e1cc8c446`,
-        headers: [{ name: "", value: "" }],
+        headers: [{ name: "header-name", value: "a-header-value" },{ name: "another-header-name", value: "xxx-value" }],
         body: "xxxx",
       })
     );

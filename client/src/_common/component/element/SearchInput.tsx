@@ -21,6 +21,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   const [searchString, setSearchString] = useState<string | undefined>("");
   const searchSubject = useRef<BehaviorSubject<string>>(new BehaviorSubject(""));
 
+  console.log("SearchInput");
   useEffect(() => {
     setSearchString(value);
   }, [value]);
@@ -32,7 +33,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
     );
     const subscription = searchResultObservable.subscribe(onChange);
     return () => subscription.unsubscribe();
-  }, [searchSubject]);
+  }, [debounceDelay, discardDuplicates, searchSubject, onChange]);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const value = e.target.value;
