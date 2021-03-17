@@ -1,19 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import bulmaCalendar from "bulma-calendar";
 import "bulma-calendar/dist/css/bulma-calendar.min.css";
 import "./Calendar.css";
 import { useTranslation } from "react-i18next";
 import { getShortLanguageFromLS } from "_core/i18n";
 import parse from 'date-fns/parse'
-const withoutTime = function (date:Date) {
-  var d = new Date(date);
-  d.setHours(0, 0, 0, 0);
-  return d;
-}
+import startOfDay from "date-fns/startOfDay";
 
 export type CalendarProps = {
   uid:string;
-  className: string;
+  className?: string;
   onChange: (d:Date) => void;
   value: Date | undefined
 };
@@ -25,6 +21,7 @@ function Calendar({ uid, className, onChange, value }: CalendarProps) {
   const { t } = useTranslation();
 
   const lang = getShortLanguageFromLS();
+ 
 
   useEffect(() => {
    
@@ -36,7 +33,7 @@ function Calendar({ uid, className, onChange, value }: CalendarProps) {
     if (element) {
       (element as any).bulmaCalendar.on("select", (datepicker: any) => {
         const dt = parse(datepicker.data.value(), t("Calendar-date-format"), new Date());
-        if (!refValue.current || (withoutTime(dt).getTime() !== withoutTime(refValue.current).getTime())){
+        if (!refValue.current || (startOfDay(dt).getTime() !== startOfDay(refValue.current).getTime())){
           onChange(dt);
         }
       });

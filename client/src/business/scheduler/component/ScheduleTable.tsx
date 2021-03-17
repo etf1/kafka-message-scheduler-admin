@@ -6,13 +6,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Styles from "./ScheduleTable.module.css";
 import clsx from "clsx";
-import { resolvePath, ROUTE_SCHEDULE_DETAIL } from "_core/router/routes";
+import { resolvePath } from "_core/router/routes";
 export type ScheduleTableProps = {
   data: ScheduleInfo[];
   onClick?: (schedule: ScheduleInfo) => void;
+  detailUrl:string;
 };
 
-const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, onClick }) => {
+const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, detailUrl, onClick }) => {
   const { t } = useTranslation();
   return (
     <table className="table is-striped is-narrow is-hoverable is-fullwidth">
@@ -33,7 +34,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, onClick }) => {
             <tr key={`${schedule.scheduler}/${schedule.id}`} onClick={() => onClick && onClick(schedule)}>
               <td className={clsx(Styles.ColWithId, Styles.ColWithLink)}>
                 <Link
-                  to={resolvePath(ROUTE_SCHEDULE_DETAIL, {
+                  to={resolvePath(detailUrl, {
                     schedulerName: schedule.scheduler,
                     scheduleId: schedule.id,
                   })}

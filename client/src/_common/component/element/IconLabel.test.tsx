@@ -2,6 +2,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import IconLabel from './IconLabel';
 
+import "_core/i18n";
+
 test('renders multiple Icons with Labels', () => {
   const component = render(<IconLabel data={[{icon:"save", label:"Hello"}, {icon:"pencil", label:"World"}]} />);
   const container = component.container;

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useReducer, useState } from "react";
 import { TFunction, useTranslation } from "react-i18next";
 import format from "date-fns/format";
+import add from "date-fns/add";
 import Calendar from "_common/component/calendar/Calendar";
 import Dropdown from "_common/component/element/Dropdown";
 import SearchInput from "_common/component/element/SearchInput";
@@ -9,6 +10,9 @@ import useSchedulers from "../hook/useSchedulers";
 import { searchLiveSchedules, SearchParams, searchSchedules, SortOrder, SortType } from "../service/SchedulerService";
 import { ScheduleInfo, Scheduler } from "../type";
 import ScheduleTable from "./ScheduleTable";
+import { ROUTE_SCHEDULE_LIVE_DETAIL, ROUTE_SCHEDULE_ALL_DETAIL } from "_core/router/routes";
+import startOfDay from "date-fns/startOfDay";
+
 
 type SearchParamsModel = {
   scheduler?: Scheduler;
@@ -37,7 +41,6 @@ const searchParamsReducer: SearchParamsReducer = (state: SearchParamsModel, acti
     case "init":
       return { ...state, ...action.payload };
     case "scheduler-changed":
-      save<Scheduler>("selected-scheduler", action.payload);
       return { ...state, scheduler: action.payload };
     case "scheduleId-changed":
       return { ...state, scheduleId: action.payload };
@@ -73,17 +76,20 @@ const makeParams = (model: SearchParamsModel): SearchParams | undefined => {
 };
 
 const buildSearchModelLabel = (model: SearchParamsModel, t: TFunction<string>): React.ReactNode => {
-  const result:React.ReactNode[] = [];
+  const result: React.ReactNode[] = [];
   const addSeparator = () => {
     if (result.length > 0) {
-      result.push(<span className="space-right">,</span>);
+      result.push(
+        <span key={result.length} className="space-right">
+          ,
+        </span>
+      );
     }
   };
   const addLabel = (key: string, label: string, value: string) => {
     result.push(
-      <span key={key} style={{fontStyle:"italic"}}>
-        <label style={{fontStyle: "normal",
-    fontWeight: 600}}>{label}</label>: "{value}"
+      <span key={key} style={{ fontStyle: "italic" }}>
+        <label style={{ fontStyle: "normal", fontWeight: 600 }}>{label}</label>: "{value}"
       </span>
     );
   };
@@ -104,7 +110,7 @@ const buildSearchModelLabel = (model: SearchParamsModel, t: TFunction<string>): 
       addLabel("end-at", t("Scheduler-search-field-end-at"), format(model.epochTo, t("Calendar-date-format")));
     }
 
-    result.unshift(t("Scheduler-search-summary")+ ": ")
+    result.unshift(t("Scheduler-search-summary") + ": ");
   }
 
   return result;
@@ -118,9 +124,20 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live }) => {
   const [result, setResult] = useState<ScheduleInfo[]>([]);
 
   const [searchModel, dispatch] = useReducer<SearchParamsReducer>(searchParamsReducer, {
-    scheduler: load<Scheduler>("selected-scheduler", undefined),
-    epochFrom: new Date(),
+    scheduler: load<Scheduler>("SearchParamsModel-Scheduler", undefined),
+    scheduleId: load<string>("SearchParamsModel-Scheduler-id", ""),
+    epochFrom: startOfDay(new Date()),
+    epochTo: startOfDay(add(new Date(), {
+      days: 1,
+    })),
   });
+
+  useEffect(() => {
+    if (searchModel) {
+      save("SearchParamsModel-Scheduler", searchModel.scheduler);
+      save("SearchParamsModel-Scheduler-id", searchModel.scheduleId);
+    }
+  }, [searchModel]);
 
   useEffect(() => {
     if (schedulers && schedulers.length > 0) {
@@ -138,25 +155,20 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live }) => {
     }
   }, [searchModel, live]);
 
-  const handleResultRowClick = (schedule: ScheduleInfo) => {
-    console.log("clicked");
-  };
-
   const renderOption = (option: Scheduler) => {
-    return <span>{option.name}</span>;
+    return <span key={option.name}>{option.name}</span>;
   };
-  const handleSearchInputChanged = useCallback(
-    (value) => dispatch({ type: "scheduleId-changed", payload: value || "" }),
-    []
-  );
+  const handleSearchInputChanged = useCallback((value) => {
+    dispatch({ type: "scheduleId-changed", payload: value || "" });
+  }, []);
   return (
-    <React.Fragment>
-      <h2 className="subtitle">{buildSearchModelLabel(searchModel, t)}</h2>
+    <React.Fragment key="SearchScheduler">
+      <h2 className="subtitle" style={{fontSize:"1rem"}}>{buildSearchModelLabel(searchModel, t)}</h2>
       <div className="app-box">
         <div className="container">
           <div className="panel">
             <div className="panel-heading">{t("Schedules")}</div>
-            <div className="panel-block more-space-bottom">
+            <div className="panel-block space-top more-space-bottom">
               <div className="field is-horizontal">
                 <div className="field-body">
                   <div className="field">
@@ -210,7 +222,13 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live }) => {
             <div className="panel-block">
               <div className="container">
                 {(!result || result.length === 0) && <strong>Pas de résultat...</strong>}
-                {result && result.length > 0 && <ScheduleTable data={result} onClick={handleResultRowClick} />}
+                {result && result.length > 0 && (
+                  <ScheduleTable
+                    key="table"
+                    data={result}
+                    detailUrl={live ? ROUTE_SCHEDULE_LIVE_DETAIL : ROUTE_SCHEDULE_ALL_DETAIL}
+                  />
+                )}
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import { ChangeEventHandler, useEffect, useRef, useState } from "react";
-import { BehaviorSubject, identity } from "rxjs";
+import { identity, Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 export type SearchInputProps = Omit<
@@ -18,10 +18,9 @@ const SearchInput: React.FC<SearchInputProps> = ({
   discardDuplicates = true,
   ...others
 }) => {
-  const [searchString, setSearchString] = useState<string | undefined>("");
-  const searchSubject = useRef<BehaviorSubject<string>>(new BehaviorSubject(""));
+  const [searchString, setSearchString] = useState<string | undefined>(value);
+  const searchSubject = useRef<Subject<string>>(new Subject());
 
-  console.log("SearchInput");
   useEffect(() => {
     setSearchString(value);
   }, [value]);

@@ -1,12 +1,12 @@
-import i18n,  { TFunction } from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import i18n, { TFunction } from "i18next";
+import { initReactI18next } from "react-i18next";
 
-import Backend from 'i18next-http-backend';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import LanguageDetector from "i18next-browser-languagedetector";
+import Backend from "i18next-http-backend";
 import { isNumber } from "_common/type/utils";
 
 // don't want to use this?
-// have a look at the Quick start guide 
+// have a look at the Quick start guide
 // for passing in lng and translations on init
 
 i18n
@@ -21,43 +21,42 @@ i18n
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
-    fallbackLng: 'en',
+    fallbackLng: "en",
     debug: false,
 
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
-    }
+    },
   });
 
-  function hasLength(value: any): value is { length: number } {
-    return isNumber(value?.length);
-  }
-  
-  export function pluralizeIf(
-    count: number | undefined | { length: number },
-    label: string,
-    labels: string | undefined,
-    t?: TFunction
-  ) {
-    const nb = hasLength(count) ? count.length : count;
-    if (nb === undefined || nb === 0 || nb === 1 || labels === undefined) {
-      return t ? t(label) : label;
-    }
-    return t ? t(labels) : labels;
-  }
+function hasLength(value: any): value is { length: number } {
+  return isNumber(value?.length);
+}
 
+export function pluralizeIf(
+  count: number | undefined | { length: number },
+  label: string,
+  labels: string | undefined,
+  t?: TFunction
+) {
+  const nb = hasLength(count) ? count.length : count;
+  if (nb === undefined || nb === 0 || nb === 1 || labels === undefined) {
+    return t ? t(label) : label;
+  }
+  return t ? t(labels) : labels;
+}
 
-  export function getShortLanguageFromLS(): string | null {
-    const locale = localStorage.getItem("i18nextLng");
-    if (locale) {
-      return locale;
-    }
-    return null;
+export function getShortLanguageFromLS(): string | null {
+  const locale = localStorage.getItem("i18nextLng");
+  if (locale) {
+    return locale;
   }
-  export function changeLanguage(
-    lng: "en-US" | "fr-FR" | string,
-    callback?: ((error: any, t: TFunction) => void) | undefined
-  ): Promise<TFunction> {
-    return i18n.changeLanguage(lng, callback);
-  }
+  return null;
+}
+export function changeLanguage(
+  lng: "en-US" | "fr-FR" | string,
+  callback?: ((error: any, t: TFunction) => void) | undefined
+): Promise<TFunction> {
+  return i18n.changeLanguage(lng, callback);
+}
 export default i18n;

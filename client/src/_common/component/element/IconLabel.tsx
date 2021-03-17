@@ -4,15 +4,20 @@ export type IconLabelItem = {
   icon: string;
   label: React.ReactNode;
 };
-
-export type IconLabelProps = {
+export type IconLabelItems = {
   data: IconLabelItem[];
 };
 
-const IconLabel: React.FC<IconLabelProps> = ({ data }) => {
+export type IconLabelProps = IconLabelItems | IconLabelItem;
+export function isIconLabelItems(value: IconLabelItems | IconLabelItem): value is IconLabelItems {
+  return value.hasOwnProperty("data");
+}
+
+const IconLabel: React.FC<IconLabelProps> = (props) => {
+  let items: IconLabelItem[] = isIconLabelItems(props) ? props.data : [props];
   return (
     <span className="icon-text">
-      {data.map(({ icon, label }: IconLabelItem, index: number) => {
+      {items.map(({ icon, label }: IconLabelItem, index: number) => {
         return (
           <React.Fragment key={index}>
             <span className="icon">

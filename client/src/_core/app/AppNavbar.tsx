@@ -1,21 +1,33 @@
+import clsx from "clsx";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { ROUTE_ALL_SCHEDULES, ROUTE_HOME, ROUTE_LIVE_SCHEDULES } from "_core/router/routes";
 
 const AppNavbar = () => {
   const { t } = useTranslation();
-  
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleBurgerClick = () => setIsOpen((isOpen) => !isOpen);
+
   return (
     <nav className="navbar">
       <div className="container">
         <div className="navbar-brand">
-          <span className="navbar-burger burger white" data-target="navbarMenu">
-            <span></span>
-            <span></span>
-            <span></span>
+          <span
+            role="button"
+            className={clsx("navbar-burger burger white", isOpen ? "is-active" : null)}
+            aria-label="menu"
+            aria-expanded="false"
+            data-target="navbarMenu"
+            onClick={handleBurgerClick}
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
           </span>
         </div>
-        <div id="navbarMenu" className="navbar-menu">
+        <div id="navbarMenu" style={{backgroundColor:"transparent"}} className={clsx("navbar-menu", isOpen ? "is-active" : null)}>
           <div className="navbar-start">
             <span className="navbar-item">
               <a className="button is-white is-outlined" href={ROUTE_HOME}>
@@ -46,7 +58,8 @@ const AppNavbar = () => {
             <span className="navbar-item">
               <a
                 className="button is-white is-outlined"
-                target="_blank" rel="noreferrer"
+                target="_blank"
+                rel="noreferrer"
                 href="https://github.com/etf1/kafka-message-scheduler-admin"
               >
                 <span className="icon">
