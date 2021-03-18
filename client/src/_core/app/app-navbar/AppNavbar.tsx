@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { ROUTE_ALL_SCHEDULES, ROUTE_HOME, ROUTE_LIVE_SCHEDULES } from "_core/router/routes";
+import Styles from "./AppNavbar.module.css";
 
 const AppNavbar = () => {
   const { t } = useTranslation();
@@ -27,7 +28,7 @@ const AppNavbar = () => {
             <span aria-hidden="true"></span>
           </span>
         </div>
-        <div id="navbarMenu" style={{backgroundColor:"transparent"}} className={clsx("navbar-menu", isOpen ? "is-active" : null)}>
+        <div id="navbarMenu" className={clsx("navbar-menu", Styles.NavbarMenu, isOpen ? "is-active" : null)}>
           <div className="navbar-start">
             <span className="navbar-item">
               <a className="button is-white is-outlined" href={ROUTE_HOME}>

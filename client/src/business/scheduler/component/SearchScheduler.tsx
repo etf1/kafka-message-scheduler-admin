@@ -3,8 +3,8 @@ import { TFunction, useTranslation } from "react-i18next";
 import format from "date-fns/format";
 import add from "date-fns/add";
 import Calendar from "_common/component/calendar/Calendar";
-import Dropdown from "_common/component/element/Dropdown";
-import SearchInput from "_common/component/element/SearchInput";
+import Dropdown from "_common/component/element/dropdown/Dropdown";
+import SearchInput from "_common/component/element/search-input/SearchInput";
 import { load, save } from "_common/service/StorageService";
 import useSchedulers from "../hook/useSchedulers";
 import { searchLiveSchedules, SearchParams, searchSchedules, SortOrder, SortType } from "../service/SchedulerService";
@@ -12,7 +12,8 @@ import { ScheduleInfo, Scheduler } from "../type";
 import ScheduleTable from "./ScheduleTable";
 import { ROUTE_SCHEDULE_LIVE_DETAIL, ROUTE_SCHEDULE_ALL_DETAIL } from "_core/router/routes";
 import startOfDay from "date-fns/startOfDay";
-
+import useMedia from "_common/hook/useMedia";
+import clsx from "clsx";
 
 type SearchParamsModel = {
   scheduler?: Scheduler;
@@ -122,14 +123,17 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live }) => {
   const { t } = useTranslation();
   const { schedulers } = useSchedulers();
   const [result, setResult] = useState<ScheduleInfo[]>([]);
+  const smallScreen = useMedia(["(max-width: 1250px)", "(min-width: 1250px)"], [true, false], true);
 
   const [searchModel, dispatch] = useReducer<SearchParamsReducer>(searchParamsReducer, {
     scheduler: load<Scheduler>("SearchParamsModel-Scheduler", undefined),
     scheduleId: load<string>("SearchParamsModel-Scheduler-id", ""),
     epochFrom: startOfDay(new Date()),
-    epochTo: startOfDay(add(new Date(), {
-      days: 1,
-    })),
+    epochTo: startOfDay(
+      add(new Date(), {
+        days: 1,
+      })
+    ),
   });
 
   useEffect(() => {
@@ -163,15 +167,19 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live }) => {
   }, []);
   return (
     <React.Fragment key="SearchScheduler">
-      <h2 className="subtitle" style={{fontSize:"1rem"}}>{buildSearchModelLabel(searchModel, t)}</h2>
+      <h2 className="subtitle" style={{ fontSize: "1rem" }}>
+        {buildSearchModelLabel(searchModel, t)}
+      </h2>
       <div className="app-box">
         <div className="container">
           <div className="panel">
             <div className="panel-heading">{t("Schedules")}</div>
             <div className="panel-block space-top more-space-bottom">
               <div className="field is-horizontal">
-                <div className="field-body">
-                  <div className="field">
+                <div
+                  className={clsx(!smallScreen && "field-body", smallScreen && "field is-grouped is-grouped-multiline")}
+                >
+                  <div className="field space-right">
                     <label className="label">{t("Scheduler")}</label>
                     <div className="control has-icons-left">
                       <Dropdown
@@ -184,7 +192,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live }) => {
                       />
                     </div>
                   </div>
-                  <div className="field">
+                  <div className="field space-right">
                     <label className="label">{t("Scheduler-search-field-schedule-id")}</label>
                     <div className="control">
                       <SearchInput
@@ -194,7 +202,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live }) => {
                       />
                     </div>
                   </div>
-                  <div className="field">
+                  <div className="field space-right">
                     <label className="label">{t("Scheduler-search-field-start-at")}</label>
                     <div className="control">
                       <Calendar
@@ -226,6 +234,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live }) => {
                   <ScheduleTable
                     key="table"
                     data={result}
+                    showAsTable={!smallScreen}
                     detailUrl={live ? ROUTE_SCHEDULE_LIVE_DETAIL : ROUTE_SCHEDULE_ALL_DETAIL}
                   />
                 )}

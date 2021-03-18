@@ -4,7 +4,7 @@ import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import routes from "../router/routes";
-import AppNavbar from "./AppNavbar";
+import AppNavbar from "./app-navbar/AppNavbar";
 
 function App() {
 

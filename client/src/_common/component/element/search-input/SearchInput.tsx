@@ -1,6 +1,5 @@
-import { ChangeEventHandler, useEffect, useRef, useState } from "react";
-import { identity, Subject } from "rxjs";
-import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { ChangeEventHandler, useEffect, useState } from "react";
+import useSeachText from "_common/hook/useSearchText";
 
 export type SearchInputProps = Omit<
   React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
@@ -19,25 +18,16 @@ const SearchInput: React.FC<SearchInputProps> = ({
   ...others
 }) => {
   const [searchString, setSearchString] = useState<string | undefined>(value);
-  const searchSubject = useRef<Subject<string>>(new Subject());
+  const handleSearchChange = useSeachText(onChange, debounceDelay, discardDuplicates);
 
   useEffect(() => {
     setSearchString(value);
   }, [value]);
 
-  useEffect(() => {
-    const searchResultObservable = searchSubject.current.pipe(
-      debounceTime(debounceDelay || 650),
-      discardDuplicates ? distinctUntilChanged() : identity
-    );
-    const subscription = searchResultObservable.subscribe(onChange);
-    return () => subscription.unsubscribe();
-  }, [debounceDelay, discardDuplicates, searchSubject, onChange]);
-
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const value = e.target.value;
     setSearchString(value);
-    searchSubject.current.next(value);
+    handleSearchChange(value);
   };
 
   return <input className="input" onChange={handleChange} value={searchString} {...others} />;

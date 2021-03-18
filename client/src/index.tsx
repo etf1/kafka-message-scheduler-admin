@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === "development") {
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<div></div>}>
-    <App />
+      <App />
     </Suspense>
   </React.StrictMode>,
   document.getElementById("root")

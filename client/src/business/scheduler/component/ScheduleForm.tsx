@@ -5,12 +5,12 @@ import format from "date-fns/format";
 import { useEffect, useState } from "react";
 import { Schedule } from "../type";
 import { getScheduleDetail } from "../service/SchedulerService";
-import IconLabel from "_common/component/element/IconLabel";
+import IconLabel from "_common/component/element/icon-label/IconLabel";
 
 export type ScheduleFormProps = {
   schedulerName: string;
   scheduleId: string;
-  onClose: ()=>void;
+  onClose: () => void;
 };
 
 const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, onClose }) => {
@@ -86,7 +86,9 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, 
       )}
       <div className="field is-grouped " style={{ justifyContent: "center" }}>
         <div className="control">
-          <button className="button is-link" onClick={onClose}><IconLabel icon="times" label={t("Close-button")} /></button>
+          <button className="button is-link" onClick={onClose}>
+            <IconLabel icon="times" label={t("Close-button")} />
+          </button>
         </div>
       </div>
     </div>
