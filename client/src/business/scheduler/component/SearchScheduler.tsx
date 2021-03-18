@@ -177,7 +177,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live }) => {
             <div className="panel-block space-top more-space-bottom">
               <div className="field is-horizontal">
                 <div
-                  className={clsx(!smallScreen && "field-body", smallScreen && "field is-grouped is-grouped-multiline")}
+                  className={clsx("space-bottom", !smallScreen && "field-body", smallScreen && "field is-grouped is-grouped-multiline")}
                 >
                   <div className="field space-right">
                     <label className="label">{t("Scheduler")}</label>
