@@ -1,9 +1,7 @@
 import SchedulesLive from "./SchedulesLive";
 
 const Home = () => {
-  return (
-    <SchedulesLive />
-  );
+  return <SchedulesLive />;
 };
 
 export default Home;

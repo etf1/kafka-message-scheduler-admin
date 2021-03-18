@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 
 /**
  * useRefresh
- * 
+ *
  * Force Component redraw
  */
 const useRefresh = (): [() => void, number] => {

@@ -33,7 +33,11 @@ test("renders DropDown with selected Option and 2 options", () => {
 
 test("renders DropDown without pre-selection and 3 options", () => {
   const value = undefined;
-  const options: TestOption[] = [{ label: "An option 1" }, { label: "An option 2" }, { label: "An option 3" }];
+  const options: TestOption[] = [
+    { label: "An option 1" },
+    { label: "An option 2" },
+    { label: "An option 3" },
+  ];
   const onChange = jest.fn();
   const component = render(
     <Dropdown

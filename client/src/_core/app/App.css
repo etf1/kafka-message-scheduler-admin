@@ -1,12 +1,9 @@
-
-
 /*source : https://bulmatemplates.github.io/bulma-templates/templates/landing.html */
 
 .app-hero.is-info {
-  background: linear-gradient(
-    rgba(30, 30, 30, 0.3),
-    rgba(90, 90, 90, 0.1)
-  ),url("./img/antonella-messaglia-cbJirZf2tO0-unsplash.jpg") no-repeat center center fixed;
+  background: linear-gradient(rgba(30, 30, 30, 0.3), rgba(90, 90, 90, 0.1)),
+    url("./img/antonella-messaglia-cbJirZf2tO0-unsplash.jpg") no-repeat center
+      center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

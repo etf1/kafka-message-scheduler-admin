@@ -37,7 +37,9 @@ export const handlers = [
             instances: [
               {
                 ip: "42.42.25.24",
-                names: ["42-42-25-24.scheduler-vid.platform.svc.cluster.local."],
+                names: [
+                  "42-42-25-24.scheduler-vid.platform.svc.cluster.local.",
+                ],
                 topics: ["topic-2"],
                 partitions: [0, 1],
                 bootstrapServers: ["kafka-1", "kafka-2", "kafka-3"],
@@ -49,7 +51,9 @@ export const handlers = [
             instances: [
               {
                 ip: "42.42.25.24",
-                names: ["42-42-25-24.scheduler-vid.platform.svc.cluster.local."],
+                names: [
+                  "42-42-25-24.scheduler-vid.platform.svc.cluster.local.",
+                ],
                 topics: ["topic-3"],
                 partitions: [0, 1],
                 bootstrapServers: ["kafka-4", "kafka-5", "kafka-6"],
@@ -63,7 +67,9 @@ export const handlers = [
   rest.get("/api/live/schedules", (req, res, ctx) => {
     const schedulerName = req.url.searchParams.get("scheduler-name");
     const scheduleId = req.url.searchParams.get("schedule-id");
-    const max = scheduleId ? 8 - scheduleId.length : req.url.searchParams.get("max") || 150;
+    const max = scheduleId
+      ? 8 - scheduleId.length
+      : req.url.searchParams.get("max") || 150;
     /*const sort = req.url.searchParams.get("sort");
     const epochFrom = req.url.searchParams.get("epoch-from");
     const epochTo = req.url.searchParams.get("epoch-to");*/
@@ -71,7 +77,9 @@ export const handlers = [
     if (!scheduleId || scheduleId.length < 8) {
       for (let i = 0; i < max; i++) {
         schedules.push({
-          id: `video:ce67bd${getRandomInt(9)}${getRandomInt(9)}-4997-441a-b762-a29e1cc8c44${i}:apps:offline`,
+          id: `video:ce67bd${getRandomInt(9)}${getRandomInt(
+            9
+          )}-4997-441a-b762-a29e1cc8c44${i}:apps:offline`,
           scheduler: schedulerName,
           epoch: 1615532584,
           timestamp: 1605542514,
@@ -93,7 +101,9 @@ export const handlers = [
   rest.get("/api/schedules", (req, res, ctx) => {
     const schedulerName = req.url.searchParams.get("scheduler-name");
     const scheduleId = req.url.searchParams.get("schedule-id");
-    const max = scheduleId ? 8 - scheduleId.length : req.url.searchParams.get("max") || 150;
+    const max = scheduleId
+      ? 8 - scheduleId.length
+      : req.url.searchParams.get("max") || 150;
     //const sort = req.url.searchParams.get("sort");
     //const epochFrom = req.url.searchParams.get("epoch-from");
     //const epochTo = req.url.searchParams.get("epoch-to");
@@ -101,7 +111,9 @@ export const handlers = [
     if (!scheduleId || scheduleId.length < 8) {
       for (let i = 0; i < max; i++) {
         schedules.push({
-          id: `video:ce67bd${getRandomInt(9)}${getRandomInt(9)}-4997-441a-b762-a29e1cc8c44${i}:apps:offline`,
+          id: `video:ce67bd${getRandomInt(9)}${getRandomInt(
+            9
+          )}-4997-441a-b762-a29e1cc8c44${i}:apps:offline`,
           scheduler: schedulerName,
           epoch: 1615532584,
           timestamp: 1605542514,

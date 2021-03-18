@@ -67,9 +67,12 @@ export function omit<T = any>(
 
 export const nop = () => {};
 
-export type ValueOrFunction<T> = T| ((...args:any[]) => T);
+export type ValueOrFunction<T> = T | ((...args: any[]) => T);
 
-export function getValueOrFunctionValue<T>(v : ValueOrFunction<T>, ...args:any[]) {
+export function getValueOrFunctionValue<T>(
+  v: ValueOrFunction<T>,
+  ...args: any[]
+) {
   if (isFunction(v)) {
     return v(...args) as T;
   } else {

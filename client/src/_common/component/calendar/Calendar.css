@@ -12,5 +12,5 @@
   display: none !important;
 }
 .datetimepicker.is-datetimepicker-default .datetimepicker-container:after {
-    border:none !important;
+  border: none !important;
 }

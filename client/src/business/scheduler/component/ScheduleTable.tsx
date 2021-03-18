@@ -12,15 +12,22 @@ export type ScheduleTableProps = {
   data: ScheduleInfo[];
   onClick?: (schedule: ScheduleInfo) => void;
   detailUrl: string;
-  showAsTable?:boolean;
+  showAsTable?: boolean;
 };
 
-const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, detailUrl, onClick, showAsTable }) => {
+const ScheduleTable: React.FC<ScheduleTableProps> = ({
+  data,
+  detailUrl,
+  onClick,
+  showAsTable,
+}) => {
   const { t } = useTranslation();
 
-
-  return (showAsTable || showAsTable === undefined) ? (
-    <table key="table" className="table is-striped is-narrow is-hoverable is-fullwidth">
+  return showAsTable || showAsTable === undefined ? (
+    <table
+      key="table"
+      className="table is-striped is-narrow is-hoverable is-fullwidth"
+    >
       <thead>
         <tr>
           <th>{t("ScheduleTable-column-ID")}</th>
@@ -35,7 +42,10 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, detailUrl, onClick,
       <tbody>
         {data.map((schedule) => {
           return (
-            <tr key={`${schedule.scheduler}/${schedule.id}`} onClick={() => onClick && onClick(schedule)}>
+            <tr
+              key={`${schedule.scheduler}/${schedule.id}`}
+              onClick={() => onClick && onClick(schedule)}
+            >
               <td className={clsx(Styles.ColWithId, Styles.ColWithLink)}>
                 <Link
                   to={resolvePath(detailUrl, {
@@ -47,8 +57,18 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, detailUrl, onClick,
                 </Link>
               </td>
               <td className={Styles.colWithId}>{schedule.scheduler}</td>
-              <td>{format(fromUnixTime(schedule.timestamp), t("Calendar-date-format"))}</td>
-              <td>{format(fromUnixTime(schedule.epoch), t("Calendar-date-format"))}</td>
+              <td>
+                {format(
+                  fromUnixTime(schedule.timestamp),
+                  t("Calendar-date-format")
+                )}
+              </td>
+              <td>
+                {format(
+                  fromUnixTime(schedule.epoch),
+                  t("Calendar-date-format")
+                )}
+              </td>
               <td className={Styles.colWithId}>{schedule.targetTopic}</td>
               <td className={Styles.colWithId}>{schedule.targetId}</td>
             </tr>
@@ -60,52 +80,85 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, detailUrl, onClick,
     <div>
       {data.map((schedule) => {
         return (
-          <fieldset className="box " key={`cards${schedule.scheduler}/${schedule.id}`} disabled style={{ textAlign: "left", marginBottom:20 }}>
+          <fieldset
+            className="box "
+            key={`cards${schedule.scheduler}/${schedule.id}`}
+            disabled
+            style={{ textAlign: "left", marginBottom: 20 }}
+          >
             <div className="field is-grouped is-grouped-multiline">
-            <div className="field space-right">
-              <label className="label">{t("Schedule-field-id")}</label>
-              <div className="control">
-                <input className="input" type="tex" defaultValue={schedule.id} />
+              <div className="field space-right">
+                <label className="label">{t("Schedule-field-id")}</label>
+                <div className="control">
+                  <input
+                    className="input"
+                    type="tex"
+                    defaultValue={schedule.id}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="field space-right">
-              <label className="label">{t("Schedule-field-scheduler")}</label>
-              <div className="control">
-                <input className="input" type="tex" defaultValue={schedule.scheduler} />
+              <div className="field space-right">
+                <label className="label">{t("Schedule-field-scheduler")}</label>
+                <div className="control">
+                  <input
+                    className="input"
+                    type="tex"
+                    defaultValue={schedule.scheduler}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="field space-right">
-              <label className="label">{t("Schedule-field-creation-date")}</label>
-              <div className="control">
-                <input
-                  className="input"
-                  type="tex"
-                  defaultValue={format(fromUnixTime(schedule.timestamp), t("Calendar-date-format"))}
-                />
+              <div className="field space-right">
+                <label className="label">
+                  {t("Schedule-field-creation-date")}
+                </label>
+                <div className="control">
+                  <input
+                    className="input"
+                    type="tex"
+                    defaultValue={format(
+                      fromUnixTime(schedule.timestamp),
+                      t("Calendar-date-format")
+                    )}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="field space-right">
-              <label className="label">{t("Schedule-field-trigger-date")}</label>
-              <div className="control">
-                <input
-                  className="input"
-                  type="tex"
-                  defaultValue={format(fromUnixTime(schedule.epoch), t("Calendar-date-format"))}
-                />
+              <div className="field space-right">
+                <label className="label">
+                  {t("Schedule-field-trigger-date")}
+                </label>
+                <div className="control">
+                  <input
+                    className="input"
+                    type="tex"
+                    defaultValue={format(
+                      fromUnixTime(schedule.epoch),
+                      t("Calendar-date-format")
+                    )}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="field space-right">
-              <label className="label">{t("Schedule-field-target-topic")}</label>
-              <div className="control">
-                <input className="input" type="tex" defaultValue={schedule.targetTopic} />
+              <div className="field space-right">
+                <label className="label">
+                  {t("Schedule-field-target-topic")}
+                </label>
+                <div className="control">
+                  <input
+                    className="input"
+                    type="tex"
+                    defaultValue={schedule.targetTopic}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="field">
-              <label className="label">{t("Schedule-field-target-id")}</label>
-              <div className="control">
-                <input className="input" type="tex" defaultValue={schedule.targetId} />
+              <div className="field">
+                <label className="label">{t("Schedule-field-target-id")}</label>
+                <div className="control">
+                  <input
+                    className="input"
+                    type="tex"
+                    defaultValue={schedule.targetId}
+                  />
+                </div>
               </div>
-            </div>
             </div>
           </fieldset>
         );

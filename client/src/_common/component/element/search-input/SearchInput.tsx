@@ -2,7 +2,10 @@ import { ChangeEventHandler, useEffect, useState } from "react";
 import useSeachText from "_common/hook/useSearchText";
 
 export type SearchInputProps = Omit<
-  React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+  React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  >,
   "value" | "onChange"
 > & {
   value: string | undefined;
@@ -18,7 +21,11 @@ const SearchInput: React.FC<SearchInputProps> = ({
   ...others
 }) => {
   const [searchString, setSearchString] = useState<string | undefined>(value);
-  const handleSearchChange = useSeachText(onChange, debounceDelay, discardDuplicates);
+  const handleSearchChange = useSeachText(
+    onChange,
+    debounceDelay,
+    discardDuplicates
+  );
 
   useEffect(() => {
     setSearchString(value);
@@ -30,7 +37,14 @@ const SearchInput: React.FC<SearchInputProps> = ({
     handleSearchChange(value);
   };
 
-  return <input className="input" onChange={handleChange} value={searchString} {...others} />;
+  return (
+    <input
+      className="input"
+      onChange={handleChange}
+      value={searchString}
+      {...others}
+    />
+  );
 };
 
 export default SearchInput;

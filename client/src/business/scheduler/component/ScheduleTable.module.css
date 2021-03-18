@@ -4,7 +4,6 @@
   word-break: break-all;
 }
 .ColWithLink {
-  color:rgb(67, 67, 145) !important;  
+  color: rgb(67, 67, 145) !important;
   cursor: pointer;
 }
-

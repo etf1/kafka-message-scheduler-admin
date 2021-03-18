@@ -1,4 +1,3 @@
-
 export type Scheduler = {
   name: string;
   instances: SchedulerInstance[];

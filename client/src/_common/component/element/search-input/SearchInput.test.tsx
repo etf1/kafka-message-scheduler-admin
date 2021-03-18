@@ -5,10 +5,19 @@ import SearchInput from "./SearchInput";
 test("renders SearchInput", async () => {
   const value = "an initial value";
   const onChange = jest.fn();
-  const component = render(<SearchInput debounceDelay={1000} placeholder="a placeholder" value={value} onChange={onChange} />);
+  const component = render(
+    <SearchInput
+      debounceDelay={1000}
+      placeholder="a placeholder"
+      value={value}
+      onChange={onChange}
+    />
+  );
   const container = component.container;
 
-  const txt: HTMLInputElement = screen.getByDisplayValue(/an initial value/i) as HTMLInputElement;
+  const txt: HTMLInputElement = screen.getByDisplayValue(
+    /an initial value/i
+  ) as HTMLInputElement;
   expect(txt).toBeInTheDocument();
   fireEvent.change(txt, { target: { value: "new value" } });
   expect(txt.value).toBe("new value");
@@ -35,5 +44,4 @@ test("renders SearchInput", async () => {
   expect(txt.value).toBe("new value 3");
   await later(1000);
   expect(onChange).toBeCalledTimes(2);
-
 });

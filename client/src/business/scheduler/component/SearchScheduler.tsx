@@ -7,10 +7,19 @@ import Dropdown from "_common/component/element/dropdown/Dropdown";
 import SearchInput from "_common/component/element/search-input/SearchInput";
 import { load, save } from "_common/service/StorageService";
 import useSchedulers from "../hook/useSchedulers";
-import { searchLiveSchedules, SearchParams, searchSchedules, SortOrder, SortType } from "../service/SchedulerService";
+import {
+  searchLiveSchedules,
+  SearchParams,
+  searchSchedules,
+  SortOrder,
+  SortType,
+} from "../service/SchedulerService";
 import { ScheduleInfo, Scheduler } from "../type";
 import ScheduleTable from "./ScheduleTable";
-import { ROUTE_SCHEDULE_LIVE_DETAIL, ROUTE_SCHEDULE_ALL_DETAIL } from "_core/router/routes";
+import {
+  ROUTE_SCHEDULE_LIVE_DETAIL,
+  ROUTE_SCHEDULE_ALL_DETAIL,
+} from "_core/router/routes";
 import startOfDay from "date-fns/startOfDay";
 import useMedia from "_common/hook/useMedia";
 import clsx from "clsx";
@@ -35,9 +44,15 @@ export type SearchParamsReducerAction =
   | { type: "sortOrder-changed"; payload: SortOrder }
   | { type: "max-changed"; payload: number };
 
-export type SearchParamsReducer = (state: SearchParamsModel, action: SearchParamsReducerAction) => SearchParamsModel;
+export type SearchParamsReducer = (
+  state: SearchParamsModel,
+  action: SearchParamsReducerAction
+) => SearchParamsModel;
 
-const searchParamsReducer: SearchParamsReducer = (state: SearchParamsModel, action) => {
+const searchParamsReducer: SearchParamsReducer = (
+  state: SearchParamsModel,
+  action
+) => {
   switch (action.type) {
     case "init":
       return { ...state, ...action.payload };
@@ -64,8 +79,11 @@ const makeParams = (model: SearchParamsModel): SearchParams | undefined => {
   if (model.scheduler?.name) {
     return {
       scheduleId: model.scheduleId,
-      epochFrom: model.epochFrom && parseInt((model.epochFrom.getTime() / 1000).toFixed(0)),
-      epochTo: model.epochTo && parseInt((model.epochTo.getTime() / 1000).toFixed(0)),
+      epochFrom:
+        model.epochFrom &&
+        parseInt((model.epochFrom.getTime() / 1000).toFixed(0)),
+      epochTo:
+        model.epochTo && parseInt((model.epochTo.getTime() / 1000).toFixed(0)),
       sort: model.sort,
       sortOrder: model.sortOrder,
       schedulerName: model.scheduler.name,
@@ -76,7 +94,10 @@ const makeParams = (model: SearchParamsModel): SearchParams | undefined => {
   }
 };
 
-const buildSearchModelLabel = (model: SearchParamsModel, t: TFunction<string>): React.ReactNode => {
+const buildSearchModelLabel = (
+  model: SearchParamsModel,
+  t: TFunction<string>
+): React.ReactNode => {
   const result: React.ReactNode[] = [];
   const addSeparator = () => {
     if (result.length > 0) {
@@ -90,7 +111,8 @@ const buildSearchModelLabel = (model: SearchParamsModel, t: TFunction<string>): 
   const addLabel = (key: string, label: string, value: string) => {
     result.push(
       <span key={key} style={{ fontStyle: "italic" }}>
-        <label style={{ fontStyle: "normal", fontWeight: 600 }}>{label}</label>: "{value}"
+        <label style={{ fontStyle: "normal", fontWeight: 600 }}>{label}</label>:
+        "{value}"
       </span>
     );
   };
@@ -100,15 +122,27 @@ const buildSearchModelLabel = (model: SearchParamsModel, t: TFunction<string>): 
     }
     if (model.scheduleId) {
       addSeparator();
-      addLabel("schedule-id", t("Scheduler-search-field-schedule-id"), model.scheduleId);
+      addLabel(
+        "schedule-id",
+        t("Scheduler-search-field-schedule-id"),
+        model.scheduleId
+      );
     }
     if (model.epochFrom) {
       addSeparator();
-      addLabel("start-at", t("Scheduler-search-field-start-at"), format(model.epochFrom, t("Calendar-date-format")));
+      addLabel(
+        "start-at",
+        t("Scheduler-search-field-start-at"),
+        format(model.epochFrom, t("Calendar-date-format"))
+      );
     }
     if (model.epochTo) {
       addSeparator();
-      addLabel("end-at", t("Scheduler-search-field-end-at"), format(model.epochTo, t("Calendar-date-format")));
+      addLabel(
+        "end-at",
+        t("Scheduler-search-field-end-at"),
+        format(model.epochTo, t("Calendar-date-format"))
+      );
     }
 
     result.unshift(t("Scheduler-search-summary") + ": ");
@@ -123,18 +157,25 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live }) => {
   const { t } = useTranslation();
   const { schedulers } = useSchedulers();
   const [result, setResult] = useState<ScheduleInfo[]>([]);
-  const smallScreen = useMedia(["(max-width: 1250px)", "(min-width: 1250px)"], [true, false], true);
+  const smallScreen = useMedia(
+    ["(max-width: 1250px)", "(min-width: 1250px)"],
+    [true, false],
+    true
+  );
 
-  const [searchModel, dispatch] = useReducer<SearchParamsReducer>(searchParamsReducer, {
-    scheduler: load<Scheduler>("SearchParamsModel-Scheduler", undefined),
-    scheduleId: load<string>("SearchParamsModel-Scheduler-id", ""),
-    epochFrom: startOfDay(new Date()),
-    epochTo: startOfDay(
-      add(new Date(), {
-        days: 1,
-      })
-    ),
-  });
+  const [searchModel, dispatch] = useReducer<SearchParamsReducer>(
+    searchParamsReducer,
+    {
+      scheduler: load<Scheduler>("SearchParamsModel-Scheduler", undefined),
+      scheduleId: load<string>("SearchParamsModel-Scheduler-id", ""),
+      epochFrom: startOfDay(new Date()),
+      epochTo: startOfDay(
+        add(new Date(), {
+          days: 1,
+        })
+      ),
+    }
+  );
 
   useEffect(() => {
     if (searchModel) {
@@ -177,7 +218,11 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live }) => {
             <div className="panel-block space-top more-space-bottom">
               <div className="field is-horizontal">
                 <div
-                  className={clsx("space-bottom", !smallScreen && "field-body", smallScreen && "field is-grouped is-grouped-multiline")}
+                  className={clsx(
+                    "space-bottom",
+                    !smallScreen && "field-body",
+                    smallScreen && "field is-grouped is-grouped-multiline"
+                  )}
                 >
                   <div className="field space-right">
                     <label className="label">{t("Scheduler")}</label>
@@ -187,13 +232,17 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live }) => {
                         options={schedulers}
                         getKey={(scheduler) => scheduler.name}
                         renderOption={renderOption}
-                        onChange={(s) => dispatch({ type: "scheduler-changed", payload: s })}
+                        onChange={(s) =>
+                          dispatch({ type: "scheduler-changed", payload: s })
+                        }
                         value={searchModel.scheduler}
                       />
                     </div>
                   </div>
                   <div className="field space-right">
-                    <label className="label">{t("Scheduler-search-field-schedule-id")}</label>
+                    <label className="label">
+                      {t("Scheduler-search-field-schedule-id")}
+                    </label>
                     <div className="control">
                       <SearchInput
                         className="input"
@@ -203,23 +252,31 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live }) => {
                     </div>
                   </div>
                   <div className="field space-right">
-                    <label className="label">{t("Scheduler-search-field-start-at")}</label>
+                    <label className="label">
+                      {t("Scheduler-search-field-start-at")}
+                    </label>
                     <div className="control">
                       <Calendar
                         uid="epochFrom"
                         className=""
-                        onChange={(d) => dispatch({ type: "epochFrom-changed", payload: d })}
+                        onChange={(d) =>
+                          dispatch({ type: "epochFrom-changed", payload: d })
+                        }
                         value={searchModel.epochFrom}
                       />
                     </div>
                   </div>
                   <div className="field">
-                    <label className="label">{t("Scheduler-search-field-end-at")}</label>
+                    <label className="label">
+                      {t("Scheduler-search-field-end-at")}
+                    </label>
                     <div className="control">
                       <Calendar
                         uid="epochTo"
                         className=""
-                        onChange={(d) => dispatch({ type: "epochTo-changed", payload: d })}
+                        onChange={(d) =>
+                          dispatch({ type: "epochTo-changed", payload: d })
+                        }
                         value={searchModel.epochTo}
                       />
                     </div>
@@ -229,13 +286,19 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live }) => {
             </div>
             <div className="panel-block">
               <div className="container">
-                {(!result || result.length === 0) && <strong>Pas de résultat...</strong>}
+                {(!result || result.length === 0) && (
+                  <strong>Pas de résultat...</strong>
+                )}
                 {result && result.length > 0 && (
                   <ScheduleTable
                     key="table"
                     data={result}
                     showAsTable={!smallScreen}
-                    detailUrl={live ? ROUTE_SCHEDULE_LIVE_DETAIL : ROUTE_SCHEDULE_ALL_DETAIL}
+                    detailUrl={
+                      live
+                        ? ROUTE_SCHEDULE_LIVE_DETAIL
+                        : ROUTE_SCHEDULE_ALL_DETAIL
+                    }
                   />
                 )}
               </div>

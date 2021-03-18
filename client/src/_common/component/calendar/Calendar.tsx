@@ -4,36 +4,44 @@ import "bulma-calendar/dist/css/bulma-calendar.min.css";
 import "./Calendar.css";
 import { useTranslation } from "react-i18next";
 import { getShortLanguageFromLS } from "_core/i18n";
-import parse from 'date-fns/parse'
+import parse from "date-fns/parse";
 import startOfDay from "date-fns/startOfDay";
 
 export type CalendarProps = {
-  uid:string;
+  uid: string;
   className?: string;
-  onChange: (d:Date) => void;
-  value: Date | undefined
+  onChange: (d: Date) => void;
+  value: Date | undefined;
 };
 function Calendar({ uid, className, onChange, value }: CalendarProps) {
   const refValue = useRef(value);
-  useEffect( ()=>{
+  useEffect(() => {
     refValue.current = value;
-  },[value])
+  }, [value]);
   const { t } = useTranslation();
 
   const lang = getShortLanguageFromLS();
- 
 
   useEffect(() => {
-   
     // Initialize all input of date type.
-    bulmaCalendar.attach(`#${"cal"+uid}[type="date"]`, {type:"date", startDate: refValue.current});
+    bulmaCalendar.attach(`#${"cal" + uid}[type="date"]`, {
+      type: "date",
+      startDate: refValue.current,
+    });
 
     // eslint-disable-next-line no-undef
-    const element = document.querySelector(`#${"cal"+uid}`);
+    const element = document.querySelector(`#${"cal" + uid}`);
     if (element) {
       (element as any).bulmaCalendar.on("select", (datepicker: any) => {
-        const dt = parse(datepicker.data.value(), t("Calendar-date-format"), new Date());
-        if (!refValue.current || (startOfDay(dt).getTime() !== startOfDay(refValue.current).getTime())){
+        const dt = parse(
+          datepicker.data.value(),
+          t("Calendar-date-format"),
+          new Date()
+        );
+        if (
+          !refValue.current ||
+          startOfDay(dt).getTime() !== startOfDay(refValue.current).getTime()
+        ) {
           onChange(dt);
         }
       });
@@ -43,10 +51,10 @@ function Calendar({ uid, className, onChange, value }: CalendarProps) {
   return (
     <div className={className}>
       <input
-        id={"cal"+uid}
+        id={"cal" + uid}
         type="date"
         data-display-mode="default"
-        data-date-format={t('Calendar-date-format').toUpperCase()}
+        data-date-format={t("Calendar-date-format").toUpperCase()}
         data-show-header="false"
         data-lang={(lang && lang.substring(0, 2)) || "en"}
         data-today-label={t("Calendar-Today-btn-label")}

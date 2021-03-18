@@ -53,17 +53,24 @@ export const makeScheduleModel = (schedules: any[]): ScheduleInfo[] => {
   }
   return schedules;
 };
-export const searchLiveSchedules = async (p: SearchParams): Promise<ScheduleInfo[]> => {
+export const searchLiveSchedules = async (
+  p: SearchParams
+): Promise<ScheduleInfo[]> => {
   const response = await fetch("/api/live/schedules" + makeSearchArgs(p));
   const result: { total: number; schedules: any[] } = await response.json();
   return makeScheduleModel(result.schedules);
 };
-export const searchSchedules = async (p: SearchParams): Promise<ScheduleInfo[]> => {
+export const searchSchedules = async (
+  p: SearchParams
+): Promise<ScheduleInfo[]> => {
   const response = await fetch("/api/schedules" + makeSearchArgs(p));
   const result: { total: number; schedules: any[] } = await response.json();
   return makeScheduleModel(result.schedules);
 };
-export const getScheduleDetail = async (scheduleName: string, id: string): Promise<Schedule> => {
+export const getScheduleDetail = async (
+  scheduleName: string,
+  id: string
+): Promise<Schedule> => {
   const response = await fetch(`/api/scheduler/${scheduleName}/schedule/${id}`);
   const result: Schedule = await response.json();
   return result;

@@ -7,7 +7,6 @@ import routes from "../router/routes";
 import AppNavbar from "./app-navbar/AppNavbar";
 
 function App() {
-
   return (
     <Router>
       <div className="App">

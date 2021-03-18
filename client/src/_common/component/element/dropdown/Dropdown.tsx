@@ -12,7 +12,14 @@ export type DropdownProps<T> = {
   onChange: (option: T) => void;
 };
 
-function Dropdown<T>({ placeholder, value, options, getKey, renderOption, onChange }: DropdownProps<T>) {
+function Dropdown<T>({
+  placeholder,
+  value,
+  options,
+  getKey,
+  renderOption,
+  onChange,
+}: DropdownProps<T>) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const compId = `dropdown-menu${uid++}`;
 
@@ -28,9 +35,23 @@ function Dropdown<T>({ placeholder, value, options, getKey, renderOption, onChan
   return (
     <div className={clsx("dropdown", isOpen && "is-active")}>
       <div className="dropdown-trigger">
-        <button className="button" aria-haspopup="true" aria-controls={compId} onClick={handleTriggerBtnClick}>
-          <span style={{ minWidth: 100, maxWidth:280, display:"block", overflow:"hidden" }}>{(value && renderOption(value)) || placeholder}</span>
-          <span className="icon is-small" style={{    position: "inherit"}}>
+        <button
+          className="button"
+          aria-haspopup="true"
+          aria-controls={compId}
+          onClick={handleTriggerBtnClick}
+        >
+          <span
+            style={{
+              minWidth: 100,
+              maxWidth: 280,
+              display: "block",
+              overflow: "hidden",
+            }}
+          >
+            {(value && renderOption(value)) || placeholder}
+          </span>
+          <span className="icon is-small" style={{ position: "inherit" }}>
             <i className="fas fa-angle-down" aria-hidden="true"></i>
           </span>
         </button>
@@ -41,7 +62,10 @@ function Dropdown<T>({ placeholder, value, options, getKey, renderOption, onChan
             return (
               <React.Fragment key={getKey(option, index)}>
                 {index > 0 && <hr className="dropdown-divider" />}
-                <div className="dropdown-item pointer" onClick={() => handleOptionClick(option)}>
+                <div
+                  className="dropdown-item pointer"
+                  onClick={() => handleOptionClick(option)}
+                >
                   {renderOption(option)}
                 </div>
               </React.Fragment>

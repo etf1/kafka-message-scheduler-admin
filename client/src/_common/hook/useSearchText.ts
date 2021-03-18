@@ -4,7 +4,7 @@ import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 /**
  * useSeachText
- * 
+ *
  * Small textInput hook helper to avoid too much onChange event triggers
  *
  * @param onChange handler that should be called on effective changes

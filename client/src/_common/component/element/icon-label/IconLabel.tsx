@@ -9,7 +9,9 @@ export type IconLabelItems = {
 };
 
 export type IconLabelProps = IconLabelItems | IconLabelItem;
-export function isIconLabelItems(value: IconLabelItems | IconLabelItem): value is IconLabelItems {
+export function isIconLabelItems(
+  value: IconLabelItems | IconLabelItem
+): value is IconLabelItems {
   return value.hasOwnProperty("data");
 }
 

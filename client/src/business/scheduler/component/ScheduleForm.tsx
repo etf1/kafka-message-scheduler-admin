@@ -13,7 +13,11 @@ export type ScheduleFormProps = {
   onClose: () => void;
 };
 
-const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, onClose }) => {
+const ScheduleForm: React.FC<ScheduleFormProps> = ({
+  schedulerName,
+  scheduleId,
+  onClose,
+}) => {
   const { t } = useTranslation();
   const [schedule, setSchedule] = useState<Schedule>();
   useEffect(() => {
@@ -37,7 +41,11 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, 
           <div className="field">
             <label className="label">{t("Schedule-field-scheduler")}</label>
             <div className="control">
-              <input className="input" type="tex" defaultValue={schedule.scheduler} />
+              <input
+                className="input"
+                type="tex"
+                defaultValue={schedule.scheduler}
+              />
             </div>
           </div>
           <div className="field">
@@ -46,7 +54,10 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, 
               <input
                 className="input"
                 type="tex"
-                defaultValue={format(fromUnixTime(schedule.timestamp), t("Calendar-date-format"))}
+                defaultValue={format(
+                  fromUnixTime(schedule.timestamp),
+                  t("Calendar-date-format")
+                )}
               />
             </div>
           </div>
@@ -56,20 +67,31 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, 
               <input
                 className="input"
                 type="tex"
-                defaultValue={format(fromUnixTime(schedule.epoch), t("Calendar-date-format"))}
+                defaultValue={format(
+                  fromUnixTime(schedule.epoch),
+                  t("Calendar-date-format")
+                )}
               />
             </div>
           </div>
           <div className="field">
             <label className="label">{t("Schedule-field-target-topic")}</label>
             <div className="control">
-              <input className="input" type="tex" defaultValue={schedule.targetTopic} />
+              <input
+                className="input"
+                type="tex"
+                defaultValue={schedule.targetTopic}
+              />
             </div>
           </div>
           <div className="field">
             <label className="label">{t("Schedule-field-target-id")}</label>
             <div className="control">
-              <input className="input" type="tex" defaultValue={schedule.targetId} />
+              <input
+                className="input"
+                type="tex"
+                defaultValue={schedule.targetId}
+              />
             </div>
           </div>
           <div className="field more-space-bottom">
@@ -78,7 +100,9 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, 
               <input
                 className="input"
                 type="tex"
-                defaultValue={schedule.headers.map((h) => `${h.name}=${h.value}`).join(", ")}
+                defaultValue={schedule.headers
+                  .map((h) => `${h.name}=${h.value}`)
+                  .join(", ")}
               />
             </div>
           </div>

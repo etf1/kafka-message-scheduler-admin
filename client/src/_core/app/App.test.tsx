@@ -1,7 +1,6 @@
-import React, { Suspense } from 'react';
-import { render, screen } from '@testing-library/react';
-import App from './App';
-
+import React, { Suspense } from "react";
+import { render, screen } from "@testing-library/react";
+import App from "./App";
 
 jest.mock("react-i18next", () => ({
   // this mock makes sure any components using the translate hook can use it without a warning being shown
@@ -15,6 +14,10 @@ jest.mock("react-i18next", () => ({
   },
 }));
 
-test('App should render', () => {
-  render(  <Suspense fallback={<div></div>}><App /></Suspense>);
+test("App should render", () => {
+  render(
+    <Suspense fallback={<div></div>}>
+      <App />
+    </Suspense>
+  );
 });
