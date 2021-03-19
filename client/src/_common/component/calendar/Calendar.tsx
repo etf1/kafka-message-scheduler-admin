@@ -1,68 +1,128 @@
-import { useEffect, useRef } from "react";
-import bulmaCalendar from "bulma-calendar";
-import "bulma-calendar/dist/css/bulma-calendar.min.css";
-import "./Calendar.css";
-import { useTranslation } from "react-i18next";
-import { getShortLanguageFromLS } from "_core/i18n";
-import parse from "date-fns/parse";
-import startOfDay from "date-fns/startOfDay";
+import React, { CSSProperties } from "react";
+import Style from "./Calendar.module.css";
+import { Locale, subMonths, addMonths } from "date-fns";
+import { getDayLabelsOfWeek, getDaysOfMonth, DayOfMonth } from "_common/service/DateUtil";
+import CalendarDay from "./CalendarDay";
+import CalendarNav from "./CalendarNav";
+import clsx from "clsx";
+import useStateWithUpdate from "_common/hook/useStateWithUpdate";
 
-export type CalendarProps = {
-  uid: string;
-  className?: string;
-  onChange: (d: Date) => void;
-  value: Date | undefined;
+// sources : https://creativebulma.net/product/calendar/demo
+// et      : https://gist.github.com/stevensacks/79c60d0f8b1f8bc06b475438f59d687e
+
+export type CalendarTheme = {
+  fontSize: string;
+  primaryColor: string;
+  border: string;
+
+  cellsWidth: number;
+  cellsPadding: number;
+  cellsBorderRadius: number;
 };
-function Calendar({ uid, className, onChange, value }: CalendarProps) {
-  const refValue = useRef(value);
-  useEffect(() => {
-    refValue.current = value;
-  }, [value]);
-  const { t } = useTranslation();
+type CalendarThemeProps = Partial<CalendarTheme>; // see https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-1.html
+type CalendarProps = /*HTMLAttributes<HTMLDivElement> &*/ {
+  date: Date;
+  locale: Locale;
+  todayLabel?:string;
+  theme?: CalendarThemeProps;
+  onDayClick?: (day: DayOfMonth) => void;
+  position?: { top: number; left: number };
+};
 
-  const lang = getShortLanguageFromLS();
+const defaultTheme: CalendarTheme = {
+  fontSize: "11px",
+  primaryColor: "rgb(0, 209, 178)",
+  border: "#ddd thin solid",
+  cellsPadding: 2,
+  cellsWidth: 36,
+  cellsBorderRadius: 36
+};
 
-  useEffect(() => {
-    // Initialize all input of date type.
-    bulmaCalendar.attach(`#${"cal" + uid}[type="date"]`, {
-      type: "date",
-      startDate: refValue.current,
-    });
+const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
+  ({ date, locale, theme: inputTheme, onDayClick, position, todayLabel }: CalendarProps, ref) => {
+    const [currentDate, setCurrentDate] = useStateWithUpdate(date);
 
-    // eslint-disable-next-line no-undef
-    const element = document.querySelector(`#${"cal" + uid}`);
-    if (element) {
-      (element as any).bulmaCalendar.on("select", (datepicker: any) => {
-        const dt = parse(
-          datepicker.data.value(),
-          t("Calendar-date-format"),
-          new Date()
-        );
-        if (
-          !refValue.current ||
-          startOfDay(dt).getTime() !== startOfDay(refValue.current).getTime()
-        ) {
-          onChange(dt);
-        }
-      });
+    const theme: CalendarTheme = Object.assign(defaultTheme, inputTheme || {});
+
+    console.log(locale);
+    const days = getDaysOfMonth(currentDate, locale);
+    const labels = getDayLabelsOfWeek(locale);
+
+    const width = `${theme.cellsWidth * 7 + 2}px`;
+    const gridTemplateColumns = `${theme.cellsWidth}px ${theme.cellsWidth}px ${theme.cellsWidth}px ${theme.cellsWidth}px ${theme.cellsWidth}px ${theme.cellsWidth}px ${theme.cellsWidth}px`;
+
+    const handleSubMonth = () => {
+      setCurrentDate(currentDate => subMonths(currentDate, 1));
+    };
+    const handleAddMonth = () => {
+      setCurrentDate(currentDate => addMonths(currentDate, 1));
+    };
+
+    const handleTodayClick = () => {
+      onDayClick &&
+        onDayClick({
+          date: new Date(),
+          isToday: true,
+          isThisMonth: true
+        });
+    };
+
+    let style: CSSProperties = { width };
+    if (position) {
+      style = { ...style, position: "absolute", top: position.top, left: position.left };
     }
-  }, [t, uid, onChange]);
-
-  return (
-    <div className={className}>
-      <input
-        id={"cal" + uid}
-        type="date"
-        data-display-mode="default"
-        data-date-format={t("Calendar-date-format").toUpperCase()}
-        data-show-header="false"
-        data-lang={(lang && lang.substring(0, 2)) || "en"}
-        data-today-label={t("Calendar-Today-btn-label")}
-        data-clear-label={t("Calendar-Clear-btn-label")}
-        data-cancel-label={t("Calendar-Cancel-btn-label")}
-      />
-    </div>
-  );
-}
+    return (
+      <div className={clsx("calendar-container", Style.CalendarContainer)} style={style} ref={ref}>
+        <CalendarNav
+          date={currentDate}
+          onAddMonth={handleAddMonth}
+          onSubMonth={handleSubMonth}
+          locale={locale}
+          theme={theme}
+        />
+        <div
+          className={clsx("calendar-header", Style.CalendarHeader)}
+          style={{
+            width,
+            gridTemplateColumns,
+            border: theme.border
+          }}
+        >
+          {labels.map(day => (
+            <div
+              key={day}
+              className="calendar-date"
+              style={{
+                textAlign: "center",
+                padding: theme.cellsPadding,
+                fontSize: theme.fontSize,
+                textDecoration: "none",
+                color: theme.primaryColor,
+                lineHeight: `${theme.cellsWidth - 8}px`
+              }}
+            >
+              {day}
+            </div>
+          ))}
+        </div>
+        <div
+          className={clsx("calendar-body", Style.CalendarBody)}
+          style={{
+            width,
+            gridTemplateColumns,
+            border: theme.border
+          }}
+        >
+          {days.map(day => (
+            <CalendarDay key={day.date.toString()} day={day} theme={theme} onClick={onDayClick} selection={[date]} />
+          ))}
+        </div>
+        <div className={Style.TodayLinkButton} onClick={handleTodayClick}>
+          {todayLabel?todayLabel:"Today"}
+        </div>
+      </div>
+    );
+  }
+);
 
 export default Calendar;

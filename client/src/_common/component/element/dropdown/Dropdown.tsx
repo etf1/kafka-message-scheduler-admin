@@ -40,6 +40,9 @@ function Dropdown<T>({
           aria-haspopup="true"
           aria-controls={compId}
           onClick={handleTriggerBtnClick}
+          style={{
+            height: 34,
+            lineHeight: 34}}
         >
           <span
             style={{

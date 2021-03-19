@@ -1,0 +1,42 @@
+.CalendarContainer {
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 2px, rgba(0, 0, 0, 0.3) 0px 4px 8px;
+}
+.CalendarHeader {
+  display: grid;
+  border-bottom: none;
+  grid-gap: 0;
+  background-color: #fff;
+}
+.CalendarBody {
+  display: grid;
+  border-top: none;
+  grid-gap: 0;
+}
+
+.CalendarNav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  font-weight: 700;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.TodayLinkButton {
+  font-size: 10px;
+  text-align: end;
+  margin-right: 10px;
+  font-style: italic;
+  color: rgb(0, 209, 178);
+  font-weight: 700;
+  
+  padding-top: 2px;
+  padding-bottom: 4px;
+}
+
+.TodayLinkButton:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

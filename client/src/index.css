@@ -5,6 +5,18 @@ body {
   background-color: #000;
 }
 
+.custom-input-control.control.has-icons-left span.icon.is-left {
+  top: 2px !important;
+
+  color: #aaa;
+}
+.custom-input-control.control.has-icons-left {
+  display: flex;
+}
+
+.dropdown-content .custom-input-control.control.has-icons-left {
+  margin-right:3px;
+}
 .as-link {
   cursor: pointer;
 }
