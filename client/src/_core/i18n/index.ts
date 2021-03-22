@@ -5,9 +5,8 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import Backend from "i18next-http-backend";
 import { isNumber } from "_common/type/utils";
 
-
-import { Locale } from 'date-fns';
-import { fr, enGB, enUS } from 'date-fns/locale';
+import { Locale } from "date-fns";
+import { fr, enGB, enUS } from "date-fns/locale";
 
 // don't want to use this?
 // have a look at the Quick start guide
@@ -64,20 +63,19 @@ export function changeLanguage(
   return i18n.changeLanguage(lng, callback);
 }
 
-
 /**
  * Return language namespace from date-fns
  * @category core
  * @subcategory internationalization
  * @returns {Locale} Namespace of date-fns package for a language. By default returns english.
  */
- export function getDateLocale(): Locale {
+export function getDateLocale(): Locale {
   const language = getShortLanguageFromLS();
 
   switch (language) {
-    case 'fr-FR':
+    case "fr-FR":
       return fr;
-    case 'en-US':
+    case "en-US":
       return enUS;
     default:
       return enGB;

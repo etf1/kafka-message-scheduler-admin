@@ -14,8 +14,8 @@ type CalendarDayProps = {
 const CalendarDay = ({ day, theme, onClick, selection }: CalendarDayProps) => {
   const [isHover, setIsOver] = useState(false);
 
-  const toggleHover = () => setIsOver(isHover => !isHover);
-  const isSelectedDay = selection.find(d => isSameDay(d, day.date));
+  const toggleHover = () => setIsOver((isHover) => !isHover);
+  const isSelectedDay = selection.find((d) => isSameDay(d, day.date));
 
   return (
     <div
@@ -24,7 +24,7 @@ const CalendarDay = ({ day, theme, onClick, selection }: CalendarDayProps) => {
         textAlign: "center",
         padding: theme.cellsPadding,
         width: theme.cellsWidth + "px",
-        backgroundColor: day.isThisMonth ? "#fff" : "#f5f5f5"
+        backgroundColor: day.isThisMonth ? "#fff" : "#f5f5f5",
       }}
     >
       <button
@@ -34,7 +34,10 @@ const CalendarDay = ({ day, theme, onClick, selection }: CalendarDayProps) => {
         onClick={() => onClick && onClick(day)}
         style={{
           backgroundColor: isSelectedDay ? theme.primaryColor : "transparent",
-          borderRadius: (day.isThisMonth || day.isToday || isHover || isSelectedDay) ? theme.cellsBorderRadius : 0,
+          borderRadius:
+            day.isThisMonth || day.isToday || isHover || isSelectedDay
+              ? theme.cellsBorderRadius
+              : 0,
           width: theme.cellsWidth - theme.cellsPadding * 2 + "px",
           height: theme.cellsWidth - theme.cellsPadding * 2 + "px",
           border: isHover || day.isToday ? theme.border : "none",
@@ -42,7 +45,11 @@ const CalendarDay = ({ day, theme, onClick, selection }: CalendarDayProps) => {
           textDecoration: "none",
           textAlign: "center",
           fontWeight: day.isToday ? "bold" : "normal",
-          color: isSelectedDay ? "#fff" : day.isToday ? theme.primaryColor : "#333"
+          color: isSelectedDay
+            ? "#fff"
+            : day.isToday
+            ? theme.primaryColor
+            : "#333",
         }}
       >
         {day.date.getDate()}

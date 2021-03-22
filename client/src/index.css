@@ -1,8 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Chango&display=swap");
+
 html,
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   background-color: #000;
+}
+
+.title,
+.panel-heading {
+  font-family: Chango;
 }
 
 .custom-input-control.control.has-icons-left span.icon.is-left {
@@ -15,7 +22,7 @@ body {
 }
 
 .dropdown-content .custom-input-control.control.has-icons-left {
-  margin-right:3px;
+  margin-right: 3px;
 }
 .as-link {
   cursor: pointer;

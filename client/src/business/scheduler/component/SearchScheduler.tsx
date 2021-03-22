@@ -14,6 +14,7 @@ import {
 } from "_core/router/routes";
 import useMedia from "_common/hook/useMedia";
 import SearchSchedulerForm, { SearchParamsModel } from "./SearchSchedulerForm";
+import { useHistory } from "react-router";
 
 const makeParams = (
   model: SearchParamsModel | undefined
@@ -94,9 +95,21 @@ const buildSearchModelLabel = (
 };
 export type SearchSchedulerProps = {
   live: boolean;
+  schedulerName?: string;
+  scheduleId?: string;
+  epochFrom?: Date;
+  epochTo?: Date;
 };
-const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live }) => {
+
+const SearchScheduler: React.FC<SearchSchedulerProps> = ({
+  live,
+  schedulerName,
+  scheduleId,
+  epochFrom,
+  epochTo,
+}) => {
   const { t } = useTranslation();
+  const history = useHistory();
   const [searchModel, setSearchModel] = useState<SearchParamsModel>();
   const [result, setResult] = useState<ScheduleInfo[]>([]);
   const smallScreen = useMedia(
@@ -115,9 +128,33 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live }) => {
     }
   }, [searchModel, live]);
 
-  const handleSearchChange = useCallback((searchModel: SearchParamsModel) => {
-    setSearchModel(searchModel);
-  }, []);
+  const handleSearchChange = useCallback(
+    (searchModel: SearchParamsModel) => {
+      const newPath = [];
+      if (searchModel.scheduler) {
+        newPath.push(`schedulerName=${searchModel.scheduler.name}`);
+      }
+      if (searchModel.scheduleId) {
+        newPath.push(`scheduleId=${searchModel.scheduleId}`);
+      }
+      if (searchModel.epochFrom) {
+        newPath.push(
+          `epochFrom=${format(
+            searchModel.epochFrom,
+            t("Calendar-date-format")
+          )}`
+        );
+      }
+      if (searchModel.epochTo) {
+        newPath.push(
+          `epochTo=${format(searchModel.epochTo, t("Calendar-date-format"))}`
+        );
+      }
+      history.replace(window.location.pathname + "?" + newPath.join("&"));
+      setSearchModel(searchModel);
+    },
+    [history, t]
+  );
 
   return (
     <React.Fragment key="SearchScheduler">
@@ -130,8 +167,11 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live }) => {
             <div className="panel-heading">{t("Schedules")}</div>
             <div className="panel-block space-top more-space-bottom">
               <SearchSchedulerForm
-                
                 onChange={handleSearchChange}
+                schedulerName={schedulerName}
+                scheduleId={scheduleId}
+                epochFrom={epochFrom}
+                epochTo={epochTo}
               />
             </div>
             <div className="panel-block">

@@ -1,9 +1,8 @@
 /*source : https://bulmatemplates.github.io/bulma-templates/templates/landing.html */
 
 .app-hero.is-info {
-  background: 
-    url("./img/martin-sattler-8peGuud5cEw-unsplash.jpg") no-repeat center
-      center fixed;
+  background: url("./img/martin-sattler-8peGuud5cEw-unsplash.jpg") no-repeat
+    center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

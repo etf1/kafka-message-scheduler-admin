@@ -1,20 +1,22 @@
 import React, { CSSProperties } from "react";
 import Style from "./Calendar.module.css";
 import { Locale, subMonths, addMonths } from "date-fns";
-import { getDayLabelsOfWeek, getDaysOfMonth, DayOfMonth } from "_common/service/DateUtil";
+import {
+  getDayLabelsOfWeek,
+  getDaysOfMonth,
+  DayOfMonth,
+} from "_common/service/DateUtil";
 import CalendarDay from "./CalendarDay";
 import CalendarNav from "./CalendarNav";
 import clsx from "clsx";
 import useStateWithUpdate from "_common/hook/useStateWithUpdate";
 
-// sources : https://creativebulma.net/product/calendar/demo
-// et      : https://gist.github.com/stevensacks/79c60d0f8b1f8bc06b475438f59d687e
+// sources : https://gist.github.com/stevensacks/79c60d0f8b1f8bc06b475438f59d687e
 
 export type CalendarTheme = {
   fontSize: string;
   primaryColor: string;
   border: string;
-
   cellsWidth: number;
   cellsPadding: number;
   cellsBorderRadius: number;
@@ -23,7 +25,7 @@ type CalendarThemeProps = Partial<CalendarTheme>; // see https://www.typescriptl
 type CalendarProps = /*HTMLAttributes<HTMLDivElement> &*/ {
   date: Date;
   locale: Locale;
-  todayLabel?:string;
+  todayLabel?: string;
   theme?: CalendarThemeProps;
   onDayClick?: (day: DayOfMonth) => void;
   position?: { top: number; left: number };
@@ -35,16 +37,25 @@ const defaultTheme: CalendarTheme = {
   border: "#ddd thin solid",
   cellsPadding: 2,
   cellsWidth: 36,
-  cellsBorderRadius: 36
+  cellsBorderRadius: 36,
 };
 
 const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
-  ({ date, locale, theme: inputTheme, onDayClick, position, todayLabel }: CalendarProps, ref) => {
+  (
+    {
+      date,
+      locale,
+      theme: inputTheme,
+      onDayClick,
+      position,
+      todayLabel,
+    }: CalendarProps,
+    ref
+  ) => {
     const [currentDate, setCurrentDate] = useStateWithUpdate(date);
 
     const theme: CalendarTheme = Object.assign(defaultTheme, inputTheme || {});
 
-    console.log(locale);
     const days = getDaysOfMonth(currentDate, locale);
     const labels = getDayLabelsOfWeek(locale);
 
@@ -52,10 +63,10 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
     const gridTemplateColumns = `${theme.cellsWidth}px ${theme.cellsWidth}px ${theme.cellsWidth}px ${theme.cellsWidth}px ${theme.cellsWidth}px ${theme.cellsWidth}px ${theme.cellsWidth}px`;
 
     const handleSubMonth = () => {
-      setCurrentDate(currentDate => subMonths(currentDate, 1));
+      setCurrentDate((currentDate) => subMonths(currentDate, 1));
     };
     const handleAddMonth = () => {
-      setCurrentDate(currentDate => addMonths(currentDate, 1));
+      setCurrentDate((currentDate) => addMonths(currentDate, 1));
     };
 
     const handleTodayClick = () => {
@@ -63,16 +74,25 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
         onDayClick({
           date: new Date(),
           isToday: true,
-          isThisMonth: true
+          isThisMonth: true,
         });
     };
 
     let style: CSSProperties = { width };
     if (position) {
-      style = { ...style, position: "absolute", top: position.top, left: position.left };
+      style = {
+        ...style,
+        position: "absolute",
+        top: position.top,
+        left: position.left,
+      };
     }
     return (
-      <div className={clsx("calendar-container", Style.CalendarContainer)} style={style} ref={ref}>
+      <div
+        className={clsx("calendar-container", Style.CalendarContainer)}
+        style={style}
+        ref={ref}
+      >
         <CalendarNav
           date={currentDate}
           onAddMonth={handleAddMonth}
@@ -85,10 +105,10 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
           style={{
             width,
             gridTemplateColumns,
-            border: theme.border
+            border: theme.border,
           }}
         >
-          {labels.map(day => (
+          {labels.map((day) => (
             <div
               key={day}
               className="calendar-date"
@@ -98,7 +118,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
                 fontSize: theme.fontSize,
                 textDecoration: "none",
                 color: theme.primaryColor,
-                lineHeight: `${theme.cellsWidth - 8}px`
+                lineHeight: `${theme.cellsWidth - 8}px`,
               }}
             >
               {day}
@@ -110,15 +130,21 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
           style={{
             width,
             gridTemplateColumns,
-            border: theme.border
+            border: theme.border,
           }}
         >
-          {days.map(day => (
-            <CalendarDay key={day.date.toString()} day={day} theme={theme} onClick={onDayClick} selection={[date]} />
+          {days.map((day) => (
+            <CalendarDay
+              key={day.date.toString()}
+              day={day}
+              theme={theme}
+              onClick={onDayClick}
+              selection={[date]}
+            />
           ))}
         </div>
         <div className={Style.TodayLinkButton} onClick={handleTodayClick}>
-          {todayLabel?todayLabel:"Today"}
+          {todayLabel ? todayLabel : "Today"}
         </div>
       </div>
     );

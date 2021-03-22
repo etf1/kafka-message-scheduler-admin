@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import Calendar from "./Calendar";
 import clsx from "clsx";
 import { enGB } from "date-fns/locale";
@@ -37,7 +37,9 @@ function DatePicker({
   isRight,
   disabled,
 }: DatePickerProps) {
-  const { popupVisible, setPopupVisible, popupRef } = usePopup<HTMLDivElement>(false);
+  const { popupVisible, setPopupVisible, popupRef } = usePopup<HTMLDivElement>(
+    false
+  );
 
   const handleItemClick = (item: Date) => {
     setPopupVisible(false);
@@ -80,15 +82,40 @@ function DatePicker({
       };
 
   return (
-    <div className={clsx("dropdown", popupVisible && "is-active", className, isRight && "is-right", isUp && "is-up")}>
+    <div
+      className={clsx(
+        "dropdown",
+        popupVisible && "is-active",
+        className,
+        isRight && "is-right",
+        isUp && "is-up"
+      )}
+    >
       <div className="dropdown-trigger">
-        <div aria-haspopup="true" aria-controls="dropdown-menu" style={btnStyle}>
-          <div className="field is-grouped is-grouped-multiline has-addons" style={{ minWidth: 160, minHeight: 30 }}>
-            <Control style={{ marginRight: 0 }} onClick={toogleOpen} {...deleteIconProps}>
+        <div
+          aria-haspopup="true"
+          aria-controls="dropdown-menu"
+          style={btnStyle}
+        >
+          <div
+            className="field is-grouped is-grouped-multiline has-addons"
+            style={{ minWidth: 160, minHeight: 30 }}
+          >
+            <Control
+              style={{ marginRight: 0 }}
+              onClick={toogleOpen}
+              {...deleteIconProps}
+            >
               <input
                 placeholder={placeholder}
                 value={formatDate(value)}
-                className={clsx("input", className, isError && "is-danger", isSmall && "is-small", Style.Input)}
+                className={clsx(
+                  "input",
+                  className,
+                  isError && "is-danger",
+                  isSmall && "is-small",
+                  Style.Input
+                )}
                 style={{
                   backgroundColor: disabled ? "rgb(245, 245, 245)" : "#fff",
                   cursor: disabled ? "not-allowed" : "pointer",
@@ -100,7 +127,12 @@ function DatePicker({
         </div>
       </div>
       {!disabled && (
-        <div className="dropdown-menu" role="menu" ref={popupRef} style={{ paddingTop: 0 }}>
+        <div
+          className="dropdown-menu"
+          role="menu"
+          ref={popupRef}
+          style={{ paddingTop: 0 }}
+        >
           <div className={clsx("dropdown-content", Style.DropDownContent)}>
             <Calendar
               ref={popupRef}

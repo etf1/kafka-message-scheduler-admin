@@ -11,9 +11,13 @@ export type ControlProps = {
   leftIconClassName?: string;
   rightIconStyle?: CSSProperties;
   rightIconClassName?: string;
-  onRightIconClick?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
-  onClick?: ((event: React.MouseEvent<HTMLElement, MouseEvent>) => void) | undefined;
-  highlighted?:boolean;
+  onRightIconClick?: (
+    event: React.MouseEvent<HTMLSpanElement, MouseEvent>
+  ) => void;
+  onClick?:
+    | ((event: React.MouseEvent<HTMLElement, MouseEvent>) => void)
+    | undefined;
+  highlighted?: boolean;
 };
 const Control: React.FC<ControlProps> = ({
   children,
@@ -43,7 +47,10 @@ const Control: React.FC<ControlProps> = ({
     >
       {children}
       {LeftIcon && (
-        <span className={clsx("icon is-small is-left", leftIconClassName)} style={leftIconStyle}>
+        <span
+          className={clsx("icon is-small is-left", leftIconClassName)}
+          style={leftIconStyle}
+        >
           {LeftIcon}
         </span>
       )}

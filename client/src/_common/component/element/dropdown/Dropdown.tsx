@@ -42,7 +42,8 @@ function Dropdown<T>({
           onClick={handleTriggerBtnClick}
           style={{
             height: 34,
-            lineHeight: 34}}
+            lineHeight: 34,
+          }}
         >
           <span
             style={{

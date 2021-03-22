@@ -1,5 +1,8 @@
 export function isVisible(elem: any): boolean {
-  if (!elem || !(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length)) {
+  if (
+    !elem ||
+    !(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length)
+  ) {
     return false;
   }
   const st = window.getComputedStyle(elem);
@@ -32,5 +35,5 @@ export function hideOnEscapeOrClickOutside(element: any, hideFunc: () => void) {
   return () => {
     document.removeEventListener("keydown", kbdListener);
     document.removeEventListener("click", mouseListener);
-  };;
+  };
 }

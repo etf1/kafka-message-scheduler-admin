@@ -31,9 +31,15 @@ export type SearchParamsReducerAction =
   | { type: "sortOrder-changed"; payload: SortOrder }
   | { type: "max-changed"; payload: number };
 
-export type SearchParamsReducer = (state: SearchParamsModel, action: SearchParamsReducerAction) => SearchParamsModel;
+export type SearchParamsReducer = (
+  state: SearchParamsModel,
+  action: SearchParamsReducerAction
+) => SearchParamsModel;
 
-const searchParamsReducer: SearchParamsReducer = (state: SearchParamsModel, action) => {
+const searchParamsReducer: SearchParamsReducer = (
+  state: SearchParamsModel,
+  action
+) => {
   switch (action.type) {
     case "init":
       return { ...state, ...action.payload };
@@ -58,25 +64,42 @@ const searchParamsReducer: SearchParamsReducer = (state: SearchParamsModel, acti
 
 type SearchSchedulerFormType = {
   onChange: (model: SearchParamsModel) => void;
+  schedulerName?: string;
+  scheduleId?: string;
+  epochFrom?: Date;
+  epochTo?: Date;
 };
-const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({ onChange }) => {
+const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({
+  onChange,
+  schedulerName,
+  scheduleId,
+  epochFrom,
+  epochTo,
+}) => {
   const { t } = useTranslation();
   const { schedulers } = useSchedulers();
-  const [model, dispatch] = useReducer<SearchParamsReducer>(searchParamsReducer, {
-    scheduler: load<Scheduler>("SearchParamsModel-Scheduler", undefined),
-    scheduleId: load<string>("SearchParamsModel-Scheduler-id", ""),
-    epochFrom: startOfDay(new Date()),
-    epochTo: startOfDay(
-      add(new Date(), {
-        days: 1,
-      })
-    ),
-  });
+  const [model, dispatch] = useReducer<SearchParamsReducer>(
+    searchParamsReducer,
+    {
+      scheduler: load<Scheduler>(
+        "SearchParamsModel-Scheduler",
+        schedulers.find((s) => s.name === schedulerName) || undefined
+      ),
+      scheduleId: scheduleId || "",
+      epochFrom: epochFrom || startOfDay(new Date()),
+      epochTo:
+        epochTo ||
+        startOfDay(
+          add(new Date(), {
+            days: 1,
+          })
+        ),
+    }
+  );
 
   useEffect(() => {
     if (model) {
       save("SearchParamsModel-Scheduler", model.scheduler);
-      save("SearchParamsModel-Scheduler-id", model.scheduleId);
     }
   }, [model]);
 
@@ -98,40 +121,47 @@ const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({ onChange }) =>
   }, []);
 
   return (
-    <div className="field is-horizontal" style={{textAlign: "left", width:"100%", margin:"1rem"}}>
+    <div
+      className="field is-horizontal"
+      style={{ textAlign: "left", width: "100%", margin: "1rem" }}
+    >
       <div className="field-label is-normal">
         <label className="label">Critères</label>
       </div>
       <div className="field-body columns is-mobile is-multiline">
         <div className="column">
-        <Dropdown
-              placeholder={t("Please choose some scheduler")}
-              options={schedulers}
-              getKey={(scheduler) => scheduler.name}
-              renderOption={renderOption}
-              onChange={(s) => dispatch({ type: "scheduler-changed", payload: s })}
-              value={model.scheduler}
-            />
+          <Dropdown
+            placeholder={t("Please choose some scheduler")}
+            options={schedulers}
+            getKey={(scheduler) => scheduler.name}
+            renderOption={renderOption}
+            onChange={(s) =>
+              dispatch({ type: "scheduler-changed", payload: s })
+            }
+            value={model.scheduler}
+          />
         </div>
-        <div className="column" style={{width:150}}>
-        <SearchInput
-              onChange={handleSearchInputChanged}
-              placeholder={t("Scheduler-search-field-schedule-id")}
-              value={model.scheduleId}
-            />
+        <div className="column" style={{ width: 150 }}>
+          <SearchInput
+            onChange={handleSearchInputChanged}
+            placeholder={t("Scheduler-search-field-schedule-id")}
+            value={model.scheduleId}
+          />
         </div>
-        <div className="column" style={{flexGrow:0}}>
-        <DatePicker
+        <div className="column" style={{ flexGrow: 0 }}>
+          <DatePicker
             placeholder={t("Scheduler-search-field-start-at")}
             value={model.epochFrom}
-            onChange={(d) => dispatch({ type: "epochFrom-changed", payload: d })}
+            onChange={(d) =>
+              dispatch({ type: "epochFrom-changed", payload: d })
+            }
             locale={getDateLocale()}
             dateFormat={t("Calendar-date-format")}
             todayLabel={t("Calendar-btn-label-Today")}
           />
         </div>
         <div className="column">
-        <DatePicker
+          <DatePicker
             placeholder={t("Scheduler-search-field-end-at")}
             value={model.epochTo}
             onChange={(d) => dispatch({ type: "epochTo-changed", payload: d })}
@@ -140,61 +170,9 @@ const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({ onChange }) =>
             todayLabel={t("Calendar-btn-label-Today")}
           />
         </div>
-
       </div>
     </div>
   );
-  // return (
-  //   <div className="field is-horizontal">
-  //     <div className={clsx("space-bottom", "field is-grouped is-grouped-multiline")}>
-  //       <div className="field space-right">
-  //         <label className="label">{t("Scheduler")}</label>
-  //         <div className="control has-icons-left">
-  //           <Dropdown
-  //             placeholder={t("Please choose some scheduler")}
-  //             options={schedulers}
-  //             getKey={(scheduler) => scheduler.name}
-  //             renderOption={renderOption}
-  //             onChange={(s) => dispatch({ type: "scheduler-changed", payload: s })}
-  //             value={model.scheduler}
-  //           />
-  //         </div>
-  //       </div>
-  //       <div className="field space-right">
-  //         <label className="label">{t("Scheduler-search-field-schedule-id")}</label>
-  //         <div className="control">
-  //           <SearchInput
-  //             onChange={handleSearchInputChanged}
-  //             placeholder={t("Scheduler-search-field-schedule-id")}
-  //             value={model.scheduleId}
-  //           />
-  //         </div>
-  //       </div>
-  //       <div className="field space-right">
-  //         <label className="label">{t("Scheduler-search-field-start-at")}</label>
-  //         <DatePicker
-  //           placeholder={t("Scheduler-search-field-start-at")}
-  //           value={model.epochFrom}
-  //           onChange={(d) => dispatch({ type: "epochFrom-changed", payload: d })}
-  //           locale={getDateLocale()}
-  //           dateFormat={t("Calendar-date-format")}
-  //           todayLabel={t("Calendar-btn-label-Today")}
-  //         />
-  //       </div>
-  //       <div className="field">
-  //         <label className="label">{t("Scheduler-search-field-end-at")}</label>
-  //         <DatePicker
-  //           placeholder={t("Scheduler-search-field-end-at")}
-  //           value={model.epochTo}
-  //           onChange={(d) => dispatch({ type: "epochTo-changed", payload: d })}
-  //           locale={getDateLocale()}
-  //           dateFormat={t("Calendar-date-format")}
-  //           todayLabel={t("Calendar-btn-label-Today")}
-  //         />
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
 };
 
 export default SearchSchedulerForm;
