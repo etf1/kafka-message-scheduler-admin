@@ -24,3 +24,9 @@
   background-color: white;
   border-radius: 6px;
 }
+@media only screen and (max-width: 450px) {
+  .app-hero-body {
+    padding: 0;
+    margin: 0;
+  }
+}

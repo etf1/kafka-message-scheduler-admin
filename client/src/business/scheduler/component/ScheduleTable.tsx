@@ -86,79 +86,58 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
             disabled
             style={{ textAlign: "left", marginBottom: 20 }}
           >
-            <div className="field is-grouped is-grouped-multiline">
-              <div className="field space-right">
-                <label className="label">{t("Schedule-field-id")}</label>
-                <div className="control">
-                  <input
-                    className="input"
-                    type="tex"
-                    defaultValue={schedule.id}
-                  />
-                </div>
-              </div>
-              <div className="field space-right">
-                <label className="label">{t("Schedule-field-scheduler")}</label>
-                <div className="control">
-                  <input
-                    className="input"
-                    type="tex"
-                    defaultValue={schedule.scheduler}
-                  />
-                </div>
-              </div>
-              <div className="field space-right">
-                <label className="label">
-                  {t("Schedule-field-creation-date")}
-                </label>
-                <div className="control">
-                  <input
-                    className="input"
-                    type="tex"
-                    defaultValue={format(
-                      fromUnixTime(schedule.timestamp),
-                      t("Calendar-date-format")
-                    )}
-                  />
-                </div>
-              </div>
-              <div className="field space-right">
-                <label className="label">
-                  {t("Schedule-field-trigger-date")}
-                </label>
-                <div className="control">
-                  <input
-                    className="input"
-                    type="tex"
-                    defaultValue={format(
-                      fromUnixTime(schedule.epoch),
-                      t("Calendar-date-format")
-                    )}
-                  />
-                </div>
-              </div>
-              <div className="field space-right">
-                <label className="label">
-                  {t("Schedule-field-target-topic")}
-                </label>
-                <div className="control">
-                  <input
-                    className="input"
-                    type="tex"
-                    defaultValue={schedule.targetTopic}
-                  />
-                </div>
-              </div>
-              <div className="field">
-                <label className="label">{t("Schedule-field-target-id")}</label>
-                <div className="control">
-                  <input
-                    className="input"
-                    type="tex"
-                    defaultValue={schedule.targetId}
-                  />
-                </div>
-              </div>
+            <div className="space-right">
+              <strong className="space-right">{t("Schedule-field-id")}</strong>
+              <Link
+                to={resolvePath(detailUrl, {
+                  schedulerName: schedule.scheduler,
+                  scheduleId: schedule.id,
+                })}
+              >
+                <span className={clsx(Styles.ValueField, Styles.ColWithLink)}>
+                  {schedule.id}
+                </span>
+              </Link>
+            </div>
+            <div className="space-right">
+              <strong className="space-right">
+                {t("Schedule-field-scheduler")}
+              </strong>
+              <span className={Styles.ValueField}>{schedule.scheduler}</span>
+            </div>
+            <div className="space-right">
+              <strong className="space-right">
+                {t("Schedule-field-creation-date")}
+              </strong>
+              <span className={clsx("space-right", Styles.ValueField)}>
+                {format(
+                  fromUnixTime(schedule.timestamp),
+                  t("Calendar-date-format")
+                )}
+                ,{" "}
+              </span>
+              <strong className={clsx("space-right", Styles.ValueField)}>
+                {t("Schedule-field-trigger-date")}
+              </strong>
+              <span className={Styles.ValueField}>
+                {format(
+                  fromUnixTime(schedule.epoch),
+                  t("Calendar-date-format")
+                )}
+              </span>
+            </div>
+
+            <div className="space-right">
+              <strong className="space-right">
+                {t("Schedule-field-target-topic")}
+              </strong>
+              <span className={Styles.ValueField}>{schedule.targetTopic}</span>
+            </div>
+            <div className="space-right">
+              <strong className="space-right">
+                {t("Schedule-field-target-id")}
+              </strong>
+              <span className={Styles.ValueField}>{schedule.targetId}</span>
             </div>
           </fieldset>
         );

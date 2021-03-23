@@ -14,7 +14,7 @@ function App() {
           <div className="hero-head">
             <AppNavbar />
           </div>
-          <div className="hero-body">
+          <div className="hero-body app-hero-body">
             <Switch>
               {routes.map((route) => {
                 return (

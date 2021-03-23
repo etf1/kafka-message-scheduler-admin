@@ -1,4 +1,3 @@
-import React from "react";
 import Style from "./Calendar.module.css";
 import { CalendarTheme } from "./Calendar";
 import { format } from "date-fns";
@@ -10,6 +9,7 @@ type CalendarNavProps = {
   locale: Locale;
   onAddMonth: () => void;
   onSubMonth: () => void;
+  headerMonthLabelFormat?: string; // default : "MMMM yyyy"
 };
 
 const CalendarNav = ({
@@ -18,12 +18,13 @@ const CalendarNav = ({
   locale,
   onAddMonth,
   onSubMonth,
+  headerMonthLabelFormat,
 }: CalendarNavProps) => {
   const width = `${theme.cellsWidth * 7 + 2}px`;
 
   const formatDate = (date: Date) => {
     try {
-      return format(date, "MMMM yyyy", { locale });
+      return format(date, headerMonthLabelFormat || "MMMM yyyy", { locale });
     } catch (err) {
       return "";
     }

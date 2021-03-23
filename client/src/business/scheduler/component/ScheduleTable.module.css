@@ -7,3 +7,7 @@
   color: rgb(67, 67, 145) !important;
   cursor: pointer;
 }
+
+.ValueField {
+  word-break: break-all;
+}

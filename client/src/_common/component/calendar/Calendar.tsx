@@ -29,6 +29,7 @@ type CalendarProps = /*HTMLAttributes<HTMLDivElement> &*/ {
   theme?: CalendarThemeProps;
   onDayClick?: (day: DayOfMonth) => void;
   position?: { top: number; left: number };
+  headerMonthLabelFormat?: string; // default : "MMMM yyyy"
 };
 
 const defaultTheme: CalendarTheme = {
@@ -49,6 +50,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
       onDayClick,
       position,
       todayLabel,
+      headerMonthLabelFormat,
     }: CalendarProps,
     ref
   ) => {
@@ -99,6 +101,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
           onSubMonth={handleSubMonth}
           locale={locale}
           theme={theme}
+          headerMonthLabelFormat={headerMonthLabelFormat}
         />
         <div
           className={clsx("calendar-header", Style.CalendarHeader)}

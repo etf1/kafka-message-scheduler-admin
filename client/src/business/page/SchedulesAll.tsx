@@ -1,6 +1,8 @@
 import SearchScheduler from "business/scheduler/component/SearchScheduler";
 import parse from "date-fns/parse";
+import React from "react";
 import { useTranslation } from "react-i18next";
+import Container from "_common/component/layout/Container";
 
 const SchedulesAll = () => {
   const { t } = useTranslation();
@@ -11,26 +13,22 @@ const SchedulesAll = () => {
   const epochTo = urlParams.get("epochTo");
 
   return (
-    <div className="container has-text-centered">
-      <div className="column is-12">
-        <h1 className="title">{t("Page-title-schedules-all")}</h1>
-        <SearchScheduler
-          live={false}
-          schedulerName={schedulerName}
-          scheduleId={scheduleId}
-          epochFrom={
-            (epochFrom &&
-              parse(epochFrom, t("Calendar-date-format"), new Date())) ||
-            undefined
-          }
-          epochTo={
-            (epochTo &&
-              parse(epochTo, t("Calendar-date-format"), new Date())) ||
-            undefined
-          }
-        />
-      </div>
-    </div>
+    <Container title={t("Page-title-schedules-all")}>
+      <SearchScheduler
+        live={false}
+        schedulerName={schedulerName}
+        scheduleId={scheduleId}
+        epochFrom={
+          (epochFrom &&
+            parse(epochFrom, t("Calendar-date-format"), new Date())) ||
+          undefined
+        }
+        epochTo={
+          (epochTo && parse(epochTo, t("Calendar-date-format"), new Date())) ||
+          undefined
+        }
+      />
+    </Container>
   );
 };
 

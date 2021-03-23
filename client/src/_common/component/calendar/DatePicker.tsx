@@ -120,7 +120,7 @@ function DatePicker({
                   backgroundColor: disabled ? "rgb(245, 245, 245)" : "#fff",
                   cursor: disabled ? "not-allowed" : "pointer",
                 }}
-                readOnly
+                readOnly={true}
               />
             </Control>
           </div>
@@ -139,7 +139,7 @@ function DatePicker({
               date={value || new Date()}
               locale={locale || enGB}
               todayLabel={todayLabel}
-              onDayClick={(d) => handleItemClick(d.date)}
+              onDayClick={(day) => handleItemClick(day.date)}
             />
           </div>
         </div>
