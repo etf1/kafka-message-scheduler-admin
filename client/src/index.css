@@ -31,7 +31,9 @@ body {
   background-color: #fafafa;
   color: #3273dc;
 }
-
+.container {
+  min-width: 100%;
+}
 .pointer {
   cursor: pointer;
 }
