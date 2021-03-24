@@ -18,6 +18,7 @@
   "Calendar-btn-label-Clear": "Effacer",
   "Calendar-btn-label-Cancel": "Annuler",
   "Calendar-date-format": "dd/MM/yyyy",
+  "Calendar-date-hour-format": "dd/MM/yyyy HH:mm:ss",
   "ScheduleTable-column-ID": "ID",
   "ScheduleTable-column-Scheduler": "Planificateur",
   "ScheduleTable-column-TiggerDate": "Déclenchement",

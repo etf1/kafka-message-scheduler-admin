@@ -60,13 +60,13 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
               <td>
                 {format(
                   fromUnixTime(schedule.timestamp),
-                  t("Calendar-date-format")
+                  t("Calendar-date-hour-format")
                 )}
               </td>
               <td>
                 {format(
                   fromUnixTime(schedule.epoch),
-                  t("Calendar-date-format")
+                  t("Calendar-date-hour-format")
                 )}
               </td>
               <td className={Styles.colWithId}>{schedule.targetTopic}</td>
@@ -112,7 +112,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
               <span className={clsx("space-right", Styles.ValueField)}>
                 {format(
                   fromUnixTime(schedule.timestamp),
-                  t("Calendar-date-format")
+                  t("Calendar-date-hour-format")
                 )}
                 ,{" "}
               </span>
@@ -122,7 +122,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
               <span className={Styles.ValueField}>
                 {format(
                   fromUnixTime(schedule.epoch),
-                  t("Calendar-date-format")
+                  t("Calendar-date-hour-format")
                 )}
               </span>
             </div>

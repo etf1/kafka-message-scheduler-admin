@@ -56,7 +56,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({
                 type="tex"
                 defaultValue={format(
                   fromUnixTime(schedule.timestamp),
-                  t("Calendar-date-format")
+                  t("Calendar-date-hour-format")
                 )}
               />
             </div>
@@ -69,7 +69,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({
                 type="tex"
                 defaultValue={format(
                   fromUnixTime(schedule.epoch),
-                  t("Calendar-date-format")
+                  t("Calendar-date-hour-format")
                 )}
               />
             </div>
