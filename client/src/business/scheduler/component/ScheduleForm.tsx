@@ -42,7 +42,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, 
         setSchedule(result);
       });
     }
-  }, [schedulerName, scheduleId]);
+  }, [schedulerName, scheduleId, live]);
 
   return (
     <div className="box" style={{ padding: "3rem" }}>
