@@ -83,7 +83,7 @@ const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({
     {
       scheduler: load<Scheduler>(
         "SearchParamsModel-Scheduler",
-        schedulers.find((s) => s.name === schedulerName) || undefined
+        (schedulers && schedulers.find((s) => s.name === schedulerName)) || undefined
       ),
       scheduleId: scheduleId || "",
       epochFrom: epochFrom || startOfDay(new Date()),

@@ -8,6 +8,15 @@ import Styles from "./ScheduleTable.module.css";
 import clsx from "clsx";
 import { resolvePath } from "_core/router/routes";
 
+
+const formatUnixTime = (time:number, fmt:string) => {
+  if (time) {
+    const dt = fromUnixTime(time);
+    return format(dt, fmt);
+  }
+  return "";
+}
+
 export type ScheduleTableProps = {
   data: ScheduleInfo[];
   onClick?: (schedule: ScheduleInfo) => void;
@@ -26,7 +35,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   return showAsTable || showAsTable === undefined ? (
     <table
       key="table"
-      className="table is-striped is-narrow is-hoverable is-fullwidth"
+      className="table is-striped is-hoverable is-fullwidth"
     >
       <thead>
         <tr>
@@ -58,14 +67,14 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
               </td>
               <td className={Styles.colWithId}>{schedule.scheduler}</td>
               <td>
-                {format(
-                  fromUnixTime(schedule.timestamp),
+                {formatUnixTime(
+                  schedule.timestamp,
                   t("Calendar-date-hour-format")
                 )}
               </td>
               <td>
-                {format(
-                  fromUnixTime(schedule.epoch),
+                {formatUnixTime(
+                  schedule.epoch,
                   t("Calendar-date-hour-format")
                 )}
               </td>
@@ -110,8 +119,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
                 {t("Schedule-field-creation-date")}
               </strong>
               <span className={clsx("space-right", Styles.ValueField)}>
-                {format(
-                  fromUnixTime(schedule.timestamp),
+                {formatUnixTime(schedule.timestamp,
                   t("Calendar-date-hour-format")
                 )}
                 ,{" "}
@@ -120,8 +128,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
                 {t("Schedule-field-trigger-date")}
               </strong>
               <span className={Styles.ValueField}>
-                {format(
-                  fromUnixTime(schedule.epoch),
+                {formatUnixTime(schedule.epoch,
                   t("Calendar-date-hour-format")
                 )}
               </span>

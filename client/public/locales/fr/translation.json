@@ -29,9 +29,10 @@
   "Schedule-field-scheduler": "Planificateur",
   "Schedule-field-creation-date": "Date de création",
   "Schedule-field-trigger-date": "Date de déclenchement",
+  "Schedule-field-source-topic": "topic Source",
   "Schedule-field-target-topic": "Topic Cible",
   "Schedule-field-target-id": "ID Cible",
-  "Schedule-field-headers": "En-têtes",
+  "Schedule-field-value": "Valeur",
   "Close-button": "Fermer",
   "Scheduler-search-summary": "Critères de recherche"
 }

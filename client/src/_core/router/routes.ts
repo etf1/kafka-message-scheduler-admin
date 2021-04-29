@@ -8,7 +8,7 @@ const About = lazy(() => import("business/about/About"));
 const SchedulesLive = lazy(() => import("business/page/SchedulesLive"));
 const SchedulesAll = lazy(() => import("business/page/SchedulesAll"));
 const ScheduleDetail = lazy(() => import("business/page/ScheduleDetail"));
-
+const ScheduleDetailLive = lazy(() => import("business/page/ScheduleDetailLive"));
 export type RouteConfig = {
   path: string;
   key: string;
@@ -21,10 +21,8 @@ export const ROUTE_ABOUT = "/about";
 export const ROUTE_LIVE_SCHEDULES = "/live";
 export const ROUTE_ALL_SCHEDULES = "/all";
 export const ROUTE_SCHEDULE_DETAIL = "/detail/:schedulerName/:scheduleId";
-export const ROUTE_SCHEDULE_LIVE_DETAIL =
-  "/live/detail/:schedulerName/:scheduleId";
-export const ROUTE_SCHEDULE_ALL_DETAIL =
-  "/all/detail/:schedulerName/:scheduleId";
+export const ROUTE_SCHEDULE_LIVE_DETAIL = "/live/detail/:schedulerName/:scheduleId";
+export const ROUTE_SCHEDULE_ALL_DETAIL = "/all/detail/:schedulerName/:scheduleId";
 
 export const resolvePath = (path: string, variables: Dictionary) => {
   if (path.indexOf(":") > -1) {
@@ -63,7 +61,7 @@ const routes: RouteConfig[] = [
   {
     path: ROUTE_SCHEDULE_LIVE_DETAIL,
     key: "schedule",
-    component: ScheduleDetail,
+    component: ScheduleDetailLive,
     exact: true,
   },
   {

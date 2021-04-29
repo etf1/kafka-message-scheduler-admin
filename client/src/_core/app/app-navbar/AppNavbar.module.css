@@ -1,3 +1,8 @@
+.Navbar {
+  padding-left:2rem;
+  padding-right: 2rem;
+  padding-top: 1rem;;
+}
 .NavbarMenu {
   background-color: transparent !important;
 }

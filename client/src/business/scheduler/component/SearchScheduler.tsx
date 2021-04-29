@@ -163,7 +163,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
       </h2>
       <div className="app-box">
         <div className="container">
-          <div className="panel">
+          <div className="panel" style={{minHeight:"1000px"}}>
             <div className="panel-heading">{t("Schedules")}</div>
             <div className="panel-block space-top more-space-bottom">
               <SearchSchedulerForm

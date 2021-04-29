@@ -1,3 +1,5 @@
+import { get } from "_common/service/ApiUtil";
+import { getLiveScheduleDetailUrl, getLiveSchedulesUrl, getScheduleDetailUrl, getSchedulersUrl, getSchedulesUrl } from "_core/service/config";
 import { Schedule, ScheduleInfo, Scheduler } from "../type";
 
 export type SortType = "id" | "epoch" | "timestamp";
@@ -34,47 +36,69 @@ export const makeSearchArgs = (p: SearchParams): string => {
 };
 
 export const listAllSchedulers = async (): Promise<Scheduler[]> => {
-  const response = await fetch("/api/schedulers");
-  const result: { schedulers: Scheduler[] } = await response.json();
-  return result.schedulers;
+  return await get(getSchedulersUrl());
 };
-export const makeScheduleModel = (schedules: any[]): ScheduleInfo[] => {
+export const makeScheduleInfoModel = (schedules: any[]): ScheduleInfo[] => {
   if (schedules) {
     return schedules.map((o) => {
       return {
-        id: o.id,
+        id: o.schedule.id,
         scheduler: o.scheduler,
-        timestamp: o.timestamp,
-        epoch: o.epoch,
-        targetTopic: o["target-topic"],
-        targetId: o["target-id"],
+        timestamp: o.schedule.timestamp,
+        epoch: o.schedule.epoch,
+        targetTopic: o.schedule["target-topic"],
+        targetId: o.schedule["target-key"],
+		value: o.schedule.value
       };
     });
   }
   return schedules;
 };
-export const searchLiveSchedules = async (
-  p: SearchParams
-): Promise<ScheduleInfo[]> => {
-  const response = await fetch("/api/live/schedules" + makeSearchArgs(p));
-  const result: { total: number; schedules: any[] } = await response.json();
-  return makeScheduleModel(result.schedules);
+
+export const makeScheduleModel = (schedule: any, schedulerName:string): Schedule => {
+	return {
+		id: schedule.id,
+		scheduler: schedulerName,
+		timestamp: schedule.timestamp,
+		epoch: schedule.epoch,
+		targetTopic: schedule["target-topic"],
+		targetId: schedule["target-key"],
+		value: schedule.value,
+		topic: schedule.topic
+	  };
+  };
+export const searchLiveSchedules = async (p: SearchParams): Promise<ScheduleInfo[]> => {
+  const result: { found: number; schedules: any[] } = await get(getLiveSchedulesUrl() + makeSearchArgs(p));
+ 
+  const res = makeScheduleInfoModel(result.schedules);
+  console.log(res);
+  return res;
 };
-export const searchSchedules = async (
-  p: SearchParams
-): Promise<ScheduleInfo[]> => {
-  const response = await fetch("/api/schedules" + makeSearchArgs(p));
-  const result: { total: number; schedules: any[] } = await response.json();
-  return makeScheduleModel(result.schedules);
+export const searchSchedules = async (p: SearchParams): Promise<ScheduleInfo[]> => {
+  const result: { found: number; schedules: any[] } = await get(getSchedulesUrl() + makeSearchArgs(p));
+  return makeScheduleInfoModel(result.schedules);
 };
-export const getScheduleDetail = async (
-  scheduleName: string,
-  id: string
-): Promise<Schedule> => {
-  const response = await fetch(`/api/scheduler/${scheduleName}/schedule/${id}`);
-  const result: Schedule = await response.json();
-  return result;
+export const getScheduleDetail = async (schedulerName: string, id: string): Promise<Schedule> => {
+  const result: Schedule[]  = await get(getScheduleDetailUrl(schedulerName, id));
+  
+  if (result.length>0) {
+	return makeScheduleModel(result[0], schedulerName);
+  }
+  throw new Error("Not found");
+  
+  
 };
+
+export const getLiveScheduleDetail = async (schedulerName: string, id: string): Promise<Schedule> => {
+	const result: Schedule[]  = await get(getLiveScheduleDetailUrl(schedulerName, id));
+	
+	if (result.length>0) {
+	  return makeScheduleModel(result[0], schedulerName);
+	}
+	throw new Error("Not found");
+	
+	
+  };
 /*
 /schedulers : return the list of addresses for each scheduler, containing one or many instance names
 {

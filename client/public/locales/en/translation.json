@@ -29,9 +29,10 @@
   "Schedule-field-scheduler": "Scheduler",
   "Schedule-field-creation-date": "Creation Date",
   "Schedule-field-trigger-date": "Trigger Date",
+  "Schedule-field-source-topic": "Source Topic",
   "Schedule-field-target-topic": "Target Topic",
   "Schedule-field-target-id": "Target ID",
-  "Schedule-field-headers": "Headers",
+  "Schedule-field-value": "Value",
   "Close-button": "Close",
   "Scheduler-search-summary": "Search criteria"
 }

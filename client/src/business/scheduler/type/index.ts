@@ -24,6 +24,5 @@ export type ScheduleInfo = {
 
 export type Schedule = ScheduleInfo & {
   topic: string;
-  headers: Header[];
-  body: string;
+  value: string;
 };

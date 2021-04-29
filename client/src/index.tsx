@@ -10,16 +10,20 @@ import App from "_core/app/App";
 
 import "_core/i18n";
 
-if (process.env.NODE_ENV === "development") {
-  const { worker } = require("./mocks/browser");
-  worker.start();
-}
+import init from "_core/service/config";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Suspense fallback={<div></div>}>
-      <App />
-    </Suspense>
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+init().then(() => {
+  /*if (process.env.NODE_ENV === "development") {
+    const { worker } = require("./mocks/browser");
+    worker.start();
+  }*/
+
+  ReactDOM.render(
+    <React.StrictMode>
+      <Suspense fallback={<div></div>}>
+        <App />
+      </Suspense>
+    </React.StrictMode>,
+    document.getElementById("root")
+  );
+});

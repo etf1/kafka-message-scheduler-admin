@@ -16,7 +16,7 @@ const AppNavbar = () => {
   const handleBurgerClick = () => setIsOpen((isOpen) => !isOpen);
 
   return (
-    <nav className="navbar">
+    <nav className={clsx("navbar", Styles.Navbar)}>
       <div className="container">
         <div className="navbar-brand">
           <span
