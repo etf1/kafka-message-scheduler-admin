@@ -5,6 +5,8 @@ import {
   searchLiveSchedules,
   SearchParams,
   searchSchedules,
+  SortOrder,
+  SortType,
 } from "../service/SchedulerService";
 import { ScheduleInfo } from "../type";
 import ScheduleTable from "./ScheduleTable";
@@ -93,6 +95,7 @@ const buildSearchModelLabel = (
 
   return result;
 };
+
 export type SearchSchedulerProps = {
   live: boolean;
   schedulerName?: string;
@@ -128,6 +131,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
     }
   }, [searchModel, live]);
 
+
   const handleSearchChange = useCallback(
     (searchModel: SearchParamsModel) => {
       const newPath = [];
@@ -156,6 +160,13 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
     [history, t]
   );
 
+  const handleSort = (type: SortType, order: SortOrder) => {
+    if(searchModel && (searchModel.sort !== type || searchModel.sortOrder !== order)) {
+      searchModel.sort = type;
+      searchModel.sortOrder = order;
+      setSearchModel({...searchModel});
+    }
+  }
   return (
     <React.Fragment key="SearchScheduler">
       <h2 className="subtitle" style={{ fontSize: "1rem" }}>
@@ -184,6 +195,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
                     key="table"
                     data={result}
                     showAsTable={!smallScreen}
+                    onSort={handleSort}
                     detailUrl={
                       live
                         ? ROUTE_SCHEDULE_LIVE_DETAIL

@@ -2,7 +2,12 @@ FROM node:16.0-alpine as builder
 
 WORKDIR /code
 
-COPY . .
+COPY package.json .
+COPY yarn.lock .
+COPY tsconfig.json .
+COPY server.js .
+COPY src ./src
+COPY public ./public
 RUN yarn && yarn build
 
 

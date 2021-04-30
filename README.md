@@ -2,6 +2,8 @@
 
 try it: 
 
+- cd client
+
 - docker run -p 8080:8080 fkarakas/scheduler-admin:beta
 
 - docker build -t ui:beta .    
