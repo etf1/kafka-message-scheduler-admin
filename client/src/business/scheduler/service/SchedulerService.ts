@@ -30,7 +30,7 @@ export const makeSearchArgs = (p: SearchParams): string => {
     res += `&max=${p.max}`;
   }
   if (p.sort) {
-    res += `&sort=${p.sort} ${p.sortOrder || "asc"}`;
+    res += `&sort-by=${p.sort} ${p.sortOrder || "asc"}`;
   }
   if (p.epochFrom) {
     res += `&epoch-from=${p.epochFrom}`;
