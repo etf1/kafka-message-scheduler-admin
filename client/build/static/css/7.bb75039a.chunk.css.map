@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/_common/component/layout/Container.module.css"],"names":[],"mappings":"AAAA,yCACE,yBACE,SACF,CACF","file":"7.bb75039a.chunk.css","sourcesContent":["@media only screen and (max-width: 450px) {\n  .Column {\n    padding: 0;\n  }\n}\n"]}
