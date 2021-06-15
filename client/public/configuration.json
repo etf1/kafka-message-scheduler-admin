@@ -1,8 +1,8 @@
 {
   "api-root": "http://localhost:8080",
   "schedulers": "/schedulers",
-  "schedules": "/schedules",
+  "schedules": "/scheduler/{name}/schedules",
   "schedule-detail": "/scheduler/{name}/schedule/{id}",
-  "live-schedules": "/live/schedules",
+  "live-schedules": "/live/scheduler/{name}/schedules",
   "live-schedule-detail": "/live/scheduler/{name}/schedule/{id}"
 }

@@ -17,22 +17,23 @@ async function init() {
   liveScheduleDetailUrl = response["live-schedule-detail"];
 }
 export function getApiRoot() {
-  if (!apiRoot) {
-    throw new Error ("Error, configuration is not initialized, 'init()' function should be executed and terminated before any other calls.");
+  if (apiRoot === null || apiRoot === undefined) {
+    return "";
+    //throw new Error ("Error, configuration is not initialized, 'init()' function should be executed and terminated before any other calls.");
   }
   return apiRoot;
 }
 export function getSchedulersUrl() {
   return getApiRoot()+schedulersUrl;
 }
-export function getSchedulesUrl() {
-  return getApiRoot()+schedulesUrl;
+export function getSchedulesUrl(schedulerName: string) {
+  return getApiRoot()+schedulesUrl.replace("{name}", schedulerName);
 }
 export function getScheduleDetailUrl(schedulerName: string, id: string) {
   return getApiRoot()+scheduleDetailUrl.replace("{name}", schedulerName).replace("{id}", id);
 }
-export function getLiveSchedulesUrl() {
-  return getApiRoot()+liveSchedulesUrl;
+export function getLiveSchedulesUrl(schedulerName: string) {
+  return getApiRoot()+liveSchedulesUrl.replace("{name}", schedulerName);
 }
 export function getLiveScheduleDetailUrl(schedulerName: string, id: string) {
   return getApiRoot()+liveScheduleDetailUrl.replace("{name}", schedulerName).replace("{id}", id);

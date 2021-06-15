@@ -61,7 +61,7 @@ export const makeScheduleInfoModel = (schedules: any[]): ScheduleInfo[] => {
   return schedules;
 };
 
-export const makeScheduleModel = (schedule: any, schedulerName: string): Schedule => {
+export const makeScheduleModel = ({schedule}: any, schedulerName: string): Schedule => {
   return {
     id: schedule.id,
     scheduler: schedulerName,
@@ -74,14 +74,14 @@ export const makeScheduleModel = (schedule: any, schedulerName: string): Schedul
   };
 };
 export const searchLiveSchedules = async (p: SearchParams): Promise<ScheduleInfo[]> => {
-  const result: { found: number; schedules: any[] } = await get(getLiveSchedulesUrl() + makeSearchArgs(p));
+  const result: { found: number; schedules: any[] } = await get(getLiveSchedulesUrl(p.schedulerName) + makeSearchArgs(p));
 
   const res = makeScheduleInfoModel(result.schedules);
   console.log(res);
   return res;
 };
 export const searchSchedules = async (p: SearchParams): Promise<ScheduleInfo[]> => {
-  const result: { found: number; schedules: any[] } = await get(getSchedulesUrl() + makeSearchArgs(p));
+  const result: { found: number; schedules: any[] } = await get(getSchedulesUrl(p.schedulerName) + makeSearchArgs(p));
   return makeScheduleInfoModel(result.schedules);
 };
 export const getScheduleDetail = async (schedulerName: string, id: string): Promise<Schedule> => {
