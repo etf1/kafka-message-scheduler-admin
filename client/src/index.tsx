@@ -5,6 +5,7 @@ import "react-app-polyfill/stable";
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import "bulma/css/bulma.css";
+import "./bulma-tooltip.css";
 import "./index.css";
 import App from "_core/app/App";
 

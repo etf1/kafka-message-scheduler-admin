@@ -2,7 +2,7 @@ import ScheduleForm from "business/scheduler/component/ScheduleForm";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, useParams } from "react-router-dom";
-import Container from "_common/component/layout/Container";
+import Container from "_common/component/layout/container/Container";
 
 type ScheduleDetailUrlParams = { schedulerName: string; scheduleId: string };
 

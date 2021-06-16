@@ -16,14 +16,15 @@ const AppNavbar = () => {
   const handleBurgerClick = () => setIsOpen((isOpen) => !isOpen);
 
   return (
-    <nav className={clsx("navbar", Styles.Navbar)}>
+    <nav className={clsx("navbar", Styles.Nav )}>
       <div className="container">
         <div className="navbar-brand">
           <span
             role="button"
             className={clsx(
               "navbar-burger burger white",
-              isOpen ? "is-active" : null
+              isOpen ? "is-active" : null, 
+              Styles.NavbarMenu
             )}
             aria-label="menu"
             aria-expanded="false"
@@ -44,44 +45,22 @@ const AppNavbar = () => {
           )}
         >
           <div className="navbar-start">
-            <span className="navbar-item">
-              <a className="button is-white is-outlined" href={ROUTE_HOME}>
-                <span className="icon">
-                  <i className="fa fa-home"></i>
-                </span>
-                <span>{t("Menu-home")}</span>
+            <span className={clsx("navbar-item", Styles.Brand)}>
+              <a className={clsx("button is-white",Styles.NavbarLink)} href={ROUTE_HOME}>
+              
+                <span className={Styles.BrandTitle}><span style={{color:"#00b89c"}}>K</span>afka Scheduler</span> 
               </a>
             </span>
           </div>
           <div className="navbar-end">
-            <span className="navbar-item">
-              <Link
-                className="button is-white is-outlined"
-                to={ROUTE_LIVE_SCHEDULES}
-              >
-                <span className="icon">
-                  <i className="fa fa-calendar"></i>
-                </span>
-                <span>{t("Menu-schedules-live")}</span>
-              </Link>
-            </span>
-            <span className="navbar-item">
-              <Link
-                className="button is-white is-outlined"
-                to={ROUTE_ALL_SCHEDULES}
-              >
-                <span className="icon">
-                  <i className="fa fa-calendar-alt"></i>
-                </span>
-                <span>{t("Menu-schedules-all")}</span>
-              </Link>
-            </span>
-            <span className="navbar-item">
+            
+            <span className={clsx("navbar-item")}>
               <a
-                className="button is-white is-outlined"
+                className={clsx("button is-white is-outlined", Styles.NavbarLink)}
                 target="_blank"
                 rel="noreferrer"
                 href="https://github.com/etf1/kafka-message-scheduler-admin"
+                style={{color:"gray"}}
               >
                 <span className="icon">
                   <i className="fab fa-github"></i>

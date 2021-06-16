@@ -1,0 +1,20 @@
+.Panel {
+  margin: 20px;
+  text-align: left;
+  min-height: 200px;
+}
+
+.Title {
+  display: flex;
+}
+
+.TitleIcon {
+  margin-right: 10px;
+
+  font-size: 0.7em;
+  height: inherit;
+}
+
+.CollapseIcon {
+  cursor: pointer;
+}

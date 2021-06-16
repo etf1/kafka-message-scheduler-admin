@@ -2,7 +2,8 @@ import React from "react";
 import SearchScheduler from "business/scheduler/component/SearchScheduler";
 import parse from "date-fns/parse";
 import { useTranslation } from "react-i18next";
-import Container from "_common/component/layout/Container";
+import Container from "_common/component/layout/container/Container";
+import Panel from "_common/component/layout/panel/Panel";
 
 export type SchedulesUrlParams = {
   schedulerName?: string;
@@ -20,7 +21,7 @@ const SchedulesLive = () => {
   const epochTo = urlParams.get("epochTo");
 
   return (
-    <Container title={t("Page-title-schedules-live")}>
+    <Panel icon={"calendar"} title={t("Page-title-schedules-live")}>
       <SearchScheduler
         live={true}
         schedulerName={schedulerName}
@@ -35,7 +36,7 @@ const SchedulesLive = () => {
           undefined
         }
       />
-    </Container>
+    </Panel>
   );
 };
 

@@ -1,33 +1,32 @@
 import React, { Suspense } from "react";
-import "./App.css";
+import Styles from "./App.module.css";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import routes from "../router/routes";
 import AppNavbar from "./app-navbar/AppNavbar";
+import AppLeftSidebar from "./app-left-sidebar/AppLeftSidebar";
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        <section className="hero is-info is-fullheight app-hero">
-          <div className="hero-head">
-            <AppNavbar />
-          </div>
-          <div className="hero-body app-hero-body">
-            <Switch>
-              {routes.map((route) => {
-                return (
-                  <Route key={route.key} exact={route.exact} path={route.path}>
-                    <Suspense fallback={<div></div>}>
-                      <route.component />
-                    </Suspense>
-                  </Route>
-                );
-              })}
-            </Switch>
-          </div>
-        </section>
+      <div className={Styles.App}>
+        <Switch>
+          {routes.map((route) => {
+            return (
+              <Route key={route.key} exact={route.exact} path={route.path}>
+                <AppLeftSidebar />
+                <AppNavbar />
+                <div className={Styles.AppContainer}>
+                  {" "}
+                  <Suspense fallback={<div></div>}>
+                    <route.component />
+                  </Suspense>
+                </div>
+              </Route>
+            );
+          })}
+        </Switch>
       </div>
     </Router>
   );

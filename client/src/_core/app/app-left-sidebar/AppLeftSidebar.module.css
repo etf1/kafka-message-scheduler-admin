@@ -1,0 +1,37 @@
+.Container {
+  width: 65px;
+  background-color: white;
+  border-right: 1px solid #ddd;
+  padding: 0 0;
+  height: 100vh;
+  background-color: #374256;
+
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 30;
+  height: 100%;
+  padding-top: 52px;
+}
+
+.MenuItem {
+  background-color: transparent;
+  width: 65px;
+  height: 52px;
+  font-size: 16px !important;
+  cursor: pointer;
+  color: white !important;
+  align-items: center;
+  /* align-content: center; */
+  display: flex;
+  justify-content: center;
+}
+
+
+.MenuItem:hover {
+  background-color: #01d1b2;
+}
+
+.MenuItemSelected {
+  background-color: #00b89c !important;
+}

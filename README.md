@@ -4,7 +4,7 @@ try it:
 
 - cd client
 
-- docker run -p 8080:8080 fkarakas/scheduler-admin:beta
+- docker run -p 8080:9000 fkarakas/kafka-message-scheduler-admin:mini
 
 - docker build -t ui:beta .    
 
@@ -13,4 +13,4 @@ try it:
 - open browser on http://localhost:3000
 
 
-clear backend image : docker rmi -f fkarakas/scheduler-admin:beta
+clear backend image : docker rmi -f fkarakas/kafka-message-scheduler-admin:mini

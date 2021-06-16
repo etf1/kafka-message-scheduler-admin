@@ -79,3 +79,22 @@ export function getValueOrFunctionValue<T>(
     return v;
   }
 }
+
+/**
+ * @name sameKey
+ *
+ * Retourne un prédicat qui permet de savoir si une primitive est égale à une valeur donnée ou bien
+ * si un champ d'un objet est égale à une valeur donnée.
+ *
+ * @param keyField Le nom du champ de l'objet
+ * @param key la valeur de la clé à comparer
+ * @returns Un prédicat qui, pour un objet de type T ou une primitive de type T, permet de savoir s'il est égal ou non à la clé donnée.
+ */
+ export function sameKey<T>(keyField: string, key: string) {
+  return (d: T) =>
+    isPrimitive(d)
+      ? d === key
+      : isDictionary<string>(d)
+      ? d[keyField] === key
+      : false;
+}

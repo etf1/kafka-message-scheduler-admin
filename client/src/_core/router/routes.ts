@@ -4,7 +4,7 @@ import { lazy } from "react";
 
 const Home = lazy(() => import("business/page/Home"));
 const About = lazy(() => import("business/about/About"));
-
+const Schedulers = lazy(() => import("business/page/Schedulers"));
 const SchedulesLive = lazy(() => import("business/page/SchedulesLive"));
 const SchedulesAll = lazy(() => import("business/page/SchedulesAll"));
 const ScheduleDetail = lazy(() => import("business/page/ScheduleDetail"));
@@ -18,6 +18,7 @@ export type RouteConfig = {
 
 export const ROUTE_HOME = "/";
 export const ROUTE_ABOUT = "/about";
+export const ROUTE_SCHEDULERS = "/schedulers";
 export const ROUTE_LIVE_SCHEDULES = "/live";
 export const ROUTE_ALL_SCHEDULES = "/all";
 export const ROUTE_SCHEDULE_DETAIL = "/detail/:schedulerName/:scheduleId";
@@ -38,6 +39,12 @@ const routes: RouteConfig[] = [
     path: ROUTE_ABOUT,
     key: "about",
     component: About,
+    exact: true,
+  },
+  {
+    path: ROUTE_SCHEDULERS,
+    key: "schedulers",
+    component: Schedulers,
     exact: true,
   },
   {

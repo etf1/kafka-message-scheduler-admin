@@ -2,7 +2,7 @@ import SearchScheduler from "business/scheduler/component/SearchScheduler";
 import parse from "date-fns/parse";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import Container from "_common/component/layout/Container";
+import Panel from "_common/component/layout/panel/Panel";
 
 const SchedulesAll = () => {
   const { t } = useTranslation();
@@ -13,7 +13,7 @@ const SchedulesAll = () => {
   const epochTo = urlParams.get("epochTo");
 
   return (
-    <Container title={t("Page-title-schedules-all")}>
+    <Panel icon={"calendar-alt"} title={t("Page-title-schedules-all")}>
       <SearchScheduler
         live={false}
         schedulerName={schedulerName}
@@ -28,7 +28,7 @@ const SchedulesAll = () => {
           undefined
         }
       />
-    </Container>
+    </Panel>
   );
 };
 

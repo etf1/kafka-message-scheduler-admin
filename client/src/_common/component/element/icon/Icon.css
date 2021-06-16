@@ -1,0 +1,16 @@
+.icon.defaultSize > svg.svg-inline--fa {
+  width: 1rem;
+  height: 1rem;
+}
+.icon.headertSize > svg.svg-inline--fa {
+  width: 1rem;
+  height: 1rem;
+}
+.icon.defaultSize > svg.svg-inline--fa.fa-lg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+.icon.defaultSize > svg.svg-inline--fa.fa-3x {
+  width: 1.6rem;
+  height: 1.6rem;
+}

@@ -57,9 +57,9 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, detailUrl, onClick,
       </thead>
 
       <tbody>
-        {data.map((schedule) => {
+        {data.map((schedule, index) => {
           return (
-            <tr key={`${schedule.scheduler}/${schedule.id}`} onClick={() => onClick && onClick(schedule)}>
+            <tr key={`${index} ${schedule.scheduler}/${schedule.id}`} onClick={() => onClick && onClick(schedule)}>
               <td className={clsx(Styles.ColWithId, Styles.ColWithLink)}>
                 <Link
                   to={resolvePath(detailUrl, {

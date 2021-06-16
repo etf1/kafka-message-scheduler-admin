@@ -1,8 +1,65 @@
-.Navbar {
-  padding-left:2rem;
-  padding-right: 2rem;
-  padding-top: 1rem;;
+.Nav {
+  position: fixed !important;
+  width: 100%;
+  top: 0;
+  height: 52px;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+}
+.Corner {
+  width: 55px;
+  display: block;
+  background-color: #00b89c !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 52px;
+  border-bottom: 1px solid #45506466;
+}
+
+.Brand {
+  font-weight: 900;
+  font-family: "Chango", sans-serif;
+  
+ 
+}
+
+.Brand a {
+  display: flex;
+  align-items: center;
+}
+.BrandTitle {
+  font-size: 1.8rem;
+  color: #374256
 }
 .NavbarMenu {
-  background-color: transparent !important;
+  background-color: white;
+}
+.NavbarMenu a {
+  background-color: white !important;
+}
+.NavbarLink {
+  color: #3b3b3b !important;
+  background-color: white !important;
+}
+.NavbarLink:hover {
+  color: #3b3b3b !important;
+  background-color: white !important;
+}
+.NavbarLink:hover::after {
+  border-color: #3b3b3b !important;
+  background-color: white !important;
+}
+.NavbarLink::after {
+  border-color: #3b3b3b !important;
+  background-color: white !important;
+}
+
+.NavbarDropdown {
+  width: 360px;
+  justify-content: flex-end;
 }

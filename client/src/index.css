@@ -4,14 +4,12 @@ html,
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  background-color: #000;
+  
 }
 
-.title,
-.panel-heading {
-  font-family: Chango;
+html {
+  background-color: #f4f6fb;
 }
-
 .custom-input-control.control.has-icons-left span.icon.is-left {
   top: 2px !important;
 
@@ -62,9 +60,15 @@ body {
 .space-top {
   margin-top: 1em !important;
 }
+.more-space-top {
+  margin-top: 2em !important;
+}
 .space-bottom {
   margin-bottom: 1em !important;
 }
 .more-space-bottom {
   margin-bottom: 3em !important;
+}
+span.icon.has-tooltip-right {
+  border-bottom: none;
 }
