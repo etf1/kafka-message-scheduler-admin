@@ -4,6 +4,7 @@ import parse from "date-fns/parse";
 import { useTranslation } from "react-i18next";
 import Container from "_common/component/layout/container/Container";
 import Panel from "_common/component/layout/panel/Panel";
+import endOfDay from "date-fns/endOfDay";
 
 export type SchedulesUrlParams = {
   schedulerName?: string;
@@ -32,7 +33,7 @@ const SchedulesLive = () => {
           undefined
         }
         epochTo={
-          (epochTo && parse(epochTo, t("Calendar-date-format"), new Date())) ||
+          (epochTo && endOfDay(parse(epochTo, t("Calendar-date-format"), new Date()))) ||
           undefined
         }
       />

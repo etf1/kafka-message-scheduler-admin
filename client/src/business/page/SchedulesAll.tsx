@@ -3,6 +3,7 @@ import parse from "date-fns/parse";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Panel from "_common/component/layout/panel/Panel";
+import endOfDay from "date-fns/endOfDay";
 
 const SchedulesAll = () => {
   const { t } = useTranslation();
@@ -24,7 +25,7 @@ const SchedulesAll = () => {
           undefined
         }
         epochTo={
-          (epochTo && parse(epochTo, t("Calendar-date-format"), new Date())) ||
+          (epochTo && endOfDay(parse(epochTo, t("Calendar-date-format"), new Date()))) ||
           undefined
         }
       />

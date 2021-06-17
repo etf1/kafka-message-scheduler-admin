@@ -1,4 +1,5 @@
 import add from "date-fns/add";
+import endOfDay from "date-fns/endOfDay";
 import startOfDay from "date-fns/startOfDay";
 import React, { useCallback, useEffect, useReducer } from "react";
 import { useTranslation } from "react-i18next";
@@ -44,7 +45,7 @@ const searchParamsReducer: SearchParamsReducer = (state: SearchParamsModel, acti
     case "epochFrom-changed":
       return { ...state, epochFrom: action.payload };
     case "epochTo-changed":
-      return { ...state, epochTo: action.payload };
+      return { ...state, epochTo: action.payload && endOfDay(action.payload) };
     case "sort-changed":
       return { ...state, sort: action.payload };
     case "sortOrder-changed":
@@ -81,7 +82,7 @@ const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({
     epochFrom: epochFrom || startOfDay(new Date()),
     epochTo:
       epochTo ||
-      startOfDay(
+      endOfDay(
         add(new Date(), {
           days: 1,
         })
