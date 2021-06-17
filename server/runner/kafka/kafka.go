@@ -89,7 +89,7 @@ func (r *Runner) Start() error {
 			Store: cold,
 		}, simple.DB{
 			Store: live,
-		}, res)))
+		}, resolver)))
 
 		mainRouter.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir(config.StaticFilesDir()))))
 
@@ -112,9 +112,6 @@ func (r *Runner) Start() error {
 	}
 
 	<-r.stopChan
-
-	srv.Stop()
-	log.Printf("kafka runner closed")
 
 	return nil
 }

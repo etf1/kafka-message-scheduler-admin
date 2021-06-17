@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/etf1/kafka-message-scheduler/config"
+	"github.com/etf1/kafka-message-scheduler-admin/server/config"
 	log "github.com/sirupsen/logrus"
 )
 
