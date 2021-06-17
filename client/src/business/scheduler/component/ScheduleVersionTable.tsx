@@ -1,13 +1,13 @@
 import { useTranslation } from "react-i18next";
-import { ScheduleInfo } from "../type";
+import { Schedule } from "../type";
 import fromUnixTime from "date-fns/fromUnixTime";
 import format from "date-fns/format";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import Styles from "./ScheduleTable.module.css";
+import React, {  } from "react";
+import Styles from "./ScheduleVersionTable.module.css";
 import clsx from "clsx";
-import { resolvePath } from "_core/router/routes";
-import { SortOrder, SortType } from "../service/SchedulerService";
+import { truncate } from "_common/service/FunUtil";
+import Icon from "_common/component/element/icon/Icon";
+import ModalService from "_common/component/modal/ModalService";
 
 const formatUnixTime = (time: number, fmt: string) => {
   if (time) {
@@ -17,42 +17,38 @@ const formatUnixTime = (time: number, fmt: string) => {
   return "";
 };
 
-export type ScheduleTableProps = {
-  data: ScheduleInfo[];
-  onClick?: (schedule: ScheduleInfo) => void;
-  onSort: (column: SortType, sortOrder: SortOrder) => void;
-  detailUrl: string;
+const getScheduleValue = (value: string) => {
+  try {
+    return atob(value);
+  } catch (err) {
+    console.error(err);
+  }
+  return value;
+};
+export type ScheduleVersionTableProps = {
+  data: Schedule[];
+  onClick?: (schedule: Schedule) => void;
   showAsTable?: boolean;
 };
 
-const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, detailUrl, onClick, onSort, showAsTable }) => {
+const ScheduleVersionTable: React.FC<ScheduleVersionTableProps> = ({ data, onClick, showAsTable }) => {
   const { t } = useTranslation();
-  const [sort, setSort] = useState<{ type: SortType; order: SortOrder } | undefined>();
 
-  const handleSort = (column: SortType) => {
-    if (sort && column === sort.type) {
-      setSort({type:sort.type, order: sort.order==="asc"? "desc":"asc"});
-    } else {
-      setSort({type:column, order: "asc"});
-    }
-  };
 
-  useEffect(()=>{
+  const showValueDetail = (schedule:Schedule) => {
+    ModalService.message({title:t("Schedule-field-target-value"), message:getScheduleValue(schedule.value)})
+  }
 
-    sort && onSort(sort.type, sort.order);
-
-  }, [sort, onSort]);
 
   return showAsTable || showAsTable === undefined ? (
     <table key="table" className="table is-striped is-hoverable is-fullwidth">
       <thead>
         <tr>
-          <th style={{cursor:"pointer"}} onClick={() => handleSort("id")}>{t("ScheduleTable-column-ID")}</th>
-          <th>{t("ScheduleTable-column-Scheduler")}</th>
-          <th style={{cursor:"pointer"}} onClick={() => handleSort("timestamp")}>{t("ScheduleTable-column-CreationDate")}</th>
-          <th style={{cursor:"pointer"}} onClick={() => handleSort("epoch")}>{t("ScheduleTable-column-TiggerDate")}</th>
-          <th>{t("ScheduleTable-column-TargetTopic")}</th>
-          <th>{t("ScheduleTable-column-TargetId")}</th>
+          <th>{t("ScheduleVersionTable-column-CreationDate")}</th>
+          <th>{t("ScheduleVersionTable-column-TiggerDate")}</th>
+          <th>{t("ScheduleVersionTable-column-TargetTopic")}</th>
+          <th>{t("ScheduleVersionTable-column-TargetId")}</th>
+          <th>{t("ScheduleVersionTable-column-Value")}</th>
         </tr>
       </thead>
 
@@ -60,21 +56,11 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, detailUrl, onClick,
         {data.map((schedule, index) => {
           return (
             <tr key={`${index} ${schedule.scheduler}/${schedule.id}`} onClick={() => onClick && onClick(schedule)}>
-              <td className={clsx(Styles.ColWithId, Styles.ColWithLink)}>
-                <Link
-                  to={resolvePath(detailUrl, {
-                    schedulerName: schedule.scheduler,
-                    scheduleId: schedule.id,
-                  })}
-                >
-                  {schedule.id}
-                </Link>
-              </td>
-              <td className={Styles.colWithId}>{schedule.scheduler}</td>
               <td>{formatUnixTime(schedule.timestamp, t("Calendar-date-hour-format"))}</td>
               <td>{formatUnixTime(schedule.epoch, t("Calendar-date-hour-format"))}</td>
               <td className={Styles.colWithId}>{schedule.targetTopic}</td>
               <td className={Styles.colWithId}>{schedule.targetId}</td>
+              <td  onClick={()=>showValueDetail(schedule)} className={clsx(Styles.colWithId, Styles.ColWithLink)}>{truncate(getScheduleValue(schedule.value), 80)} <Icon name='eye' /></td>
             </tr>
           );
         })}
@@ -92,14 +78,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, detailUrl, onClick,
           >
             <div className="space-right">
               <strong className="space-right">{t("Schedule-field-id")}</strong>
-              <Link
-                to={resolvePath(detailUrl, {
-                  schedulerName: schedule.scheduler,
-                  scheduleId: schedule.id,
-                })}
-              >
-                <span className={clsx(Styles.ValueField, Styles.ColWithLink)}>{schedule.id}</span>
-              </Link>
+              <span className={clsx(Styles.ValueField, Styles.ColWithLink)}>{schedule.id}</span>
             </div>
             <div className="space-right">
               <strong className="space-right">{t("Schedule-field-scheduler")}</strong>
@@ -124,6 +103,10 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, detailUrl, onClick,
               <strong className="space-right">{t("Schedule-field-target-id")}</strong>
               <span className={Styles.ValueField}>{schedule.targetId}</span>
             </div>
+            <div className="space-right">
+              <strong className="space-right">{t("Schedule-field-target-value")}</strong>
+              <span className={Styles.ValueField}>{truncate(getScheduleValue(schedule.value), 80)}</span>
+            </div>
           </fieldset>
         );
       })}
@@ -131,4 +114,4 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, detailUrl, onClick,
   );
 };
 
-export default ScheduleTable;
+export default ScheduleVersionTable;

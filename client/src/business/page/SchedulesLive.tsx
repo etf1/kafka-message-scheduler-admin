@@ -1,8 +1,6 @@
-import React from "react";
 import SearchScheduler from "business/scheduler/component/SearchScheduler";
 import parse from "date-fns/parse";
 import { useTranslation } from "react-i18next";
-import Container from "_common/component/layout/container/Container";
 import Panel from "_common/component/layout/panel/Panel";
 import endOfDay from "date-fns/endOfDay";
 

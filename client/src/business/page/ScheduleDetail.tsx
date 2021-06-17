@@ -1,8 +1,9 @@
 import ScheduleForm from "business/scheduler/component/ScheduleForm";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, useParams } from "react-router-dom";
-import Container from "_common/component/layout/container/Container";
+import Breadcrumb from "_common/component/breadcrumb/Breadcrumb";
+import Panel from "_common/component/layout/panel/Panel";
+import { resolvePath, ROUTE_ALL_SCHEDULES, ROUTE_SCHEDULE_ALL_DETAIL } from "_core/router/routes";
 
 type ScheduleDetailUrlParams = { schedulerName: string; scheduleId: string };
 
@@ -16,8 +17,23 @@ const ScheduleDetail = () => {
   const { schedulerName, scheduleId } = useParams<ScheduleDetailUrlParams>();
 
   return (
-    <Container
-      size={8}
+    <>
+      <Breadcrumb
+        data={
+          [
+            { url: ROUTE_ALL_SCHEDULES,  label: t("Menu-schedules-all") },
+            {
+              url: resolvePath(ROUTE_SCHEDULE_ALL_DETAIL, {
+                schedulerName: schedulerName,
+                scheduleId:scheduleId
+              }),
+              label: scheduleId,
+            },
+          ]
+        }
+      />
+    <Panel
+      icon={"calendar-alt"}
       title={t("Page-title-schedule-detail", { id: scheduleId })}
     >
       <ScheduleForm
@@ -25,7 +41,8 @@ const ScheduleDetail = () => {
         scheduleId={scheduleId}
         onClose={handleClose}
       />
-    </Container>
+    </Panel>
+    </>
   );
 };
 

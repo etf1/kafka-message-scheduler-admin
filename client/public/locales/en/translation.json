@@ -49,6 +49,16 @@
   "Schedule-field-target-topic": "Target Topic",
   "Schedule-field-target-id": "Target ID",
   "Schedule-field-value": "Value",
+  "Schedule-field-main": "Main",
+  "Schedule-field-target-value":"Value",
+
+
+  "ScheduleVersionTable-column-CreationDate":"Creation Date",
+  "ScheduleVersionTable-column-TiggerDate": "Trigger Date",
+  "ScheduleVersionTable-column-TargetTopic": "Target Topic",
+  "ScheduleVersionTable-column-TargetId":"Target ID",
+  "ScheduleVersionTable-column-Value": "Value",
+
   "Close-button": "Close",
   "Scheduler-search-summary": "Search criteria"
 }

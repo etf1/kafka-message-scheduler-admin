@@ -1,8 +1,9 @@
 import ScheduleForm from "business/scheduler/component/ScheduleForm";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, useParams } from "react-router-dom";
-import Container from "_common/component/layout/container/Container";
+import Breadcrumb from "_common/component/breadcrumb/Breadcrumb";
+import Panel from "_common/component/layout/panel/Panel";
+import { resolvePath, ROUTE_LIVE_SCHEDULES, ROUTE_SCHEDULE_LIVE_DETAIL } from "_core/router/routes";
 
 type ScheduleDetailLiveUrlParams = { schedulerName: string; scheduleId: string };
 
@@ -16,17 +17,26 @@ const ScheduleDetailLive = () => {
   const { schedulerName, scheduleId } = useParams<ScheduleDetailLiveUrlParams>();
 
   return (
-    <Container
-      size={8}
-      title={t("Page-title-schedule-detail", { id: scheduleId })}
-    >
-      <ScheduleForm
-        schedulerName={schedulerName}
-        scheduleId={scheduleId}
-        onClose={handleClose}
-        live={true}
+    <>
+       <Breadcrumb
+        data={
+          [
+            { url: ROUTE_LIVE_SCHEDULES,  label: t("Menu-schedules-live") },
+            {
+              url: resolvePath(ROUTE_SCHEDULE_LIVE_DETAIL, {
+                schedulerName: schedulerName,
+                scheduleId:scheduleId
+              }),
+              label: scheduleId,
+            },
+          ]
+        }
       />
-    </Container>
+
+      <Panel icon={"calendar"} title={t("Page-title-schedule-detail", { id: scheduleId })}>
+        <ScheduleForm schedulerName={schedulerName} scheduleId={scheduleId} onClose={handleClose} live={true} />
+      </Panel>
+    </>
   );
 };
 

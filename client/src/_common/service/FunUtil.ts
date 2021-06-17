@@ -12,7 +12,15 @@ export function replaceAll(
   return str.replace(new RegExp(escapeRegExp(toFind), "g"), toReplace);
 }
 
-export const later = async (duration: number) =>
+export function truncate(str:string, length:number, ending:string = "...") {
+  if (str.length > length) {
+    return str.substring(0, length - ending.length) + ending;
+  } else {
+    return str;
+  }
+}
+
+export const later = async (duration: number = 10) =>
   new Promise((resolve) => setTimeout(resolve, duration));
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function slsx(...args: any[]): Record<string, unknown> {

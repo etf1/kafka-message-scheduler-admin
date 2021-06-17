@@ -14,3 +14,13 @@ try it:
 
 
 clear backend image : docker rmi -f fkarakas/kafka-message-scheduler-admin:mini
+
+
+
+TODO : 
+- Afficher icone de tri
+- afficher total
+- ajouter breadcrumb partout
+- refaire complètement écran de détail d’un schedule (avec les versions)
+- ajouter des blocs d'info général dans la home
+- garder en mémoire la dernière saisie (au moins lors d’un back depuis le breadcrumb)

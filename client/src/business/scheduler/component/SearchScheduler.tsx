@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { TFunction, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import format from "date-fns/format";
 import { searchLiveSchedules, SearchParams, searchSchedules, SortOrder, SortType } from "../service/SchedulerService";
 import { ScheduleInfo } from "../type";
@@ -112,13 +112,13 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
     [history, t]
   );
 
-  const handleSort = (type: SortType, order: SortOrder) => {
+  const handleSort = useCallback((type: SortType, order: SortOrder) => {
     if (searchModel && (searchModel.sort !== type || searchModel.sortOrder !== order)) {
       searchModel.sort = type;
       searchModel.sortOrder = order;
       setSearchModel({ ...searchModel });
     }
-  };
+  },[searchModel]);
   return (
     <React.Fragment key="SearchScheduler">
   

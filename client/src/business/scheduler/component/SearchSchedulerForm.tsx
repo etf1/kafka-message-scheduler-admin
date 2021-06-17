@@ -105,9 +105,6 @@ const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({
     onChange(model);
   }, [model, onChange]);
 
-  const renderOption = (option: Scheduler) => {
-    return <span key={option.name}>{option.name}</span>;
-  };
   const handleSearchInputChanged = useCallback((value) => {
     dispatch({ type: "scheduleId-changed", payload: value || "" });
   }, []);
