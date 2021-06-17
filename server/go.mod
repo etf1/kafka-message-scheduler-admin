@@ -6,6 +6,7 @@ require (
 	github.com/blevesearch/bleve/v2 v2.0.3
 	github.com/blevesearch/bleve_index_api v1.0.0
 	github.com/confluentinc/confluent-kafka-go v1.5.2
+	github.com/drhodes/golorem v0.0.0-20160418191928-ecccc744c2d9 // indirect
 	github.com/etf1/kafka-message-scheduler v0.0.4-0.20210615142246-56c1d6186d8f // indirect
 	github.com/gorilla/mux v1.8.0
 	github.com/influxdata/influxdb v1.8.5 // indirect

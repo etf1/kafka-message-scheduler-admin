@@ -30,9 +30,9 @@ func getLiveSchedule(schedulerName, id string, timeout time.Duration) (resp *htt
 }
 
 func get(path string, timeout time.Duration) (*http.Response, error) {
-	addr := os.Getenv("API_SERVER_ADDR")
+	addr := os.Getenv("SERVER_ADDR")
 	if addr == "" {
-		addr = config.APIServerAddr()
+		addr = config.ServerAddr()
 	}
 
 	if strings.HasPrefix(addr, ":") {

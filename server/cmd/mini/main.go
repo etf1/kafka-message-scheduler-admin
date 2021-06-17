@@ -1,7 +1,6 @@
 package main
 
 import (
-	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
@@ -15,19 +14,16 @@ import (
 )
 
 var (
-	version        = "mini"
-	enable_metrics = false
+	version               = "mini"
+	enable_tevjef_metrics = false
 )
 
 func main() {
-	if enable_metrics {
+	if enable_tevjef_metrics {
 		metrics.DefaultConfig.CollectionInterval = time.Second
 		if err := metrics.RunCollector(metrics.DefaultConfig); err != nil {
 			log.Errorf("metrics error: %v", err)
 		}
-		go func() {
-			log.Println(http.ListenAndServe("localhost:6060", nil))
-		}()
 	}
 
 	sigchan := make(chan os.Signal, 1)
@@ -51,7 +47,7 @@ loop:
 		case <-sigchan:
 			kafkaRunner.Close()
 		case <-exitchan:
-			log.Printf("scheduler exited")
+			log.Printf("runner exited")
 			break loop
 		}
 	}

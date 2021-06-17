@@ -72,37 +72,11 @@ func (d DB) watch() {
 		switch evt.EventType {
 		case store.UpsertType:
 			log.Printf("received upsert watch event from store: %+v", evt)
-			// if false {
-			// 	go func() {
-			// 		if strings.Contains(evt.Schedule.Schedule.ID(), "14bdcd84-e0b0-4e64-644c-dc145cc22344") {
-			// 			log.Warnf(">>>>> add %+v", evt)
-			// 		}
-			// 		err := d.Add(evt.SchedulerName, evt.Schedule.Schedule)
-			// 		if err != nil {
-			// 			log.Errorf("cannot add schedule %+v to store: %v", evt, err)
-			// 			// break
-			// 		}
-			// 	}()
-			// } else {
 			d.updtr.upsertData(evt.Schedule.Schedule.ID(), evt.Schedule)
-			// }
 			d.idx.upsertDocument(evt.ID(), toDocument(evt.Schedule))
 		case store.DeletedType:
 			log.Printf("received delete watch event from store: %+v", evt)
-			// if false {
-			// 	go func() {
-			// 		if strings.Contains(evt.Schedule.Schedule.ID(), "14bdcd84-e0b0-4e64-644c-dc145cc22344") {
-			// 			log.Warnf(">>>>> delete %+v", evt)
-			// 		}
-			// 		err := d.Delete(evt.SchedulerName, evt.Schedule.Schedule)
-			// 		if err != nil {
-			// 			log.Errorf("cannot delete schedule %+v to store: %v", evt, err)
-			// 			// break
-			// 		}
-			// 	}()
-			// } else {
 			d.updtr.deleteData(evt.Schedule.Schedule.ID(), evt.Schedule)
-			// }
 			d.idx.deleteDocument(evt.ID(), toDocument(evt.Schedule))
 		}
 	}
@@ -207,30 +181,25 @@ func (d DB) Search(q db.SearchQuery) (int, chan schedule.Schedule, error) {
 				log.Errorf("unexpected empty result for %v", hit.ID)
 				continue
 			}
-			//log.Printf("search result: %v", schs[0])
 			result <- schs[0]
 		}
 	}()
 
-	if false {
-		uint64, err := d.idx.DocCount()
-		if err != nil {
-			return 0, nil, err
-		}
+	// uint64, err := d.idx.DocCount()
+	// if err != nil {
+	// 	return 0, nil, err
+	// }
 
-		total := int(uint64)
+	// total := int(uint64)
 
-		fmt.Printf("@@@ total=%v", total)
-	}
+	// fmt.Printf("@@@ total=%v", total)
 
-	if false {
-		doc, err := d.idx.Document("schedule-2")
-		if err != nil {
-			fmt.Printf("%v", err)
-		}
+	// doc, err := d.idx.Document("schedule-2")
+	// if err != nil {
+	// 	fmt.Printf("%v", err)
+	// }
 
-		fmt.Printf("@@@ %+v", describeDocument(doc))
-	}
+	// fmt.Printf("@@@ %+v", describeDocument(doc))
 
 	return int(hitsCount), result, nil
 }

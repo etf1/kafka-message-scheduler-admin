@@ -1,7 +1,6 @@
 package main
 
 import (
-	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
@@ -16,22 +15,20 @@ import (
 )
 
 var (
-	version        = "undefined"
-	enable_metrics = true
+	app                   = "kafka-message-scheduler-admin"
+	version               = "undefined"
+	enable_tevjef_metrics = false
 )
 
 func main() {
-	initLog()
-
-	if enable_metrics {
+	if enable_tevjef_metrics {
 		metrics.DefaultConfig.CollectionInterval = time.Second
 		if err := metrics.RunCollector(metrics.DefaultConfig); err != nil {
 			log.Errorf("metrics error: %v", err)
 		}
-		go func() {
-			log.Println(http.ListenAndServe("localhost:6060", nil))
-		}()
 	}
+	defer initPprof()
+	initLog()
 
 	sigchan := make(chan os.Signal, 1)
 	signal.Notify(sigchan, syscall.SIGINT, syscall.SIGTERM)
@@ -54,7 +51,7 @@ loop:
 		case <-sigchan:
 			kafkaRunner.Close()
 		case <-exitchan:
-			log.Printf("scheduler exited")
+			log.Printf("runner exited")
 			break loop
 		}
 	}

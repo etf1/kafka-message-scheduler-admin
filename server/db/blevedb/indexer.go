@@ -137,14 +137,13 @@ loop:
 			counter++
 			if counter%batch_size == 0 {
 				indexBatch()
-				//batch = i.NewBatch()
-				log.Warnf("indexed %v documents", counter)
+				log.Debugf("indexed %v documents", counter)
 			}
 		case <-timeout.C:
 			log.Printf("input channel timeout")
 			if batch.Size() != 0 {
 				indexBatch()
-				log.Warnf("indexed %v documents", counter)
+				log.Debugf("indexed %v documents", counter)
 			}
 		}
 	}

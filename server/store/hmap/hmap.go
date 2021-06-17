@@ -68,8 +68,7 @@ func (h *Hmap) Add(schedulerName string, ss ...schedule.Schedule) error {
 func (h Hmap) Get(schedulerName string, scheduleID string) ([]store.Schedule, error) {
 	h.mutex.RLock()
 	defer h.mutex.RUnlock()
-	// TODO: return slice of store.Schedule, missing scheduler name here
-	//return h.data[SchedulerName(schedulerName)][ScheduleID(scheduleID)], nil
+
 	lst := h.data[SchedulerName(schedulerName)][ScheduleID(scheduleID)]
 	result := make([]store.Schedule, 0)
 	for _, sch := range lst {
@@ -109,25 +108,12 @@ func (h Hmap) List(schedulerName string) (chan store.Schedule, error) {
 		defer h.mutex.RUnlock()
 		defer close(result)
 
-		schedulersName := make([]string, 0)
-
-		if schedulerName != "" {
-			schedulersName = append(schedulersName, schedulerName)
-		} else {
-			for name := range h.data {
-				schedulersName = append(schedulersName, string(name))
-			}
-		}
-
-		for _, name := range schedulersName {
-			for _, schedules := range h.data[SchedulerName(name)] {
-				if len(schedules) > 0 {
-					for _, sch := range schedules {
-						result <- store.Schedule{
-							SchedulerName: name,
-							Schedule:      sch,
-						}
-					}
+		for _, schedules := range h.data[SchedulerName(schedulerName)] {
+			if len(schedules) > 0 {
+				result <- store.Schedule{
+					SchedulerName: schedulerName,
+					// in list we want to return only the "latest" version of the schedule
+					Schedule: schedules[len(schedules)-1],
 				}
 			}
 		}

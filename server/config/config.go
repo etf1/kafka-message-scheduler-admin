@@ -4,10 +4,31 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/etf1/kafka-message-scheduler-admin/server/helper"
 	log "github.com/sirupsen/logrus"
 )
+
+func getDuration(name string, defaultValue time.Duration) time.Duration {
+	value, set := os.LookupEnv(name)
+	if set {
+		d, err := time.ParseDuration(value)
+		if err != nil {
+			return defaultValue
+		}
+		return d
+	}
+	return defaultValue
+}
+
+func getBool(name string, defaultValue bool) bool {
+	value, set := os.LookupEnv(name)
+	if set {
+		return value == "yes"
+	}
+	return defaultValue
+}
 
 func getString(name, defaultValue string) string {
 	value, set := os.LookupEnv(name)
@@ -53,8 +74,8 @@ func MetricsHTTPAddr() string {
 	return getString("METRICS_HTTP_ADDR", ":9001")
 }
 
-func APIServerAddr() string {
-	return getString("API_SERVER_ADDR", ":9000")
+func ServerAddr() string {
+	return getString("SERVER_ADDR", ":9000")
 }
 
 func GroupID() string {
@@ -69,10 +90,23 @@ func SchedulersAddr() []string {
 	return getStrings("SCHEDULERS_ADDR", []string{"localhost:8000"})
 }
 
+func StaticFilesDir() string {
+	dir := getString("STATIC_FILES_DIR", "../client/build")
+	return dir
+}
+
+func APIServerOnly() bool {
+	return getBool("API_SERVER_ONLY", false)
+}
+
 func DataRootDir() string {
 	dir := getString("DATA_ROOT_DIR", "./.db")
 	if !strings.HasSuffix(dir, "/") {
 		return dir + "/"
 	}
 	return dir
+}
+
+func ShutdownTimeout() time.Duration {
+	return getDuration("SHUTDOWN_TIMEOUT", 5*time.Second)
 }

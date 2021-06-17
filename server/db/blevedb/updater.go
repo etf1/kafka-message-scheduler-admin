@@ -37,7 +37,6 @@ loop:
 			}
 			log.Errorf("received error from batch: %v", err)
 		case evt, ok := <-u.input:
-			//log.Warnf("updater: received event from input channel")
 			if !ok {
 				log.Printf("input channel closed")
 				break loop
@@ -48,13 +47,13 @@ loop:
 			}
 			switch evt.eventType {
 			case upsertType:
-				log.Printf("batch index: %+v", sch)
+				log.Debugf("batch index: %+v", sch)
 				batchChan <- store.Event{
 					EventType: store.UpsertType,
 					Schedule:  sch,
 				}
 			case deleteType:
-				log.Printf("batch delete: %v", sch)
+				log.Debugf("batch delete: %v", sch)
 				batchChan <- store.Event{
 					EventType: store.DeletedType,
 					Schedule:  sch,

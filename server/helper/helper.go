@@ -2,6 +2,7 @@ package helper
 
 import (
 	"bytes"
+	"context"
 	"crypto/rand"
 	"encoding/json"
 	"fmt"
@@ -14,7 +15,27 @@ import (
 	"time"
 
 	log "github.com/sirupsen/logrus"
+
+	lorem "github.com/drhodes/golorem"
 )
+
+func ShutdownHttpServer(srv *http.Server, defaultShutdownTimeout time.Duration) error {
+	defer log.Printf("http server shut down")
+	log.Printf("shutting down http server")
+
+	ctx, cancel := context.WithTimeout(context.Background(), defaultShutdownTimeout)
+	defer cancel()
+
+	if err := srv.Shutdown(ctx); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func Lipsum() string {
+	return lorem.Paragraph(50, 100)
+}
 
 func SplitTrim(s string) []string {
 	arr := strings.Split(s, ",")
@@ -59,7 +80,7 @@ func GenRandNum() int64 {
 
 func Get(host, url string, timeout time.Duration) (*http.Response, error) {
 	full := "http://" + host + url
-	log.Warnf("calling get url: %v", full)
+	log.Debugf("calling get url: %v", full)
 
 	req, err := http.NewRequest(http.MethodGet, full, nil)
 

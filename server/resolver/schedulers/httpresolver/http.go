@@ -143,10 +143,10 @@ type kafka struct {
 	HistoryTopic     string   `json:"history_topic"`
 }
 type info struct {
-	Host             string   `json:"hostname"`
-	Address          []net.IP `json:"address"`
-	APIServerAddress string   `json:"api_server_address"`
-	kafka            `json:"kafka"`
+	Host          string   `json:"hostname"`
+	Address       []net.IP `json:"address"`
+	ServerAddress string   `json:"server_address"`
+	kafka         `json:"kafka"`
 }
 
 func getKafkaInfo(host string) (info, error) {

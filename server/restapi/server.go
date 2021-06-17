@@ -1,14 +1,15 @@
 package restapi
 
 import (
-	"context"
 	"net/http"
 	"time"
 
 	"github.com/rs/cors"
 	log "github.com/sirupsen/logrus"
 
+	"github.com/etf1/kafka-message-scheduler-admin/server/config"
 	"github.com/etf1/kafka-message-scheduler-admin/server/db"
+	"github.com/etf1/kafka-message-scheduler-admin/server/helper"
 	"github.com/etf1/kafka-message-scheduler-admin/server/resolver/schedulers"
 )
 
@@ -25,13 +26,19 @@ type Server struct {
 func NewServer(coldDB db.DB, liveDB db.DB, resv schedulers.Resolver) Server {
 	srv := Server{
 		Server: &http.Server{
-			Handler: cors.AllowAll().Handler(initRouter(coldDB, liveDB, resv)),
+			Handler:      cors.AllowAll().Handler(initRouter(coldDB, liveDB, resv)),
+			WriteTimeout: 15 * time.Second,
+			ReadTimeout:  15 * time.Second,
 		},
 		coldBD: coldDB,
 		liveDB: liveDB,
 	}
 
 	return srv
+}
+
+func NewRouter(coldDB db.DB, liveDB db.DB, resv schedulers.Resolver) http.Handler {
+	return cors.AllowAll().Handler(initRouter(coldDB, liveDB, resv))
 }
 
 func (s *Server) Router() http.Handler {
@@ -50,15 +57,5 @@ func (s *Server) Start(addr string) {
 }
 
 func (s *Server) Stop() error {
-	defer log.Printf("rest api server shut down")
-	log.Printf("shutting down rest api server")
-
-	ctx, cancel := context.WithTimeout(context.Background(), defaultShutdownTimeout)
-	defer cancel()
-
-	if err := s.Shutdown(ctx); err != nil {
-		return err
-	}
-
-	return nil
+	return helper.ShutdownHttpServer(s.Server, config.ShutdownTimeout())
 }

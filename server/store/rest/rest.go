@@ -85,7 +85,7 @@ func (h HTTPRetriever) getSchedules(schedulerName string, filter func(s schedule
 		return nil, err
 	}
 
-	log.Warnf("schedulers=%+v", schedulers)
+	log.Debugf("schedulers=%+v", schedulers)
 
 	result := []store.Schedule{}
 
@@ -96,11 +96,11 @@ func (h HTTPRetriever) getSchedules(schedulerName string, filter func(s schedule
 			continue
 		}
 
-		log.Warnf("sch.HostName=%v schedulerName=%v", sch.HostName, schedulerName)
+		log.Debugf("sch.HostName=%v schedulerName=%v", sch.HostName, schedulerName)
 
 		if sch.HostName == schedulerName {
 			for _, instance := range sch.Instances {
-				log.Warnf("instance=%v", instance.Name())
+				log.Debugf("instance=%v", instance.Name())
 				resp, err := helper.Get(instance.Name()+":"+sch.HTTPPort, "/schedules", DEFAULT_TIMEOUT)
 				if err != nil {
 					return nil, err
@@ -122,7 +122,7 @@ func (h HTTPRetriever) getSchedules(schedulerName string, filter func(s schedule
 					return nil, err
 				}
 
-				log.Warnf("schedules=%v", res)
+				log.Debugf("schedules=%v", res)
 
 				for _, s := range res {
 					if filter(s) {

@@ -13,16 +13,9 @@ import (
 )
 
 var (
-	ErrUnknowBucket = fmt.Errorf("unknown bucket")
-	batch_size      = 1000
+	batch_size = 1000
 )
 
-/*
-type indexEpochItem struct {
-	ScheduleId string
-	Epoch      int64
-}
-*/
 type DB struct {
 	bbolt_db *bolt.DB
 	// indexEpoch []indexEpochItem
@@ -98,20 +91,8 @@ func NewStore(path string) (DB, error) {
 		return DB{}, err
 	}
 	db.MaxBatchSize = batch_size
-	/*
-		indexEpoch := make([]indexEpochItem, 0)
-		now := time.Now()
-		for i := 0; i < 1000000; i++ {
-			t := now.Add(time.Duration(i) * time.Second)
-			indexEpoch = insertIndexEpoch(indexEpoch, indexEpochItem{
-				ScheduleId: fmt.Sprintf("schedule-%d", i),
-				Epoch:      t.Unix(),
-			})
-		}
-	*/
 	return DB{
 		bbolt_db: db,
-		//indexEpoch: indexEpoch,
 	}, nil
 }
 
@@ -121,7 +102,6 @@ func (d DB) Get(schedulerName string, scheduleID string) ([]store.Schedule, erro
 	err := d.bbolt_db.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(schedulerName))
 		if b == nil {
-			// return fmt.Errorf("%w: %v", ErrUnknowBucket, schedulerName)
 			return nil
 		}
 		v := b.Get([]byte(scheduleID))
@@ -147,48 +127,8 @@ func (d DB) Get(schedulerName string, scheduleID string) ([]store.Schedule, erro
 		return nil, err
 	}
 
-	/*
-		result := make([]schedule.Schedule, len(schedules))
-		for i := 0; i < len(schedules); i++ {
-			//fmt.Printf(">>> %v\n", schedules[i])
-			result[i] = schedules[i]
-		}
-
-		return result, err
-	*/
-
 	return schedules, nil
 }
-
-/*
-func (d DB) List(schedulerName string) (chan schedule.Schedule, error) {
-	result := make(chan schedule.Schedule, 1000)
-
-	go func() {
-		defer close(result)
-
-		d.View(func(tx *bolt.Tx) error {
-			b := tx.Bucket([]byte(schedulerName))
-			if b == nil {
-				return fmt.Errorf("unknown bucket: %v", schedulerName)
-			}
-
-			for i := len(d.indexEpoch) - 1; i >= 0; i-- {
-				schs, err := d.Get(schedulerName, d.indexEpoch[i].ScheduleId)
-				if err != nil {
-					return err
-				}
-				if len(schs) > 0 {
-					result <- schs[0]
-				}
-			}
-			return nil
-		})
-	}()
-
-	return result, nil
-}
-*/
 
 func (d DB) List(schedulerName string) (chan store.Schedule, error) {
 	result := make(chan store.Schedule, 1000)
@@ -199,7 +139,6 @@ func (d DB) List(schedulerName string) (chan store.Schedule, error) {
 		d.bbolt_db.View(func(tx *bolt.Tx) error {
 			b := tx.Bucket([]byte(schedulerName))
 			if b == nil {
-				// return fmt.Errorf("%w: %v", ErrUnknowBucket, schedulerName)
 				return nil
 			}
 			b.ForEach(func(k, v []byte) error {
@@ -224,16 +163,6 @@ func (d DB) List(schedulerName string) (chan store.Schedule, error) {
 	return result, nil
 }
 
-/*
-func insertIndexEpoch(data []indexEpochItem, el indexEpochItem) []indexEpochItem {
-	index := sort.Search(len(data), func(i int) bool { return data[i].Epoch > el.Epoch })
-	data = append(data, indexEpochItem{})
-	copy(data[index+1:], data[index:])
-	data[index] = el
-	return data
-}
-*/
-
 func (d DB) Add(schedulerName string, ss ...schedule.Schedule) error {
 	return d.bbolt_db.Batch(func(tx *bolt.Tx) error {
 		b, err := tx.CreateBucketIfNotExists([]byte(schedulerName))
@@ -248,7 +177,7 @@ func (d DB) Add(schedulerName string, ss ...schedule.Schedule) error {
 					log.Errorf("cannot marshall schedule %v: %v", s, err)
 					continue
 				}
-				log.Printf("bbolt store put (1) %s size %v", s.ID(), len(buf))
+				log.Debugf("bbolt store put (1) %s size %v", s.ID(), len(buf))
 				err = b.Put([]byte(s.ID()), buf)
 				if err != nil {
 					log.Errorf("cannot put schedule %v: %v", s, err)
@@ -261,7 +190,7 @@ func (d DB) Add(schedulerName string, ss ...schedule.Schedule) error {
 				log.Errorf("cannot get bytes for %v: %v", string(v), err)
 				continue
 			}
-			log.Printf("bbolt store put (2) %s size %v", s.ID(), len(buf))
+			log.Debugf("bbolt store put (2) %s size %v", s.ID(), len(buf))
 			err = b.Put([]byte(s.ID()), buf)
 			if err != nil {
 				log.Errorf("cannot put schedule %v: %v", s, err)
@@ -293,87 +222,6 @@ func (d DB) Delete(schedulerName string, ss ...schedule.Schedule) error {
 		return nil
 	})
 }
-
-/*
-func (d DB) removeFromBucket(bucketName string, sch schedule.Schedule) error {
-	return d.bbolt_db.Batch(func(tx *bolt.Tx) error {
-		b := tx.Bucket([]byte(bucketName))
-		if b == nil {
-			return nil
-		}
-		err := b.Delete([]byte(sch.ID()))
-		if err != nil {
-			log.Errorf("cannot delete schedule %v in bucket %v: %v", sch, b, err)
-		}
-
-		return nil
-	})
-}
-
-func (d DB) addToBucket(bucketName string, sch schedule.Schedule) error {
-	return d.bbolt_db.Batch(func(tx *bolt.Tx) error {
-		b, err := tx.CreateBucketIfNotExists([]byte(bucketName))
-		if err != nil {
-			return fmt.Errorf("cannot create bucket %s: %s", bucketName, err)
-		}
-		v := b.Get([]byte(sch.ID()))
-		if v == nil {
-			buf, err := json.Marshal([]schedule.Schedule{sch})
-			if err != nil {
-				return fmt.Errorf("cannot marshall schedule %v: %v", sch, err)
-			}
-			log.Printf("bbolt store put (1) %s size %v", sch.ID(), len(buf))
-			err = b.Put([]byte(sch.ID()), buf)
-			if err != nil {
-				return fmt.Errorf("cannot put schedule %v: %v", sch, err)
-			}
-			return nil
-		}
-
-		buf, err := addToSlice(sch, v)
-		if err != nil {
-			return fmt.Errorf("cannot get bytes for %v: %v", string(v), err)
-		}
-		log.Printf("bbolt store put (2) %s size %v", sch.ID(), len(buf))
-		err = b.Put([]byte(sch.ID()), buf)
-		if err != nil {
-			return fmt.Errorf("cannot put schedule %v: %v", sch, err)
-		}
-
-		return nil
-	})
-}
-
-func (d DB) Batch(event chan store.Event) chan error {
-	result := make(chan error, batch_size)
-
-	go func() {
-		defer log.Warnf("batcher exited ...")
-		defer close(result)
-		counter := 0
-		for evt := range event {
-			//log.Warnf("batcher received event: %v", evt)
-
-			var err error
-			switch evt.EventType {
-			case store.DeletedType:
-				err = d.removeFromBucket(evt.SchedulerName, evt.Schedule.Schedule)
-			case store.UpsertType:
-				err = d.addToBucket(evt.SchedulerName, evt.Schedule.Schedule)
-			}
-			if err != nil {
-				result <- err
-			}
-			counter++
-			if counter%batch_size == 0 {
-				log.Warnf("batch processed %v documents", counter)
-			}
-		}
-	}()
-
-	return result
-}
-*/
 
 func (d DB) removeFromBucket(tx *bolt.Tx, bucketName string, sch schedule.Schedule) error {
 	b := tx.Bucket([]byte(bucketName))
@@ -445,7 +293,7 @@ func (d DB) Batch(events chan store.Event) chan error {
 	}
 
 	go func() {
-		defer log.Warnf("batcher exited ...")
+		defer log.Printf("batcher exited ...")
 		defer close(errChan)
 
 		counter := 0
@@ -467,13 +315,13 @@ func (d DB) Batch(events chan store.Event) chan error {
 				counter++
 				if counter%batch_size == 0 {
 					processBatch()
-					log.Warnf("batch indexed %v documents", counter)
+					log.Debugf("batch indexed %v documents", counter)
 				}
 			case <-timeout.C:
-				log.Warnf("input channel timeout")
+				log.Tracef("input channel timeout")
 				if len(batch) != 0 {
 					processBatch()
-					log.Warnf("batch indexed %v documents", counter)
+					log.Debugf("batch indexed %v documents", counter)
 				}
 			}
 
