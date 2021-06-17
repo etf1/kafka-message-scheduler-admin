@@ -48,7 +48,7 @@ const AppNavbar = () => {
             <span className={clsx("navbar-item", Styles.Brand)}>
               <a className={clsx("button is-white",Styles.NavbarLink)} href={ROUTE_HOME}>
               
-                <span className={Styles.BrandTitle}><span style={{color:"#00b89c"}}>K</span>afka Scheduler</span> 
+                <span className={Styles.BrandTitle}><span style={{color:"#00b89c"}}>S</span>cheduler Admin</span> 
               </a>
             </span>
           </div>

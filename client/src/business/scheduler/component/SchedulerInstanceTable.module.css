@@ -1,0 +1,9 @@
+.ColWithId {
+  text-align: left;
+  max-width: 210;
+  word-break: break-all;
+}
+
+.ValueField {
+  word-break: break-all;
+}

@@ -1,0 +1,13 @@
+.ColWithId {
+  text-align: left;
+  max-width: 210;
+  word-break: break-all;
+}
+.ColWithLink {
+  color: rgb(67, 67, 145) !important;
+  cursor: pointer;
+}
+
+.ValueField {
+  word-break: break-all;
+}

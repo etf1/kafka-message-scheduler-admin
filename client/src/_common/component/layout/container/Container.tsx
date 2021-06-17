@@ -17,7 +17,7 @@ const Container: React.FC<ContainerProps> = ({
     offset = "is-offset-1";
   }
   return (
-    <div className="container has-text-centered">
+    <div className="container">
       <div
         className={clsx(
           "column",
@@ -26,7 +26,7 @@ const Container: React.FC<ContainerProps> = ({
           Styles.Column
         )}
       >
-        <h1 className="title">{title}</h1>
+        <h3 className="title is-5">{title}</h3>
         {children}
       </div>
     </div>

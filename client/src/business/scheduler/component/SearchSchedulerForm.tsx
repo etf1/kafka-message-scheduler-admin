@@ -116,7 +116,7 @@ const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({
       <div className=" columns is-mobile is-multiline">
         <div className="column is-3">
           <div className={"field fieldWithNoLabel"}>
-            <label className="label">{t("Planificateur")}</label>
+            <label className="label">{t("Scheduler")}</label>
             <div className={"control"}>
               <Select
                 value={model.scheduler}

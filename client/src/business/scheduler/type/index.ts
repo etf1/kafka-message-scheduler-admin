@@ -1,14 +1,14 @@
 export type Scheduler = {
   name: string;
   instances: SchedulerInstance[];
+  http_port: string;
 };
 
 export type SchedulerInstance = {
-  id: string;
-  names: string[];
+  bootstrap_servers: string;
+  hostname: string[];
+  ip: string;
   topics: string[];
-  partitions: number[];
-  bootstrapServers: string[];
 };
 
 export type Header = { name: string; value: string };

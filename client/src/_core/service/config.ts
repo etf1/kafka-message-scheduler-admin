@@ -9,7 +9,7 @@ let liveScheduleDetailUrl = "";
 
 async function init() {
   const response = await get("/configuration.json");
-  apiRoot = response["api-root"];
+  apiRoot = response["api-root"] || "http://localhost:8080";
   schedulersUrl = response["schedulers"];
   schedulesUrl = response["schedules"];
   scheduleDetailUrl = response["schedule-detail"];
