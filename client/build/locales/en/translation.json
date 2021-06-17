@@ -1,4 +1,5 @@
 {
+  "App-title": "Scheduler Admin",
   "Page-title-About": "About",
   "Page-title-schedulers": "Schedulers",
   "Page-title-scheduler-detail": "Scheduler",
@@ -29,6 +30,7 @@
   "SchedulerTable-column-Name":"Name",
   "SchedulerTable-column-Port":"Port",
   "SchedulerTable-column-Nb-Instances":"Nb. Instances",
+  "Scheduler-field-main":"Main",
   "Scheduler-field-name":"Name",
   "Scheduler-field-port":"Port",
   "Scheduler-field-instances":"Instances",

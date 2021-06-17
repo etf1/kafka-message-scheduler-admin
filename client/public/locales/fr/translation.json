@@ -1,4 +1,5 @@
 {
+  "App-title": "Scheduler Admin",
   "Page-title-About": "A propos",
   "Page-title-schedulers": "Les ordonnanceurs",
   "Page-title-scheduler-detail": "Ordonnanceur",
@@ -29,6 +30,7 @@
   "SchedulerInstanceTable-column-Hostname":"Hostname",
   "SchedulerInstanceTable-column-BootstrapServers":"Bootstrap servers",
   "SchedulerInstanceTable-column-Topics":"Topics",
+  "Scheduler-field-main":"Général",
   "Scheduler-field-name":"Nom",
   "Scheduler-field-port":"Port",
   "Scheduler-field-instances":"Instances",
