@@ -18,14 +18,7 @@ const AppLeftSidebar = () => {
         </div>
       </Link>
 
-      <Link data-key="menu-item" to="/schedulers">
-        <div className={clsx(Style.MenuItem, pathname === "/schedulers" ? Style.MenuItemSelected : null)}>
-          <span className="icon has-tooltip-right" data-tooltip={t("Menu-schedulers")}>
-            <i className="fa fa-stopwatch fas fa-lg"></i>
-          </span>
-        </div>
-      </Link>
- 
+    
       <Link data-key="menu-item" to="/live">
         <div className={clsx(Style.MenuItem, pathname === "/live" ? Style.MenuItemSelected : null)}>
           <span className="icon has-tooltip-right" data-tooltip={t("Menu-schedules-live")}>
@@ -41,6 +34,15 @@ const AppLeftSidebar = () => {
           </span>
         </div>
       </Link>
+
+      <Link data-key="menu-item" to="/schedulers">
+        <div className={clsx(Style.MenuItem, pathname === "/schedulers" ? Style.MenuItemSelected : null)}>
+          <span className="icon has-tooltip-right" data-tooltip={t("Menu-schedulers")}>
+            <i className="fa fa-stopwatch fas fa-lg"></i>
+          </span>
+        </div>
+      </Link>
+ 
     </div>
   );
 };
