@@ -32,3 +32,4 @@ TODO :
 - text du nb : 150 plannifications affichées, 316 plannifications au total.
 - augmenter la taille de la fenetre Valeur en largeur
 - virer la colonne ordonnanceur
+- ajouter taille du champ valeur dans la colonne du tableau
