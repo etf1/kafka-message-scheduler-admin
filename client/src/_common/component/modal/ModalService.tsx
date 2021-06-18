@@ -1,7 +1,7 @@
 import { TFunction } from "i18next";
 import React from "react";
 
-const DEFAULT_MODAL_WIDTH = 800;
+const DEFAULT_MODAL_WIDTH = "80%";
 
 export interface ModalConfig {
   width: number | string;

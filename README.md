@@ -30,3 +30,5 @@ TODO :
 - vider les champs date dans les planif actives
 - faire un bouton refresh (surtout utile pour les planif actives)
 - text du nb : 150 plannifications affichées, 316 plannifications au total.
+- augmenter la taille de la fenetre Valeur en largeur
+- virer la colonne ordonnanceur
