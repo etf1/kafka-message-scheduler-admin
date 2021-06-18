@@ -37,7 +37,7 @@
   "Scheduler-field-instances": "Instances",
   "ScheduleTable-column-ID": "ID",
   "ScheduleTable-column-Scheduler": "Ordonnanceur",
-  "ScheduleTable-column-TiggerDate": "Déclenchement",
+  "ScheduleTable-column-TiggerDate": "Déclenchement le",
   "ScheduleTable-column-CreationDate": "Créé le",
   "ScheduleTable-column-TargetTopic": "Topic Cible",
   "ScheduleTable-column-TargetId": "ID Cible",
