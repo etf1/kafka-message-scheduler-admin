@@ -79,14 +79,14 @@ const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({
       (schedulers && schedulers.find((s) => s.name === schedulerName)) || undefined
     ),
     scheduleId: scheduleId || "",
-    epochFrom: epochFrom || startOfDay(new Date()),
+    epochFrom: epochFrom, //|| startOfDay(new Date()),
     epochTo:
-      epochTo ||
+      epochTo,/* ||
       endOfDay(
         add(new Date(), {
           days: 1,
         })
-      ),
+      ),*/
   });
 
   useEffect(() => {

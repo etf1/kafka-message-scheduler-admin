@@ -11,6 +11,9 @@ import { useHistory } from "react-router";
 import { pluralizeIf } from "_core/i18n";
 import Container from "_common/component/layout/container/Container";
 import { load, save } from "_common/service/SessionStorageService";
+import startOfDay from "date-fns/startOfDay";
+import endOfDay from "date-fns/endOfDay";
+import add from "date-fns/add";
 
 const makeParams = (model: SearchParamsModel | undefined): SearchParams | undefined => {
   if (model && model.scheduler?.name) {
@@ -38,14 +41,14 @@ export type SearchSchedulerProps = {
 const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, scheduleId, epochFrom, epochTo }) => {
   const { t } = useTranslation();
   const history = useHistory();
-  const [searchModel, setSearchModel] = useState<SearchParamsModel | undefined>()//;load<SearchParamsModel>("SearchParamsModel"+live?"live":"all", undefined));
+  const [searchModel, setSearchModel] = useState<SearchParamsModel | undefined>(); //;load<SearchParamsModel>("SearchParamsModel"+live?"live":"all", undefined));
   const [result, setResult] = useState<ScheduleInfo[]>([]);
   const smallScreen = useMedia(["(max-width: 1250px)", "(min-width: 1250px)"], [true, false], true);
 
   useEffect(() => {
     const searchMethod = live ? searchLiveSchedules : searchSchedules;
-  //  save("SearchParamsModel"+live?"live":"all", searchModel);
-  //  console.log(searchModel);
+    //  save("SearchParamsModel"+live?"live":"all", searchModel);
+    //  console.log(searchModel);
     const searchParams: SearchParams | undefined = makeParams(searchModel);
     if (searchParams) {
       searchMethod(searchParams).then((result) => {
@@ -94,8 +97,8 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
               onChange={handleSearchChange}
               schedulerName={schedulerName}
               scheduleId={scheduleId}
-              epochFrom={epochFrom}
-              epochTo={epochTo}
+              epochFrom={epochFrom || (live ? undefined:startOfDay(new Date()))}
+              epochTo={epochTo || (live ? undefined: endOfDay(new Date()))}
             />
           </div>
           <Container
