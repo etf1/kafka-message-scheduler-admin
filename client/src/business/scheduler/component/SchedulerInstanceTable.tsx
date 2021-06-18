@@ -20,8 +20,8 @@ const SchedulerInstanceTable:React.FC<SchedulerInstanceTableProps> = ({scheduler
         <table key="table" className="table is-striped is-hoverable is-fullwidth">
         <thead>
           <tr>
-            <th style={{cursor:"pointer"}}>{t("SchedulerInstanceTable-column-Ip")}</th>
-            <th style={{cursor:"pointer"}}>{t("SchedulerInstanceTable-column-Hostname")}</th>
+            <th style={{cursor:"pointer", minWidth:150}}>{t("SchedulerInstanceTable-column-Ip")}</th>
+            <th style={{cursor:"pointer", minWidth:150}}>{t("SchedulerInstanceTable-column-Hostname")}</th>
             <th style={{cursor:"pointer"}}>{t("SchedulerInstanceTable-column-BootstrapServers")}</th>
             <th style={{cursor:"pointer"}}>{t("SchedulerInstanceTable-column-Topics")}</th>
      

@@ -10,6 +10,7 @@ import SearchSchedulerForm, { SearchParamsModel } from "./SearchSchedulerForm";
 import { useHistory } from "react-router";
 import { pluralizeIf } from "_core/i18n";
 import Container from "_common/component/layout/container/Container";
+import { load, save } from "_common/service/SessionStorageService";
 
 const makeParams = (model: SearchParamsModel | undefined): SearchParams | undefined => {
   if (model && model.scheduler?.name) {
@@ -20,7 +21,7 @@ const makeParams = (model: SearchParamsModel | undefined): SearchParams | undefi
       sort: model.sort,
       sortOrder: model.sortOrder,
       schedulerName: model.scheduler.name,
-      max: model.max || 150,
+      max: model.max || 300,
     };
   } else {
     return undefined;
@@ -37,12 +38,14 @@ export type SearchSchedulerProps = {
 const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, scheduleId, epochFrom, epochTo }) => {
   const { t } = useTranslation();
   const history = useHistory();
-  const [searchModel, setSearchModel] = useState<SearchParamsModel>();
+  const [searchModel, setSearchModel] = useState<SearchParamsModel | undefined>()//;load<SearchParamsModel>("SearchParamsModel"+live?"live":"all", undefined));
   const [result, setResult] = useState<ScheduleInfo[]>([]);
   const smallScreen = useMedia(["(max-width: 1250px)", "(min-width: 1250px)"], [true, false], true);
 
   useEffect(() => {
     const searchMethod = live ? searchLiveSchedules : searchSchedules;
+  //  save("SearchParamsModel"+live?"live":"all", searchModel);
+  //  console.log(searchModel);
     const searchParams: SearchParams | undefined = makeParams(searchModel);
     if (searchParams) {
       searchMethod(searchParams).then((result) => {

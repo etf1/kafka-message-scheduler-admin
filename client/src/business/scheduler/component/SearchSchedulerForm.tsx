@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import DatePicker from "_common/component/calendar/DatePicker";
 import SearchInput from "_common/component/element/search-input/SearchInput";
 import Select from "_common/component/element/select/Select";
-import { load, save } from "_common/service/StorageService";
+import { load, save } from "_common/service/LocalStorageService";
 import { getDateLocale } from "_core/i18n";
 import useSchedulers from "../hook/useSchedulers";
 import { SortOrder, SortType } from "../service/SchedulerService";

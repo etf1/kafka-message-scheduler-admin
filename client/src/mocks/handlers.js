@@ -69,7 +69,7 @@ export const handlers = [
     const scheduleId = req.url.searchParams.get("schedule-id");
     const max = scheduleId
       ? 8 - scheduleId.length
-      : req.url.searchParams.get("max") || 150;
+      : req.url.searchParams.get("max") || 300;
     /*const sort = req.url.searchParams.get("sort");
     const epochFrom = req.url.searchParams.get("epoch-from");
     const epochTo = req.url.searchParams.get("epoch-to");*/
@@ -103,7 +103,7 @@ export const handlers = [
     const scheduleId = req.url.searchParams.get("schedule-id");
     const max = scheduleId
       ? 8 - scheduleId.length
-      : req.url.searchParams.get("max") || 150;
+      : req.url.searchParams.get("max") || 300;
     //const sort = req.url.searchParams.get("sort");
     //const epochFrom = req.url.searchParams.get("epoch-from");
     //const epochTo = req.url.searchParams.get("epoch-to");

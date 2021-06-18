@@ -22,13 +22,13 @@ export type SearchParams = {
 };
 
 export const makeSearchArgs = (p: SearchParams): string => {
-  let res = `?scheduler-name=${p.schedulerName}`;
+  let res = '?';//`?scheduler-name=${p.schedulerName}`;
   if (p.scheduleId) {
     res += `&schedule-id=${p.scheduleId}`;
   }
-  if (p.max) {
+ /* if (p.max) {
     res += `&max=${p.max}`;
-  }
+  }*/
   if (p.sort) {
     res += `&sort-by=${p.sort} ${p.sortOrder || "asc"}`;
   }
