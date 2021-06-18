@@ -61,7 +61,6 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, detailUrl, onClick,
       <thead>
         <tr>
           <th style={{cursor:"pointer"}} onClick={() => handleSort("id")}>{t("ScheduleTable-column-ID")} {renderSortIcon("id", sort)}</th>
-          <th>{t("ScheduleTable-column-Scheduler")}</th>
           <th style={{cursor:"pointer"}} onClick={() => handleSort("timestamp")}>{t("ScheduleTable-column-CreationDate")} {renderSortIcon("timestamp", sort)}</th>
           <th style={{cursor:"pointer"}} onClick={() => handleSort("epoch")}>{t("ScheduleTable-column-TiggerDate")} {renderSortIcon("epoch", sort)}</th>
           <th>{t("ScheduleTable-column-TargetTopic")}</th>
@@ -83,7 +82,6 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, detailUrl, onClick,
                   {schedule.id}
                 </Link>
               </td>
-              <td className={Style.colWithId}>{schedule.scheduler}</td>
               <td>{formatUnixTime(schedule.timestamp, t("Calendar-date-hour-format"))}</td>
               <td>{formatUnixTime(schedule.epoch, t("Calendar-date-hour-format"))}</td>
               <td className={Style.colWithId}>{schedule.targetTopic}</td>
@@ -114,10 +112,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, detailUrl, onClick,
                 <span className={clsx(Style.ValueField, Style.ColWithLink)}>{schedule.id}</span>
               </Link>
             </div>
-            <div className="space-right">
-              <strong className="space-right">{t("Schedule-field-scheduler")}</strong>
-              <span className={Style.ValueField}>{schedule.scheduler}</span>
-            </div>
+          
             <div className="space-right">
               <strong className="space-right">{t("Schedule-field-creation-date")}</strong>
               <span className={clsx("space-right", Style.ValueField)}>

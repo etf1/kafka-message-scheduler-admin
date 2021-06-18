@@ -45,7 +45,7 @@
   "Schedule-field-scheduler": "Ordonnanceur",
   "Schedule-field-creation-date": "Date de création",
   "Schedule-field-trigger-date": "Date de déclenchement",
-  "Schedule-field-source-topic": "topic Source",
+  "Schedule-field-source-topic": "Topic Source",
   "Schedule-field-target-topic": "Topic Cible",
   "Schedule-field-target-id": "ID Cible",
   "Schedule-field-value": "Valeur",
