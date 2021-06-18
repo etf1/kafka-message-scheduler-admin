@@ -53,6 +53,7 @@
   "Schedule-field-target-value":"Valeur",
   "Schedule-Search-result":"planification",
   "Schedule-Search-results":"planifications",
+  "Schedule-Search-limited-result-label":"affichage limité à",
   "ScheduleVersionTable-column-CreationDate": "Créé le",
   "ScheduleVersionTable-column-TiggerDate": "Déclenchement",
   "ScheduleVersionTable-column-TargetTopic":  "Topic Cible",
@@ -64,5 +65,6 @@
   "Nb-line": "ligne",
   "Nb-lines": "lignes",
   "Result": "Résultat",
-  "Chars": "Caractères"
+  "Chars": "Caractères",
+  "Refresh": "Rafraîchir"
 }

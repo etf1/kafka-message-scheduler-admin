@@ -4,6 +4,7 @@ import startOfDay from "date-fns/startOfDay";
 import React, { useCallback, useEffect, useReducer } from "react";
 import { useTranslation } from "react-i18next";
 import DatePicker from "_common/component/calendar/DatePicker";
+import Icon from "_common/component/element/icon/Icon";
 import SearchInput from "_common/component/element/search-input/SearchInput";
 import Select from "_common/component/element/select/Select";
 import { load, save } from "_common/service/LocalStorageService";
@@ -63,6 +64,7 @@ type SearchSchedulerFormType = {
   scheduleId?: string;
   epochFrom?: Date;
   epochTo?: Date;
+  onRefresh: () => void;
 };
 const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({
   onChange,
@@ -70,6 +72,7 @@ const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({
   scheduleId,
   epochFrom,
   epochTo,
+  onRefresh,
 }) => {
   const { t } = useTranslation();
   const { schedulers } = useSchedulers();
@@ -80,13 +83,12 @@ const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({
     ),
     scheduleId: scheduleId || "",
     epochFrom: epochFrom, //|| startOfDay(new Date()),
-    epochTo:
-      epochTo,/* ||
+    epochTo: epochTo /* ||
       endOfDay(
         add(new Date(), {
           days: 1,
         })
-      ),*/
+      ),*/,
   });
 
   useEffect(() => {
@@ -156,6 +158,12 @@ const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({
             dateFormat={t("Calendar-date-format")}
             todayLabel={t("Calendar-btn-label-Today")}
           />
+        </div>
+        <div className="column">
+          <label className="label">&nbsp;</label>
+          <button onClick={onRefresh} className="button is-primary">
+            <Icon name="sync-alt" marginRight={10} /> {t("Refresh")}
+          </button>
         </div>
       </div>
     </div>

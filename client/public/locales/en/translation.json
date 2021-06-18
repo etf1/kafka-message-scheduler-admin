@@ -54,7 +54,8 @@
   "Schedule-field-target-value":"Value",
   "Schedule-Search-result":"schedule",
   "Schedule-Search-results":"schedules",
-
+  "Schedule-Search-limited-result-label":"display limited to",
+  
   "ScheduleVersionTable-column-CreationDate":"Creation Date",
   "ScheduleVersionTable-column-TiggerDate": "Trigger Date",
   "ScheduleVersionTable-column-TargetTopic": "Target Topic",
@@ -66,6 +67,7 @@
   "Nb-line": "line",
   "Nb-lines": "lines",
   "Result": "Result",
-  "Chars": "Chars"
+  "Chars": "Chars",
+  "Refresh": "Refresh"
 
 }

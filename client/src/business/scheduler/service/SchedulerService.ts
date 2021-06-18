@@ -73,17 +73,17 @@ export const makeScheduleModel = ({ schedule }: any, schedulerName: string): Sch
     topic: schedule.topic,
   };
 };
-export const searchLiveSchedules = async (p: SearchParams): Promise<ScheduleInfo[]> => {
+export const searchLiveSchedules = async (p: SearchParams): Promise<{found: number; schedules:ScheduleInfo[]}> => {
   const result: { found: number; schedules: any[] } = await get(
     getLiveSchedulesUrl(p.schedulerName) + makeSearchArgs(p)
   );
 
-  const res = makeScheduleInfoModel(result.schedules);
+  const res = {found: result.found, schedules:makeScheduleInfoModel(result.schedules)};
   return res;
 };
-export const searchSchedules = async (p: SearchParams): Promise<ScheduleInfo[]> => {
+export const searchSchedules = async (p: SearchParams): Promise<{found: number; schedules:ScheduleInfo[]}> => {
   const result: { found: number; schedules: any[] } = await get(getSchedulesUrl(p.schedulerName) + makeSearchArgs(p));
-  return makeScheduleInfoModel(result.schedules);
+  return {found: result.found, schedules:makeScheduleInfoModel(result.schedules)};
 };
 export const getScheduleDetail = async (schedulerName: string, id: string): Promise<Schedule[]> => {
   const result: Schedule[] = await get(getScheduleDetailUrl(schedulerName, id));
