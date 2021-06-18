@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { ChangeEventHandler, useEffect, useState } from "react";
 import useSeachText from "_common/hook/useSearchText";
-import Styles from "./SearchInput.module.css";
+import Style from "./SearchInput.module.css";
 
 export type SearchInputProps = Omit<
   React.DetailedHTMLProps<
@@ -41,7 +41,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
 
   return (
     <input
-      className={clsx("input", Styles.Input)}
+      className={clsx("input", Style.Input)}
       onChange={handleChange}
       value={searchString}
       {...others}

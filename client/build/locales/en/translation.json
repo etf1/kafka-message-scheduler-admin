@@ -33,6 +33,7 @@
   "Scheduler-field-main":"Main",
   "Scheduler-field-name":"Name",
   "Scheduler-field-port":"Port",
+  "Scheduler-field-instance":"Instance",
   "Scheduler-field-instances":"Instances",
 
   "ScheduleTable-column-ID": "ID",
@@ -51,7 +52,8 @@
   "Schedule-field-value": "Value",
   "Schedule-field-main": "Main",
   "Schedule-field-target-value":"Value",
-
+  "Schedule-Search-result":"schedule",
+  "Schedule-Search-results":"schedules",
 
   "ScheduleVersionTable-column-CreationDate":"Creation Date",
   "ScheduleVersionTable-column-TiggerDate": "Trigger Date",
@@ -60,5 +62,8 @@
   "ScheduleVersionTable-column-Value": "Value",
 
   "Close-button": "Close",
-  "Scheduler-search-summary": "Search criteria"
+  "Scheduler-search-summary": "Search criteria",
+  "Nb-line": "line",
+  "Nb-lines": "lines",
+  "Result": "Result"
 }

@@ -8,6 +8,8 @@ import { ROUTE_SCHEDULE_LIVE_DETAIL, ROUTE_SCHEDULE_ALL_DETAIL } from "_core/rou
 import useMedia from "_common/hook/useMedia";
 import SearchSchedulerForm, { SearchParamsModel } from "./SearchSchedulerForm";
 import { useHistory } from "react-router";
+import { pluralizeIf } from "_core/i18n";
+import Container from "_common/component/layout/container/Container";
 
 const makeParams = (model: SearchParamsModel | undefined): SearchParams | undefined => {
   if (model && model.scheduler?.name) {
@@ -24,48 +26,6 @@ const makeParams = (model: SearchParamsModel | undefined): SearchParams | undefi
     return undefined;
   }
 };
-/*
-const buildSearchModelLabel = (model: SearchParamsModel | undefined, t: TFunction<string>): React.ReactNode => {
-  const result: React.ReactNode[] = [];
-  const addSeparator = () => {
-    if (result.length > 0) {
-      result.push(
-        <span key={result.length} className="space-right">
-          ,
-        </span>
-      );
-    }
-  };
-  const addLabel = (key: string, label: string, value: string) => {
-    result.push(
-      <span key={key} style={{ fontStyle: "italic" }}>
-        <label style={{ fontStyle: "normal", fontWeight: 600 }}>{label}</label>: "{value}"
-      </span>
-    );
-  };
-  if (model) {
-    if (model.scheduler) {
-      addLabel("scheduler", t("Scheduler"), model.scheduler.name);
-    }
-    if (model.scheduleId) {
-      addSeparator();
-      addLabel("schedule-id", t("Scheduler-search-field-schedule-id"), model.scheduleId);
-    }
-    if (model.epochFrom) {
-      addSeparator();
-      addLabel("start-at", t("Scheduler-search-field-start-at"), format(model.epochFrom, t("Calendar-date-format")));
-    }
-    if (model.epochTo) {
-      addSeparator();
-      addLabel("end-at", t("Scheduler-search-field-end-at"), format(model.epochTo, t("Calendar-date-format")));
-    }
-
-    result.unshift(t("Scheduler-search-summary") + ": ");
-  }
-
-  return result;
-};
-*/
 export type SearchSchedulerProps = {
   live: boolean;
   schedulerName?: string;
@@ -112,16 +72,18 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
     [history, t]
   );
 
-  const handleSort = useCallback((type: SortType, order: SortOrder) => {
-    if (searchModel && (searchModel.sort !== type || searchModel.sortOrder !== order)) {
-      searchModel.sort = type;
-      searchModel.sortOrder = order;
-      setSearchModel({ ...searchModel });
-    }
-  },[searchModel]);
+  const handleSort = useCallback(
+    (type: SortType, order: SortOrder) => {
+      if (searchModel && (searchModel.sort !== type || searchModel.sortOrder !== order)) {
+        searchModel.sort = type;
+        searchModel.sortOrder = order;
+        setSearchModel({ ...searchModel });
+      }
+    },
+    [searchModel]
+  );
   return (
     <React.Fragment key="SearchScheduler">
-  
       <div className="app-box">
         <div className="container">
           <div className="more-space-top more-space-bottom">
@@ -133,7 +95,15 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
               epochTo={epochTo}
             />
           </div>
-          <div className="container">
+          <Container
+            title={
+              (result.length > 0 &&
+                result.length +
+                  " " +
+                  pluralizeIf(result.length, t("Schedule-Search-result"), t("Schedule-Search-results"))) ||
+              ""
+            }
+          >
             {(!result || result.length === 0) && <strong>Pas de résultat...</strong>}
             {result && result.length > 0 && (
               <ScheduleTable
@@ -144,7 +114,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
                 detailUrl={live ? ROUTE_SCHEDULE_LIVE_DETAIL : ROUTE_SCHEDULE_ALL_DETAIL}
               />
             )}
-          </div>
+          </Container>
         </div>
       </div>
     </React.Fragment>

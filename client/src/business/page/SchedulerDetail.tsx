@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import Breadcrumb from "_common/component/breadcrumb/Breadcrumb";
 import Container from "_common/component/layout/container/Container";
 import Panel from "_common/component/layout/panel/Panel";
+import { pluralizeIf } from "_core/i18n";
 import { resolvePath, ROUTE_SCHEDULER_DETAIL } from "_core/router/routes";
 
 const SchedulerDetail = () => {
@@ -60,7 +61,7 @@ const SchedulerDetail = () => {
             )}
           </div>
         </Container>
-        <Container title={t("Scheduler-field-instances")}>
+        <Container title={instances.length+" "+pluralizeIf(instances.length, t("Scheduler-field-instance"), t("Scheduler-field-instances")) || ""}>
           <div className="box" style={{ padding: "3rem" }}>
             <SchedulerInstanceTable schedulerInstances={instances} />
           </div>

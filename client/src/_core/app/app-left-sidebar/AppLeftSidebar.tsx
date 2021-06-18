@@ -1,56 +1,44 @@
 import clsx from "clsx";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import Icon from "_common/component/element/icon/Icon";
+import { routesWithMenu } from "_core/router/routes";
 import Style from "./AppLeftSidebar.module.css";
+
+const bestStartPath = (paths: string[], path: string) => {
+  const pathname = window.location.pathname;
+  let len = 0;
+  if (pathname.startsWith(path)) {
+    len = path.length;
+  } else {
+    return false;
+  }
+  return !paths.find((p) => pathname.startsWith(p) && p.length > len);
+};
 
 const AppLeftSidebar = () => {
   const { t } = useTranslation();
-  const pathname = window.location.pathname;
+
+  const allPaths = routesWithMenu.map(({ path }) => path);
 
   return (
     <div className={clsx("menu", Style.Container)}>
-      <Link data-key="menu-item" to="/home">
-        <div className={clsx(Style.MenuItem, pathname === "/" ? Style.MenuItemSelected : null)}>
-          <span className="icon has-tooltip-right" data-tooltip={t("Menu-home")}>
-            <i className="fa fa-home fas fa-lg"></i>
-          </span>
-        </div>
-      </Link>
-
-    
-      <Link data-key="menu-item" to="/live">
-        <div className={clsx(Style.MenuItem, pathname === "/live" ? Style.MenuItemSelected : null)}>
-          <span className="icon has-tooltip-right" data-tooltip={t("Menu-schedules-live")}>
-            <i className="fa fa-calendar fas fa-lg"></i>
-          </span>
-        </div>
-      </Link>
-
-      <Link data-key="menu-item" to="/all">
-        <div className={clsx(Style.MenuItem, pathname === "/all" ? Style.MenuItemSelected : null)}>
-          <span className="icon has-tooltip-right" data-tooltip={t("Menu-schedules-all")}>
-            <i className="fa fa-calendar-alt fas fa-lg"></i>
-          </span>
-        </div>
-      </Link>
-
-      <Link data-key="menu-item" to="/schedulers">
-        <div className={clsx(Style.MenuItem, pathname === "/schedulers" ? Style.MenuItemSelected : null)}>
-          <span className="icon has-tooltip-right" data-tooltip={t("Menu-schedulers")}>
-            <i className="fa fa-stopwatch fas fa-lg"></i>
-          </span>
-        </div>
-      </Link>
- 
+      {routesWithMenu.map(({ path, key, menu }) => {
+        return (
+          <Link key={key} data-key="menu-item" to={path}>
+            <div className={clsx(Style.MenuItem, bestStartPath(allPaths, path) ? Style.MenuItemSelected : null)}>
+              <Icon
+                name={menu?.icon || ""}
+                size="lg"
+                className={clsx("has-tooltip-right", Style.Icon)}
+                data-tooltip={t(menu?.label || "")}
+              />
+            </div>
+          </Link>
+        );
+      })}
     </div>
   );
 };
 
 export default AppLeftSidebar;
-/*
-"Menu-home": "Accueil",
-  "Menu-bout": "A propos",
-  "Menu-schedules-all": "Toutes les planifications",
-  "Menu-schedules-live": "Planifications actives",
-*/

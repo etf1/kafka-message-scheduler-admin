@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import { SchedulerInstance } from "../type";
-import Styles from "./SchedulerInstanceTable.module.css";
+import Style from "./SchedulerInstanceTable.module.css";
 
 export type SchedulerInstanceTableProps = {
     schedulerInstances : SchedulerInstance[];
@@ -32,7 +32,7 @@ const SchedulerInstanceTable:React.FC<SchedulerInstanceTableProps> = ({scheduler
           {schedulerInstances.map((inst) => {
             return (
               <tr key={`${inst.ip}`} onClick={() => onClick && onClick(inst)}>
-                <td className={clsx(Styles.ColWithId, Styles.ColWithLink)}>
+                <td className={clsx(Style.ColWithId, Style.ColWithLink)}>
                 {inst.ip}
                 </td>
                 <td> 

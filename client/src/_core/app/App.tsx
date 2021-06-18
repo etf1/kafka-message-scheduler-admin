@@ -1,5 +1,5 @@
-import React, { Suspense } from "react";
-import Styles from "./App.module.css";
+import { Suspense } from "react";
+import Style from "./App.module.css";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -12,14 +12,13 @@ function App() {
   return (
     <>
       <Router>
-        <div className={Styles.App}>
-          <Switch>
+      <Switch>
             {routes.map((route) => {
               return (
                 <Route key={route.key} exact={route.exact} path={route.path}>
                   <AppLeftSidebar />
                   <AppNavbar />
-                  <div className={Styles.AppContainer}>
+                  <div className={Style.AppContainer}>
                     {" "}
                     <Suspense fallback={<div></div>}>
                       <route.component />
@@ -29,9 +28,7 @@ function App() {
               );
             })}
           </Switch>
-        </div>
       </Router>
-
       <ModalProvider />
     </>
   );

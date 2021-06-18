@@ -1,7 +1,6 @@
 import { Dictionary } from "./../../_common/type/utils";
 import { replaceAll } from "_common/service/FunUtil";
 import { lazy } from "react";
-
 const Home = lazy(() => import("business/page/Home"));
 const About = lazy(() => import("business/about/About"));
 const Schedulers = lazy(() => import("business/page/Schedulers"));
@@ -15,11 +14,12 @@ export type RouteConfig = {
   key: string;
   component: React.LazyExoticComponent<() => JSX.Element>;
   exact: boolean;
+  menu?: { label: string; icon: string, position:number };
 };
 
 export const ROUTE_HOME = "/";
 export const ROUTE_ABOUT = "/about";
-export const ROUTE_SCHEDULERS = "/schedulers";
+export const ROUTE_SCHEDULERS = "/scheduler";
 export const ROUTE_LIVE_SCHEDULES = "/live";
 
 export const ROUTE_ALL_SCHEDULES = "/all";
@@ -49,6 +49,12 @@ const routes: RouteConfig[] = [
     key: "schedulers",
     component: Schedulers,
     exact: true,
+    menu: {
+      label: "Menu-schedulers",
+      icon: "stopwatch",
+      position: 4
+
+    },
   },
   {
     path: ROUTE_SCHEDULER_DETAIL,
@@ -61,12 +67,24 @@ const routes: RouteConfig[] = [
     key: "live",
     component: SchedulesLive,
     exact: true,
+    menu: {
+      label: "Menu-schedules-live",
+      icon: "calendar",
+      position: 2
+
+    },
   },
   {
     path: ROUTE_ALL_SCHEDULES,
     key: "all",
     component: SchedulesAll,
     exact: true,
+    menu: {
+      label: "Menu-schedules-all",
+      icon: "calendar-alt",
+      position: 3
+
+    },
   },
   {
     path: ROUTE_SCHEDULE_DETAIL,
@@ -91,7 +109,15 @@ const routes: RouteConfig[] = [
     key: "home",
     component: Home,
     exact: false,
+    menu: {
+      label: "Menu-home",
+      icon: "home",
+      position: 1
+    },
   },
 ];
+
+export const routesWithMenu = [...routes.filter ( r => r.menu)];
+routesWithMenu.sort ( (a,b)=> (a.menu && b.menu && a.menu?.position - b.menu?.position) || 0);
 
 export default routes;

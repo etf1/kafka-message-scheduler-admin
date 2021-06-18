@@ -33,6 +33,7 @@
   "Scheduler-field-main": "Général",
   "Scheduler-field-name": "Nom",
   "Scheduler-field-port": "Port",
+  "Scheduler-field-instance":"Instance",
   "Scheduler-field-instances": "Instances",
   "ScheduleTable-column-ID": "ID",
   "ScheduleTable-column-Scheduler": "Ordonnanceur",
@@ -50,6 +51,8 @@
   "Schedule-field-value": "Valeur",
   "Schedule-field-main": "Général",
   "Schedule-field-target-value":"Valeur",
+  "Schedule-Search-result":"planification",
+  "Schedule-Search-results":"planifications",
   "ScheduleVersionTable-column-CreationDate": "Créé le",
   "ScheduleVersionTable-column-TiggerDate": "Déclenchement",
   "ScheduleVersionTable-column-TargetTopic":  "Topic Cible",
@@ -57,5 +60,8 @@
   "ScheduleVersionTable-column-Value": "Valeur",
 
   "Close-button": "Fermer",
-  "Scheduler-search-summary": "Critères de recherche"
+  "Scheduler-search-summary": "Critères de recherche",
+  "Nb-line": "ligne",
+  "Nb-lines": "lignes",
+  "Result": "Résultat"
 }

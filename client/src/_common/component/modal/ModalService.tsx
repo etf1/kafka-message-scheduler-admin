@@ -102,7 +102,7 @@ class ModalServiceImpl {
           width: width || DEFAULT_MODAL_WIDTH,
           title: title || "",
           showSaveButton: false,
-          cancelLabel: this.t && this.t("Close"),
+          cancelLabel: this.t && this.t("Close-button"),
           content: message,
           onSave: async () => {
             resolve(true);

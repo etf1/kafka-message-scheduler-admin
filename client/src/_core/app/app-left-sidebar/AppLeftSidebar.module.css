@@ -35,3 +35,6 @@
 .MenuItemSelected {
   background-color: #00b89c !important;
 }
+.Icon {
+  border-bottom: none !important;
+}

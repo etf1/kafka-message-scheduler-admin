@@ -10,11 +10,11 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ data }) => {
       <ul>
         {data.map((u, index) => {
           return index < len - 1 ? (
-            <li>
+            <li key={u.url}>
               <a href={u.url}>{u.label}</a>
             </li>
           ) : (
-            <li className="is-active">
+            <li key={u.url} className="is-active">
               <a href={u.url}>{u.label}</a>
             </li>
           );

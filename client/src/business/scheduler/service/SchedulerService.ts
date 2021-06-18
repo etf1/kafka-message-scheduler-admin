@@ -61,7 +61,7 @@ export const makeScheduleInfoModel = (schedules: any[]): ScheduleInfo[] => {
   return schedules;
 };
 
-export const makeScheduleModel = ({schedule}: any, schedulerName: string): Schedule => {
+export const makeScheduleModel = ({ schedule }: any, schedulerName: string): Schedule => {
   return {
     id: schedule.id,
     scheduler: schedulerName,
@@ -74,10 +74,11 @@ export const makeScheduleModel = ({schedule}: any, schedulerName: string): Sched
   };
 };
 export const searchLiveSchedules = async (p: SearchParams): Promise<ScheduleInfo[]> => {
-  const result: { found: number; schedules: any[] } = await get(getLiveSchedulesUrl(p.schedulerName) + makeSearchArgs(p));
+  const result: { found: number; schedules: any[] } = await get(
+    getLiveSchedulesUrl(p.schedulerName) + makeSearchArgs(p)
+  );
 
   const res = makeScheduleInfoModel(result.schedules);
-  console.log(res);
   return res;
 };
 export const searchSchedules = async (p: SearchParams): Promise<ScheduleInfo[]> => {
@@ -88,7 +89,7 @@ export const getScheduleDetail = async (schedulerName: string, id: string): Prom
   const result: Schedule[] = await get(getScheduleDetailUrl(schedulerName, id));
 
   if (result.length > 0) {
-    return result.map ( sch => makeScheduleModel(sch, schedulerName));
+    return result.map((sch) => makeScheduleModel(sch, schedulerName));
   }
   throw new Error("Not found");
 };
@@ -97,7 +98,7 @@ export const getLiveScheduleDetail = async (schedulerName: string, id: string): 
   const result: Schedule[] = await get(getLiveScheduleDetailUrl(schedulerName, id));
 
   if (result.length > 0) {
-    return result.map ( sch => makeScheduleModel(sch, schedulerName));
+    return result.map((sch) => makeScheduleModel(sch, schedulerName));
   }
   throw new Error("Not found");
 };

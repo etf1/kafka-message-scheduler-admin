@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { resolvePath } from "_core/router/routes";
 import { Scheduler } from "../type";
-import Styles from "./SchedulerTable.module.css";
+import Style from "./SchedulerTable.module.css";
 
 export type SchedulerTableProps = {
     schedulers : Scheduler[];
@@ -28,7 +28,7 @@ const SchedulerTable:React.FC<SchedulerTableProps> = ({schedulers, detailUrl, on
           {schedulers.map((scheduler) => {
             return (
               <tr key={`${scheduler.name}`} onClick={() => onClick && onClick(scheduler)}>
-                <td className={clsx(Styles.ColWithId, Styles.ColWithLink)}>
+                <td className={clsx(Style.ColWithId, Style.ColWithLink)}>
                   <Link
                     to={resolvePath(detailUrl, {
                       schedulerName: scheduler.name

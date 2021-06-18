@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import Styles from "./Container.module.css";
+import Style from "./Container.module.css";
 
 export type ContainerProps = {
   title: string;
@@ -23,7 +23,7 @@ const Container: React.FC<ContainerProps> = ({
           "column",
           size ? "is-" + size : null,
           offset,
-          Styles.Column
+          Style.Column
         )}
       >
         <h3 className="title is-5">{title}</h3>

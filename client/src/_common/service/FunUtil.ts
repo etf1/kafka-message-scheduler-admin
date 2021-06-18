@@ -22,11 +22,16 @@ export function truncate(str:string, length:number, ending:string = "...") {
 
 export const later = async (duration: number = 10) =>
   new Promise((resolve) => setTimeout(resolve, duration));
+  
+ /**
+  * 
+  * @param args Styles Css sous forme d'objets de string (key:value) ou même de fonctions
+  * @returns un objet de styles Css que l'on peut appliquer directement à un comoposant React
+  */ 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function slsx(...args: any[]): Record<string, unknown> {
   if (args) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return args.reduce((accumulator: any, currentValue: any) => {
+    return args.reduce((accumulator, currentValue) => {
       if (currentValue === undefined || currentValue === null) {
         return accumulator;
       }

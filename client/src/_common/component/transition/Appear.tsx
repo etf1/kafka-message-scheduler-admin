@@ -1,6 +1,6 @@
 import React from "react";
 import { CSSTransition } from "react-transition-group";
-import Styles from "./Appear.module.css";
+import Style from "./Appear.module.css";
 
 export type AppearProps = {
   visible: boolean | undefined;
@@ -16,10 +16,10 @@ const Appear = ({ visible, timeout, fadeMore, children }: AppearProps) => {
       timeout={timeout || 2000}
       nodeRef={nodeRef}
       classNames={{
-        enter: Styles.enter,
-        enterActive: fadeMore ? Styles.enterMoreActive : Styles.enterActive,
-        exit: Styles.exit,
-        exitActive: fadeMore ? Styles.exitMoreActive : Styles.exitActive
+        enter: Style.enter,
+        enterActive: fadeMore ? Style.enterMoreActive : Style.enterActive,
+        exit: Style.exit,
+        exitActive: fadeMore ? Style.exitMoreActive : Style.exitActive
       }}
     >
       {children && children(nodeRef)}

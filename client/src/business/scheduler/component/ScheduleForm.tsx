@@ -6,6 +6,7 @@ import { getLiveScheduleDetail, getScheduleDetail } from "../service/SchedulerSe
 import Container from "_common/component/layout/container/Container";
 import ScheduleVersionTable from "./ScheduleVersionTable";
 import useMedia from "_common/hook/useMedia";
+import { pluralizeIf } from "_core/i18n";
 
 
 export type ScheduleFormProps = {
@@ -70,10 +71,9 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, 
           )}
         </div>
       </Container>
-      <Container title={"Versions"}>
+      <Container title={(schedule?.length || 0)+" "+pluralizeIf((schedule?.length || 0), t("Version"), t("Versions")) || ""}>
       <div className="box" style={{ padding: "3rem" }}>
             <ScheduleVersionTable data={schedule || []} showAsTable={!smallScreen}/>
-
       </div>
       </Container>
     </>
