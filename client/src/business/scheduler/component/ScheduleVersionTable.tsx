@@ -44,23 +44,24 @@ const ScheduleVersionTable: React.FC<ScheduleVersionTableProps> = ({ data, onCli
     <table key="table" className="table is-striped is-hoverable is-fullwidth">
       <thead>
         <tr>
-          <th>{t("ScheduleVersionTable-column-CreationDate")}</th>
-          <th>{t("ScheduleVersionTable-column-TiggerDate")}</th>
-          <th>{t("ScheduleVersionTable-column-TargetTopic")}</th>
-          <th>{t("ScheduleVersionTable-column-TargetId")}</th>
-          <th>{t("ScheduleVersionTable-column-Value")}</th>
+          <th style={{minWidth:190}}>{t("ScheduleVersionTable-column-CreationDate")}</th>
+          <th style={{minWidth:190}}>{t("ScheduleVersionTable-column-TiggerDate")}</th>
+          <th style={{minWidth:180}}>{t("ScheduleVersionTable-column-TargetTopic")}</th>
+          <th style={{minWidth:180}}>{t("ScheduleVersionTable-column-TargetId")}</th>
+          <th >{t("ScheduleVersionTable-column-Value")}</th>
         </tr>
       </thead>
 
       <tbody>
         {data.map((schedule, index) => {
+          const value = getScheduleValue(schedule.value);
           return (
             <tr key={`${index} ${schedule.scheduler}/${schedule.id}`} onClick={() => onClick && onClick(schedule)}>
               <td>{formatUnixTime(schedule.timestamp, t("Calendar-date-hour-format"))}</td>
               <td>{formatUnixTime(schedule.epoch, t("Calendar-date-hour-format"))}</td>
               <td className={Style.colWithId}>{schedule.targetTopic}</td>
               <td className={Style.colWithId}>{schedule.targetId}</td>
-              <td  onClick={()=>showValueDetail(schedule)} className={clsx(Style.colWithId, Style.ColWithLink)}>{truncate(getScheduleValue(schedule.value), 250)} <Icon name='eye' /></td>
+              <td  onClick={()=>showValueDetail(schedule)} className={clsx(Style.colWithId, Style.ColWithLink)}>{truncate(value, 250)} <span style={{color:"gray", fontStyle:"italic"}}>({value.length}&nbsp;{t("Chars")})</span> <Icon name='eye' /></td>
             </tr>
           );
         })}
