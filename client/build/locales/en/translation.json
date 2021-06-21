@@ -68,6 +68,8 @@
   "Nb-lines": "lines",
   "Result": "Result",
   "Chars": "Chars",
-  "Refresh": "Refresh"
+  "Refresh": "Refresh",
+  "NoResults":"No results...",
+  "Loading":"Loading..."
 
 }
