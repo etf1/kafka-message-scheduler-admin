@@ -18,18 +18,18 @@ clear backend image : docker rmi -f fkarakas/kafka-message-scheduler-admin:mini
 
 
 TODO : 
-- Afficher icone de tri
-- afficher total
-- ajouter breadcrumb partout
-- refaire complètement écran de détail d’un schedule (avec les versions)
+OK - Afficher icone de tri
+OK - afficher total
+OK - ajouter breadcrumb partout
+OK - refaire complètement écran de détail d’un schedule (avec les versions)
 
 - ajouter des blocs d'info général dans la home
-- garder en mémoire la dernière saisie (au moins lors d’un back depuis le breadcrumb)
-- a jouter un loader au chargement des tables
-- retailler les colonnes host et al
-- vider les champs date dans les planif actives
-- faire un bouton refresh (surtout utile pour les planif actives)
-- text du nb : 150 plannifications affichées, 316 plannifications au total.
-- augmenter la taille de la fenetre Valeur en largeur
-- virer la colonne ordonnanceur
-- ajouter taille du champ valeur dans la colonne du tableau
+OK - garder en mémoire la dernière saisie (au moins lors d’un back depuis le breadcrumb)
+OK - a jouter un loader au chargement des tables
+OK - retailler les colonnes host et al
+OK - vider les champs date dans les planif actives
+OK - faire un bouton refresh (surtout utile pour les planif actives)
+OK - text du nb : 150 plannifications affichées, 316 plannifications au total.
+OK - augmenter la taille de la fenetre Valeur en largeur
+OK - virer la colonne ordonnanceur
+OK - ajouter taille du champ valeur dans la colonne du tableau
