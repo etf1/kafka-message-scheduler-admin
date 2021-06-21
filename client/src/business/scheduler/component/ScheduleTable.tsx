@@ -24,9 +24,10 @@ export type ScheduleTableProps = {
   onSort: (column: SortType, sortOrder: SortOrder) => void;
   detailUrl: string;
   showAsTable?: boolean;
+  ref?: React.LegacyRef<HTMLTableElement> | undefined;
 };
 
-const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, detailUrl, onClick, onSort, showAsTable }) => {
+const ScheduleTable: React.FC<ScheduleTableProps> = ({ ref, data, detailUrl, onClick, onSort, showAsTable }) => {
   const { t } = useTranslation();
   const [sort, setSort] = useState<SortModel>();
 
@@ -57,7 +58,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({ data, detailUrl, onClick,
   }
 
   return showAsTable || showAsTable === undefined ? (
-    <table key="table" className="table is-striped is-hoverable is-fullwidth">
+    <table ref={ref} key="table" className="table is-striped is-hoverable is-fullwidth">
       <thead>
         <tr>
           <th style={{cursor:"pointer"}} onClick={() => handleSort("id")}>{t("ScheduleTable-column-ID")} {renderSortIcon("id", sort)}</th>

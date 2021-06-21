@@ -21,9 +21,9 @@ const ScheduleDetail = () => {
       <Breadcrumb
         data={
           [
-            { url: ROUTE_ALL_SCHEDULES,  label: t("Menu-schedules-all") },
+            { linkTo: ROUTE_ALL_SCHEDULES,  label: t("Menu-schedules-all") },
             {
-              url: resolvePath(ROUTE_SCHEDULE_ALL_DETAIL, {
+              linkTo: resolvePath(ROUTE_SCHEDULE_ALL_DETAIL, {
                 schedulerName: schedulerName,
                 scheduleId:scheduleId
               }),

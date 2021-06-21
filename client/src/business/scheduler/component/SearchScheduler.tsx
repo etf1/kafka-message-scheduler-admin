@@ -10,8 +10,8 @@ import SearchSchedulerForm, { SearchParamsModel } from "./SearchSchedulerForm";
 import { useHistory } from "react-router";
 import { pluralizeIf } from "_core/i18n";
 import Container from "_common/component/layout/container/Container";
-import startOfDay from "date-fns/startOfDay";
-import endOfDay from "date-fns/endOfDay";
+import Appear from "_common/component/transition/Appear";
+import { save } from "_common/service/SessionStorageService";
 
 const makeParams = (model: SearchParamsModel | undefined): SearchParams | undefined => {
   if (model && model.scheduler?.name) {
@@ -43,6 +43,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
   const [result, setResult] = useState<{ found: number; schedules: ScheduleInfo[] }>();
   const smallScreen = useMedia(["(max-width: 1250px)", "(min-width: 1250px)"], [true, false], true);
   const schedules = result?.schedules || [];
+  const [isLoading, setIsLoading] = useState(true);
 
   const buildResultLabel = () => {
     if (result && result.found > 0) {
@@ -60,6 +61,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const searchMethod = live ? searchLiveSchedules : searchSchedules;
     //  save("SearchParamsModel"+live?"live":"all", searchModel);
     //  console.log(searchModel);
@@ -67,6 +69,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
     if (searchParams) {
       searchMethod(searchParams).then((result) => {
         setResult(result);
+        setIsLoading(false);
       });
     }
   }, [searchModel, live]);
@@ -76,20 +79,28 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
       const newPath = [];
       if (searchModel.scheduler) {
         newPath.push(`schedulerName=${searchModel.scheduler.name}`);
+        save("schedulerName" + (live ? "Live" : "All"), searchModel.scheduler.name);
       }
       if (searchModel.scheduleId) {
         newPath.push(`scheduleId=${searchModel.scheduleId}`);
       }
-      if (searchModel.epochFrom) {
-        newPath.push(`epochFrom=${format(searchModel.epochFrom, t("Calendar-date-format"))}`);
+      save("scheduleId" + (live ? "Live" : "All"), searchModel.scheduleId);
+      
+      const epochFrom = searchModel.epochFrom && format(searchModel.epochFrom, t("Calendar-date-format"));
+      save("epochFrom" + (live ? "Live" : "All"), epochFrom);
+      if (epochFrom) {
+        newPath.push(`epochFrom=${epochFrom}`);
       }
-      if (searchModel.epochTo) {
-        newPath.push(`epochTo=${format(searchModel.epochTo, t("Calendar-date-format"))}`);
+      const epochTo = searchModel.epochTo && format(searchModel.epochTo, t("Calendar-date-format"));
+      save("epochTo" + (live ? "Live" : "All"), epochTo);
+      if (epochTo) {
+        newPath.push(`epochTo=${epochTo}`);
       }
+
       history.replace(window.location.pathname + "?" + newPath.join("&"));
       setSearchModel(searchModel);
     },
-    [history, t]
+    [history, live, t]
   );
 
   const handleSort = useCallback(
@@ -115,22 +126,29 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
               onChange={handleSearchChange}
               schedulerName={schedulerName}
               scheduleId={scheduleId}
-              epochFrom={epochFrom || (live ? undefined : startOfDay(new Date()))}
-              epochTo={epochTo || (live ? undefined : endOfDay(new Date()))}
+              epochFrom={epochFrom || undefined}
+              epochTo={epochTo || undefined}
               onRefresh={handleRefresh}
             />
           </div>
           <Container title={buildResultLabel()}>
-            {(!schedules || schedules.length === 0) && <strong>Pas de résultat...</strong>}
-            {schedules && schedules.length > 0 && (
-              <ScheduleTable
-                key="table"
-                data={schedules}
-                showAsTable={!smallScreen}
-                onSort={handleSort}
-                detailUrl={live ? ROUTE_SCHEDULE_LIVE_DETAIL : ROUTE_SCHEDULE_ALL_DETAIL}
-              />
+            {(!schedules || schedules.length === 0) && (
+              <strong style={{ color: "gray", fontStyle: "italic" }}>
+                {isLoading ? t("Loading") : t("NoResults")}
+              </strong>
             )}
+            <Appear visible={schedules && schedules.length > 0}>
+              {(nodeRef) => (
+                <ScheduleTable
+                  ref={nodeRef}
+                  key="table"
+                  data={schedules}
+                  showAsTable={!smallScreen}
+                  onSort={handleSort}
+                  detailUrl={live ? ROUTE_SCHEDULE_LIVE_DETAIL : ROUTE_SCHEDULE_ALL_DETAIL}
+                />
+              )}
+            </Appear>
           </Container>
         </div>
       </div>

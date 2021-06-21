@@ -21,9 +21,9 @@ const ScheduleDetailLive = () => {
        <Breadcrumb
         data={
           [
-            { url: ROUTE_LIVE_SCHEDULES,  label: t("Menu-schedules-live") },
+            { linkTo: ROUTE_LIVE_SCHEDULES,  label: t("Menu-schedules-live") },
             {
-              url: resolvePath(ROUTE_SCHEDULE_LIVE_DETAIL, {
+              linkTo: resolvePath(ROUTE_SCHEDULE_LIVE_DETAIL, {
                 schedulerName: schedulerName,
                 scheduleId:scheduleId
               }),

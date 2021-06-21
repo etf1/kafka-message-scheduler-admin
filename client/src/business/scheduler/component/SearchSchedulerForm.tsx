@@ -1,6 +1,4 @@
-import add from "date-fns/add";
 import endOfDay from "date-fns/endOfDay";
-import startOfDay from "date-fns/startOfDay";
 import React, { useCallback, useEffect, useReducer } from "react";
 import { useTranslation } from "react-i18next";
 import DatePicker from "_common/component/calendar/DatePicker";
@@ -99,9 +97,9 @@ const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({
 
   useEffect(() => {
     if (schedulers && schedulers.length > 0) {
-      dispatch({ type: "scheduler-changed", payload: schedulers[0] });
+      dispatch({ type: "scheduler-changed", payload: schedulers.find (s => s.name === schedulerName) || schedulers[0] });
     }
-  }, [schedulers]);
+  }, [schedulers, schedulerName]);
 
   useEffect(() => {
     onChange(model);
