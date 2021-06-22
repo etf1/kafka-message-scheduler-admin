@@ -6,10 +6,12 @@ let schedulesUrl = "";
 let scheduleDetailUrl = "";
 let liveSchedulesUrl = "";
 let liveScheduleDetailUrl = "";
+let appStatUrl = "";
 
 async function init() {
   const response = await get("/configuration.json");
   apiRoot = response["api-root"];
+  appStatUrl= response["stats"];
   schedulersUrl = response["schedulers"];
   schedulesUrl = response["schedules"];
   scheduleDetailUrl = response["schedule-detail"];
@@ -22,6 +24,9 @@ export function getApiRoot() {
     //throw new Error ("Error, configuration is not initialized, 'init()' function should be executed and terminated before any other calls.");
   }
   return apiRoot;
+}
+export function getAppStatsUrl() {
+  return getApiRoot()+appStatUrl;
 }
 export function getSchedulersUrl() {
   return getApiRoot()+schedulersUrl;

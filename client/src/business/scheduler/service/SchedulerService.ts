@@ -1,5 +1,6 @@
 import { get } from "_common/service/ApiUtil";
 import {
+  getAppStatsUrl,
   getLiveScheduleDetailUrl,
   getLiveSchedulesUrl,
   getScheduleDetailUrl,
@@ -10,6 +11,11 @@ import { Schedule, ScheduleInfo, Scheduler } from "../type";
 
 export type SortType = "id" | "epoch" | "timestamp";
 export type SortOrder = "asc" | "desc";
+export type AppStat = {
+  scheduler: string;
+  total_live:number;
+  total:number;
+}
 
 export type SearchParams = {
   scheduleId?: string;
@@ -39,6 +45,10 @@ export const makeSearchArgs = (p: SearchParams): string => {
     res += `&epoch-to=${p.epochTo}`;
   }
   return res;
+};
+
+export const getAppStats = async (): Promise<AppStat[]> => {
+  return await get(getAppStatsUrl());
 };
 
 export const listAllSchedulers = async (): Promise<Scheduler[]> => {

@@ -1,14 +1,14 @@
 import { Dictionary } from "./../../_common/type/utils";
 import { replaceAll } from "_common/service/FunUtil";
 import { lazy } from "react";
-const Home = lazy(() => import("business/page/Home"));
+const Home = lazy(() => import("business/home/Home"));
 const About = lazy(() => import("business/about/About"));
-const Schedulers = lazy(() => import("business/page/Schedulers"));
-const SchedulerDetail = lazy(() => import("business/page/SchedulerDetail"));
-const SchedulesLive = lazy(() => import("business/page/SchedulesLive"));
-const SchedulesAll = lazy(() => import("business/page/SchedulesAll"));
-const ScheduleDetail = lazy(() => import("business/page/ScheduleDetail"));
-const ScheduleDetailLive = lazy(() => import("business/page/ScheduleDetailLive"));
+const Schedulers = lazy(() => import("business/scheduler/page/Schedulers"));
+const SchedulerDetail = lazy(() => import("business/scheduler/page/SchedulerDetail"));
+const SchedulesLive = lazy(() => import("business/scheduler/page/SchedulesLive"));
+const SchedulesAll = lazy(() => import("business/scheduler/page/SchedulesAll"));
+const ScheduleDetail = lazy(() => import("business/scheduler/page/ScheduleDetail"));
+const ScheduleDetailLive = lazy(() => import("business/scheduler/page/ScheduleDetailLive"));
 export type RouteConfig = {
   path: string;
   key: string;

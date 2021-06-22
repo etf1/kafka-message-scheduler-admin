@@ -1,4 +1,5 @@
 {
+  "stats": "/api/stats",
   "schedulers": "/api/schedulers",
   "schedules": "/api/scheduler/{name}/schedules",
   "schedule-detail": "/api/scheduler/{name}/schedule/{id}",
