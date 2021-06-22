@@ -43,7 +43,7 @@ const Icon = ({
 
         className
       )}
-      style={slsx(style, { marginLeft }, { marginRight })}
+      style={slsx({borderBottomStyle:"none"}, style, { marginLeft }, { marginRight })}
       {...otherProps}
     >
       <i

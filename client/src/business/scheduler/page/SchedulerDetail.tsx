@@ -4,6 +4,7 @@ import { SchedulerInstance } from "business/scheduler/type";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import Breadcrumb from "_common/component/breadcrumb/Breadcrumb";
+import Icon from "_common/component/element/icon/Icon";
 import Container from "_common/component/layout/container/Container";
 import Panel from "_common/component/layout/panel/Panel";
 import Appear from "_common/component/transition/Appear";
@@ -40,7 +41,7 @@ const SchedulerDetail = () => {
       <Panel icon={"stopwatch"} title={t("Page-title-scheduler-detail")}>
         <Appear visible={!!scheduler}>
           {(nodeRef) => (
-            <Container ref={nodeRef} title={t("Scheduler-field-main")}>
+            <Container ref={nodeRef} title={<><Icon name="cog"/> {t("Scheduler-field-main")}</>}>
               <div className="box" style={{ padding: "3rem" }}>
                 {scheduler && (
                   <div className="columns">

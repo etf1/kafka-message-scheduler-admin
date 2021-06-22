@@ -1,8 +1,9 @@
 import clsx from "clsx";
+import React from "react";
 import Style from "./Container.module.css";
 
 export type ContainerProps = {
-  title: string;
+  title?: React.ReactNode;
   size?: 12 | 10 | 8;
   ref?: React.LegacyRef<HTMLTableElement> | undefined;
 };
@@ -28,7 +29,7 @@ const Container: React.FC<ContainerProps> = ({
           Style.Column
         )}
       >
-        <h3 className="title is-5">{title}</h3>
+        {title && <h3 className={clsx("title is-5", Style.Title)} >{title}</h3>}
         {children}
       </div>
     </div>

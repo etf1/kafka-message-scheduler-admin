@@ -2,7 +2,7 @@ import { AppStat } from "business/scheduler/service/SchedulerService";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import Icon from "_common/component/element/icon/Icon";
-import { ROUTE_ALL_SCHEDULES, ROUTE_LIVE_SCHEDULES } from "_core/router/routes";
+import { resolvePath, ROUTE_ALL_SCHEDULES, ROUTE_LIVE_SCHEDULES, ROUTE_SCHEDULER_DETAIL } from "_core/router/routes";
 
 type AppStatCardProps = {
   stat: AppStat;
@@ -16,7 +16,7 @@ const AppStatCard: React.FC<AppStatCardProps> = ({ stat }) => {
         <div className="card-header" style={{ backgroundColor: "orange" }}>
           <h3 className="card-header-title is-inline" style={{ color: "white" }}>
               <Icon name={"stopwatch"} style={{marginRight:20}}  className={"has-tooltip-right"} />{" "}
-               <span>{stat.scheduler}</span>
+               <Link style={{ color: "white" }} to={resolvePath(ROUTE_SCHEDULER_DETAIL, {schedulerName:stat.scheduler})}>{stat.scheduler}</Link>
           </h3>
         </div>
         <div

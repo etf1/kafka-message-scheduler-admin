@@ -7,6 +7,7 @@ import Container from "_common/component/layout/container/Container";
 import ScheduleVersionTable from "./ScheduleVersionTable";
 import useMedia from "_common/hook/useMedia";
 import { pluralizeIf } from "_core/i18n";
+import Icon from "_common/component/element/icon/Icon";
 
 
 export type ScheduleFormProps = {
@@ -37,7 +38,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, 
 
   return (
     <>
-      <Container title={t("Schedule-field-main")}>
+      <Container title={<><Icon name="cog"/> {t("Schedule-field-main")}</>}>
         <div className="box" style={{ padding: "3rem" }}>
           {firstSchedule && (
             <div className="columns is-desktop">
@@ -71,7 +72,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, 
           )}
         </div>
       </Container>
-      <Container title={(schedule?.length || 0)+" "+pluralizeIf((schedule?.length || 0), t("Version"), t("Versions")) || ""}>
+      <Container title={<><Icon name="copy"/> {(schedule?.length || 0)+" "+pluralizeIf((schedule?.length || 0), t("Version"), t("Versions")) || ""}</>}>
       <div className="box" style={{ padding: "3rem" }}>
             <ScheduleVersionTable data={schedule || []} showAsTable={!smallScreen}/>
       </div>
