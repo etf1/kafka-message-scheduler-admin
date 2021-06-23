@@ -20,13 +20,11 @@ export type RouteConfig = {
 export const ROUTE_HOME = "/";
 export const ROUTE_ABOUT = "/about";
 export const ROUTE_SCHEDULERS = "/scheduler";
-export const ROUTE_LIVE_SCHEDULES = "/live";
-
-export const ROUTE_ALL_SCHEDULES = "/all";
 export const ROUTE_SCHEDULER_DETAIL = "/scheduler/detail/:schedulerName";
-export const ROUTE_SCHEDULE_DETAIL = "/detail/:schedulerName/:scheduleId";
-export const ROUTE_SCHEDULE_LIVE_DETAIL = "/live/detail/:schedulerName/:scheduleId";
+export const ROUTE_ALL_SCHEDULES = "/all";
 export const ROUTE_SCHEDULE_ALL_DETAIL = "/all/detail/:schedulerName/:scheduleId";
+export const ROUTE_LIVE_SCHEDULES = "/live";
+export const ROUTE_SCHEDULE_LIVE_DETAIL = "/live/detail/:schedulerName/:scheduleId";
 
 export const resolvePath = (path: string, variables: Dictionary) => {
   if (path.indexOf(":") > -1) {
@@ -85,12 +83,6 @@ const routes: RouteConfig[] = [
       position: 3
 
     },
-  },
-  {
-    path: ROUTE_SCHEDULE_DETAIL,
-    key: "schedule",
-    component: ScheduleDetail,
-    exact: true,
   },
   {
     path: ROUTE_SCHEDULE_LIVE_DETAIL,

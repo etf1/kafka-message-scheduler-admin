@@ -41,46 +41,59 @@ const SchedulerDetail = () => {
       <Panel icon={"stopwatch"} title={t("Page-title-scheduler-detail")}>
         <Appear visible={!!scheduler}>
           {(nodeRef) => (
-            <Container ref={nodeRef} title={<><Icon name="cog"/> {t("Scheduler-field-main")}</>}>
-              <div className="box" style={{ padding: "3rem" }}>
-                {scheduler && (
-                  <div className="columns">
-                    <div className="column">
-                      <fieldset disabled style={{ textAlign: "left" }}>
-                        <div className="field">
-                          <label className="label">{t("Scheduler-field-name")}</label>
-                          <div className="control">
-                            <input className="input" type="text" defaultValue={scheduler.name} />
+            <div ref={nodeRef}>
+              <Container
+                title={
+                  <>
+                    <Icon name="cog" /> {t("Scheduler-field-main")}
+                  </>
+                }
+              >
+                <div style={{ padding: "2rem" }}>
+                  {scheduler && (
+                    <div className="columns">
+                      <div className="column">
+                        <fieldset disabled style={{ textAlign: "left" }}>
+                          <div className="field">
+                            <label className="label">{t("Scheduler-field-name")}</label>
+                            <div className="control">
+                              <input className="input" type="text" defaultValue={scheduler.name} />
+                            </div>
                           </div>
-                        </div>
-                        <div className="field">
-                          <label className="label">{t("Scheduler-field-port")}</label>
-                          <div className="control">
-                            <input className="input" type="text" defaultValue={scheduler.http_port} />
+                          <div className="field">
+                            <label className="label">{t("Scheduler-field-port")}</label>
+                            <div className="control">
+                              <input className="input" type="text" defaultValue={scheduler.http_port} />
+                            </div>
                           </div>
-                        </div>
-                      </fieldset>
+                        </fieldset>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            </Container>
+                  )}
+                </div>
+              </Container>
+            </div>
           )}
         </Appear>
         <Appear visible={instances && instances.length > 0}>
           {(nodeRef) => (
-            <Container
-              ref={nodeRef}
-              title={
-                instances.length +
-                  " " +
-                  pluralizeIf(instances.length, t("Scheduler-field-instance"), t("Scheduler-field-instances")) || ""
-              }
-            >
-              <div className="box" style={{ padding: "3rem" }}>
-                <SchedulerInstanceTable schedulerInstances={instances} />
-              </div>
-            </Container>
+            <div ref={nodeRef}>
+              <Container
+                title={
+                  <>
+                    <Icon name="copy" />
+                    {instances.length +
+                      " " +
+                      pluralizeIf(instances.length, t("Scheduler-field-instance"), t("Scheduler-field-instances")) ||
+                      ""}
+                  </>
+                }
+              >
+                <div style={{ padding: "2rem" }}>
+                  <SchedulerInstanceTable schedulerInstances={instances} />
+                </div>
+              </Container>
+            </div>
           )}
         </Appear>
       </Panel>

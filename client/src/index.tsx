@@ -19,6 +19,7 @@ init().then(() => {
     worker.start();
   }*/
 
+
   ReactDOM.render(
     <React.StrictMode>
       <Suspense fallback={<div></div>}>

@@ -1,16 +1,20 @@
-import { isPrimitive } from "_common/type/utils";
+import { Dictionary, isPrimitive } from "_common/type/utils";
 
-const BASE_KEY = "kafka-msg-scheduler-admin";
+const BASE_KEY = "kafka-msg-scheduler-admin-v0";
 
 export function load<T>(key: string, defaultValue: T | undefined): T | undefined {
-  const value = sessionStorage.getItem(BASE_KEY + "." + key);
-  if (value) {
+  const store = sessionStorage.getItem(BASE_KEY);
+  if (store) {
     try {
-      const result: any = JSON.parse(window.atob(value));
-      if (result && result.__primitive__value === true) {
-        return result.value as T;
+      const result: any = JSON.parse(window.atob(store));
+      if (result && result[key]) {
+        if (result[key] && result[key].__primitive__value === true) {
+          return result[key].value as T;
+        } else {
+          return result[key] as T;
+        }
       } else {
-        return result as T;
+        return defaultValue;
       }
     } catch {
       return defaultValue;
@@ -20,9 +24,28 @@ export function load<T>(key: string, defaultValue: T | undefined): T | undefined
   }
 }
 export function save<T>(key: string, value: T) {
+  const store = sessionStorage.getItem(BASE_KEY);
+
+  const result: Dictionary = store ? JSON.parse(window.atob(store)) : {};
   if (isPrimitive(value) || value === undefined) {
-    sessionStorage.setItem(BASE_KEY + "." + key, window.btoa(JSON.stringify({ __primitive__value: true, value })));
+    const storedValue = { ...result, [key]: { __primitive__value: true, value } };
+    sessionStorage.setItem(BASE_KEY, window.btoa(JSON.stringify(storedValue)));
   } else {
-    sessionStorage.setItem(BASE_KEY + "." + key, window.btoa(JSON.stringify(value)));
+    const storedValue = { ...result, [key]: value };
+    sessionStorage.setItem(BASE_KEY, window.btoa(JSON.stringify(storedValue)));
+  }
+}
+
+export function clear(keepKeyPredicat: (key: string) => boolean) {
+  const store = sessionStorage.getItem(BASE_KEY);
+  if (store) {
+    let data: any = JSON.parse(window.atob(store));
+    let result: Dictionary = {};
+    Object.keys(data).forEach ( key => {
+      if (keepKeyPredicat(key)) {
+        result[key] = data[key];
+      }
+    });
+    sessionStorage.setItem(BASE_KEY, window.btoa(JSON.stringify(result)));
   }
 }

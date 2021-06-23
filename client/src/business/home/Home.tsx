@@ -1,11 +1,14 @@
 import { AppStat, getAppStats } from "business/scheduler/service/SchedulerService";
 import { useEffect, useState } from "react";
+import { clear } from "_common/service/SessionStorageService";
 import AppStatCard from "./AppStartCard";
 
 const Home = () => {
   const [stats, setStats] = useState<AppStat[]>([]);
-
+  clear( () => false);
   useEffect(() => {
+
+   
     (async () => {
       console.log("Home");
       const stats = await getAppStats();

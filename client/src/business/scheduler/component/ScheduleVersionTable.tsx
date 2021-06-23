@@ -2,10 +2,10 @@ import { useTranslation } from "react-i18next";
 import { Schedule } from "../type";
 import fromUnixTime from "date-fns/fromUnixTime";
 import format from "date-fns/format";
-import React, {  } from "react";
+import React from "react";
 import Style from "./ScheduleVersionTable.module.css";
 import clsx from "clsx";
-import { truncate } from "_common/service/FunUtil";
+import { base64DecToArr, truncate, UTF8ArrToStr } from "_common/service/FunUtil";
 import Icon from "_common/component/element/icon/Icon";
 import ModalService from "_common/component/modal/ModalService";
 
@@ -19,7 +19,10 @@ const formatUnixTime = (time: number, fmt: string) => {
 
 const getScheduleValue = (value: string) => {
   try {
-    return atob(value);
+    
+    var sortieUT8 = base64DecToArr(value);
+
+    return UTF8ArrToStr(sortieUT8);
   } catch (err) {
     console.error(err);
   }
@@ -34,21 +37,19 @@ export type ScheduleVersionTableProps = {
 const ScheduleVersionTable: React.FC<ScheduleVersionTableProps> = ({ data, onClick, showAsTable }) => {
   const { t } = useTranslation();
 
-
-  const showValueDetail = (schedule:Schedule) => {
-    ModalService.message({title:t("Schedule-field-target-value"), message:getScheduleValue(schedule.value)})
-  }
-
+  const showValueDetail = (schedule: Schedule) => {
+    ModalService.message({ title: t("Schedule-field-target-value"), message: getScheduleValue(schedule.value) });
+  };
 
   return showAsTable || showAsTable === undefined ? (
     <table key="table" className="table is-striped is-hoverable is-fullwidth">
       <thead>
         <tr>
-          <th style={{minWidth:190}}>{t("ScheduleVersionTable-column-CreationDate")}</th>
-          <th style={{minWidth:190}}>{t("ScheduleVersionTable-column-TiggerDate")}</th>
-          <th style={{minWidth:180}}>{t("ScheduleVersionTable-column-TargetTopic")}</th>
-          <th style={{minWidth:180}}>{t("ScheduleVersionTable-column-TargetId")}</th>
-          <th >{t("ScheduleVersionTable-column-Value")}</th>
+          <th style={{ minWidth: 190 }}>{t("ScheduleVersionTable-column-CreationDate")}</th>
+          <th style={{ minWidth: 190 }}>{t("ScheduleVersionTable-column-TiggerDate")}</th>
+          <th style={{ minWidth: 180 }}>{t("ScheduleVersionTable-column-TargetTopic")}</th>
+          <th style={{ minWidth: 180 }}>{t("ScheduleVersionTable-column-TargetId")}</th>
+          <th>{t("ScheduleVersionTable-column-Value")}</th>
         </tr>
       </thead>
 
@@ -61,7 +62,13 @@ const ScheduleVersionTable: React.FC<ScheduleVersionTableProps> = ({ data, onCli
               <td>{formatUnixTime(schedule.epoch, t("Calendar-date-hour-format"))}</td>
               <td className={Style.colWithId}>{schedule.targetTopic}</td>
               <td className={Style.colWithId}>{schedule.targetId}</td>
-              <td  onClick={()=>showValueDetail(schedule)} className={clsx(Style.colWithId, Style.ColWithLink)}>{truncate(value, 250)} <span style={{color:"gray", fontStyle:"italic"}}>({value.length}&nbsp;{t("Chars")})</span> <Icon name='eye' /></td>
+              <td onClick={() => showValueDetail(schedule)} className={clsx(Style.colWithId, Style.ColWithLink)}>
+                {truncate(value, 250)}{" "}
+                <span style={{ color: "gray", fontStyle: "italic" }}>
+                  ({value.length}&nbsp;{t("Chars")})
+                </span>{" "}
+                <Icon name="eye" />
+              </td>
             </tr>
           );
         })}
@@ -91,9 +98,7 @@ const ScheduleVersionTable: React.FC<ScheduleVersionTableProps> = ({ data, onCli
                 {formatUnixTime(schedule.timestamp, t("Calendar-date-hour-format"))},{" "}
               </span>
               <strong className={clsx("space-right", Style.ValueField)}>{t("Schedule-field-trigger-date")}</strong>
-              <span className={Style.ValueField}>
-                {formatUnixTime(schedule.epoch, t("Calendar-date-hour-format"))}
-              </span>
+              <span className={Style.ValueField}>{formatUnixTime(schedule.epoch, t("Calendar-date-hour-format"))}</span>
             </div>
 
             <div className="space-right">

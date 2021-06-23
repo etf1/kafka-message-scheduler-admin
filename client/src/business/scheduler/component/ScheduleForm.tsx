@@ -8,7 +8,7 @@ import ScheduleVersionTable from "./ScheduleVersionTable";
 import useMedia from "_common/hook/useMedia";
 import { pluralizeIf } from "_core/i18n";
 import Icon from "_common/component/element/icon/Icon";
-
+import Appear from "_common/component/transition/Appear";
 
 export type ScheduleFormProps = {
   schedulerName: string;
@@ -34,50 +34,67 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, 
     }
   }, [schedulerName, scheduleId, live]);
 
-  const firstSchedule = schedule && schedule[0]
+  const firstSchedule = schedule && schedule[0];
 
   return (
-    <>
-      <Container title={<><Icon name="cog"/> {t("Schedule-field-main")}</>}>
-        <div className="box" style={{ padding: "3rem" }}>
-          {firstSchedule && (
-            <div className="columns is-desktop">
-              <div className="column is-6">
-                <fieldset disabled style={{ textAlign: "left" }}>
-                  <div className="field">
-                    <label className="label">{t("Schedule-field-id")}</label>
-                    <div className="control">
-                      <input className="input" type="text" defaultValue={firstSchedule.id} />
-                    </div>
+    <Appear visible={!!firstSchedule}>
+      {(nodeRef) => (
+        <div ref={nodeRef}>
+          <Container
+            title={
+              <>
+                <Icon name="cog" /> {t("Schedule-field-main")}
+              </>
+            }
+          >
+            <div style={{ padding: "2rem" }}>
+              {firstSchedule && (
+                <div className="columns is-desktop">
+                  <div className="column is-6">
+                    <fieldset disabled style={{ textAlign: "left" }}>
+                      <div className="field">
+                        <label className="label">{t("Schedule-field-id")}</label>
+                        <div className="control">
+                          <input className="input" type="text" defaultValue={firstSchedule.id} />
+                        </div>
+                      </div>
+                      <div className="field">
+                        <label className="label">{t("Schedule-field-scheduler")}</label>
+                        <div className="control">
+                          <input className="input" type="text" defaultValue={firstSchedule.scheduler} />
+                        </div>
+                      </div>
+                    </fieldset>
                   </div>
-                  <div className="field">
-                    <label className="label">{t("Schedule-field-scheduler")}</label>
-                    <div className="control">
-                      <input className="input" type="text" defaultValue={firstSchedule.scheduler} />
-                    </div>
-                  </div>
-                </fieldset>
-              </div>
-              <div className="column is-6">
-              <fieldset disabled style={{ textAlign: "left" }}>
-                <div className="field">
-                  <label className="label">{t("Schedule-field-source-topic")}</label>
-                  <div className="control">
-                    <input className="input" type="text" defaultValue={firstSchedule.topic} />
+                  <div className="column is-6">
+                    <fieldset disabled style={{ textAlign: "left" }}>
+                      <div className="field">
+                        <label className="label">{t("Schedule-field-source-topic")}</label>
+                        <div className="control">
+                          <input className="input" type="text" defaultValue={firstSchedule.topic} />
+                        </div>
+                      </div>
+                    </fieldset>
                   </div>
                 </div>
-                </fieldset>
-              </div>
+              )}
             </div>
-          )}
+          </Container>
+          <Container
+            title={
+              <>
+                <Icon name="copy" />{" "}
+                {(schedule?.length || 0) + " " + pluralizeIf(schedule?.length || 0, t("Version"), t("Versions")) || ""}
+              </>
+            }
+          >
+            <div style={{ padding: "2rem" }}>
+              <ScheduleVersionTable data={schedule || []} showAsTable={!smallScreen} />
+            </div>
+          </Container>
         </div>
-      </Container>
-      <Container title={<><Icon name="copy"/> {(schedule?.length || 0)+" "+pluralizeIf((schedule?.length || 0), t("Version"), t("Versions")) || ""}</>}>
-      <div className="box" style={{ padding: "3rem" }}>
-            <ScheduleVersionTable data={schedule || []} showAsTable={!smallScreen}/>
-      </div>
-      </Container>
-    </>
+      )}
+    </Appear>
   );
 };
 

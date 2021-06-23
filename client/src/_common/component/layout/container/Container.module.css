@@ -6,5 +6,8 @@
 
 
 .Title {
-  color: #505050
+  color: #505050;
+  padding-left: 1.8rem;
+  margin-top: 2rem;
+  margin-bottom: 0.3rem !important;
 }

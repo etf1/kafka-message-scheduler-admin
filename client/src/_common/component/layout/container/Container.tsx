@@ -5,13 +5,11 @@ import Style from "./Container.module.css";
 export type ContainerProps = {
   title?: React.ReactNode;
   size?: 12 | 10 | 8;
-  ref?: React.LegacyRef<HTMLTableElement> | undefined;
 };
 const Container: React.FC<ContainerProps> = ({
   title,
   size = 12,
-  children,
-  ref,
+  children
 }) => {
   let offset = "";
   if (size === 8) {
@@ -20,7 +18,7 @@ const Container: React.FC<ContainerProps> = ({
     offset = "is-offset-1";
   }
   return (
-    <div className="container" ref={ref}>
+    <div className="container">
       <div
         className={clsx(
           "column",

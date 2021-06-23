@@ -128,7 +128,7 @@ const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({
           </div>
         </div>
         <div className="column is-4">
-          <label className="label">ID Planif.</label>
+          <label className="label">{t("Scheduler-search-field-schedule-id")}</label>
           <SearchInput
             onChange={handleSearchInputChanged}
             placeholder={t("Scheduler-search-field-schedule-id")}
@@ -136,7 +136,7 @@ const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({
           />
         </div>
         <div className="column" style={{ flexGrow: 0 }}>
-          <label className="label">Début</label>
+          <label className="label">{t("Scheduler-search-field-start-at")}</label>
           <DatePicker
             placeholder={t("Scheduler-search-field-start-at")}
             value={model.epochFrom}
@@ -147,7 +147,7 @@ const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({
           />
         </div>
         <div className="column">
-          <label className="label">Fin</label>
+          <label className="label">{t("Scheduler-search-field-end-at")}</label>
           <DatePicker
             placeholder={t("Scheduler-search-field-end-at")}
             value={model.epochTo}

@@ -79,20 +79,20 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
       const newPath = [];
       if (searchModel.scheduler) {
         newPath.push(`schedulerName=${searchModel.scheduler.name}`);
-        save("schedulerName" + (live ? "Live" : "All"), searchModel.scheduler.name);
+        save((live ? "Live" : "All") + "SchedulerName", searchModel.scheduler.name);
       }
       if (searchModel.scheduleId) {
         newPath.push(`scheduleId=${searchModel.scheduleId}`);
       }
-      save("scheduleId" + (live ? "Live" : "All"), searchModel.scheduleId);
-      
+      save((live ? "Live" : "All") + "ScheduleId", searchModel.scheduleId);
+
       const epochFrom = searchModel.epochFrom && format(searchModel.epochFrom, t("Calendar-date-format"));
-      save("epochFrom" + (live ? "Live" : "All"), epochFrom);
+      save((live ? "Live" : "All") + "EpochFrom", epochFrom);
       if (epochFrom) {
         newPath.push(`epochFrom=${epochFrom}`);
       }
       const epochTo = searchModel.epochTo && format(searchModel.epochTo, t("Calendar-date-format"));
-      save("epochTo" + (live ? "Live" : "All"), epochTo);
+      save((live ? "Live" : "All") + "EpochTo", epochTo);
       if (epochTo) {
         newPath.push(`epochTo=${epochTo}`);
       }
@@ -121,15 +121,17 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
     <React.Fragment key="SearchScheduler">
       <div className="app-box">
         <div className="container">
-          <div className="more-space-top more-space-bottom">
-            <SearchSchedulerForm
-              onChange={handleSearchChange}
-              schedulerName={schedulerName}
-              scheduleId={scheduleId}
-              epochFrom={epochFrom || undefined}
-              epochTo={epochTo || undefined}
-              onRefresh={handleRefresh}
-            />
+          <div style={{ padding: "2rem", paddingTop: "1rem", paddingBottom: 0 }}>
+            <div className="more-space-top more-space-bottom">
+              <SearchSchedulerForm
+                onChange={handleSearchChange}
+                schedulerName={schedulerName}
+                scheduleId={scheduleId}
+                epochFrom={epochFrom || undefined}
+                epochTo={epochTo || undefined}
+                onRefresh={handleRefresh}
+              />
+            </div>
           </div>
           <Container title={buildResultLabel()}>
             {(!schedules || schedules.length === 0) && (
@@ -137,18 +139,21 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
                 {isLoading ? t("Loading") : t("NoResults")}
               </strong>
             )}
-            <Appear visible={schedules && schedules.length > 0}>
-              {(nodeRef) => (
-                <ScheduleTable
-                  ref={nodeRef}
-                  key="table"
-                  data={schedules}
-                  showAsTable={!smallScreen}
-                  onSort={handleSort}
-                  detailUrl={live ? ROUTE_SCHEDULE_LIVE_DETAIL : ROUTE_SCHEDULE_ALL_DETAIL}
-                />
-              )}
-            </Appear>
+            <div style={{ padding: "2rem" }}>
+              <Appear visible={schedules && schedules.length > 0}>
+                {(nodeRef) => (
+                  <div ref={nodeRef}>
+                    <ScheduleTable
+                      key="table"
+                      data={schedules}
+                      showAsTable={!smallScreen}
+                      onSort={handleSort}
+                      detailUrl={live ? ROUTE_SCHEDULE_LIVE_DETAIL : ROUTE_SCHEDULE_ALL_DETAIL}
+                    />
+                  </div>
+                )}
+              </Appear>
+            </div>
           </Container>
         </div>
       </div>
