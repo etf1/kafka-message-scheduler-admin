@@ -8,6 +8,9 @@ import { isNumber } from "_common/type/utils";
 import { Locale } from "date-fns";
 import { fr, enGB, enUS } from "date-fns/locale";
 
+
+export type Lang =  "en-US" | "fr-FR";
+
 i18n
   // load translation using http -> see /public/locales (i.e. https://github.com/i18next/react-i18next/tree/master/example/react/public/locales)
   // learn more: https://github.com/i18next/i18next-http-backend
@@ -45,15 +48,15 @@ export function pluralizeIf(
   return t ? t(labels) : labels;
 }
 
-export function getShortLanguageFromLS(): string | null {
+export function getShortLanguageFromLS(): Lang | null {
   const locale = localStorage.getItem("i18nextLng");
   if (locale) {
-    return locale;
+    return locale as Lang;
   }
   return null;
 }
 export function changeLanguage(
-  lng: "en-US" | "fr-FR" | string,
+  lng: Lang,
   callback?: ((error: any, t: TFunction) => void) | undefined
 ): Promise<TFunction> {
   return i18n.changeLanguage(lng, callback);

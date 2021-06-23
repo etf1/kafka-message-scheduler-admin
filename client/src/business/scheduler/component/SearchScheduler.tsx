@@ -12,6 +12,7 @@ import { pluralizeIf } from "_core/i18n";
 import Container from "_common/component/layout/container/Container";
 import Appear from "_common/component/transition/Appear";
 import { save } from "_common/service/SessionStorageService";
+import clsx from "clsx";
 
 const makeParams = (model: SearchParamsModel | undefined): SearchParams | undefined => {
   if (model && model.scheduler?.name) {
@@ -142,7 +143,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
             <div style={{ padding: "2rem" }}>
               <Appear visible={schedules && schedules.length > 0}>
                 {(nodeRef) => (
-                  <div ref={nodeRef}>
+                  <div ref={nodeRef} className={clsx(isLoading && "animate-opacity")}>
                     <ScheduleTable
                       key="table"
                       data={schedules}

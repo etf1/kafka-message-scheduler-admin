@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import Style from "./App.module.css";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -7,12 +7,11 @@ import routes from "../router/routes";
 import AppNavbar from "./app-navbar/AppNavbar";
 import AppLeftSidebar from "./app-left-sidebar/AppLeftSidebar";
 import ModalProvider from "_common/component/modal/ModalProvider";
-import { changeLanguage } from "_core/i18n";
 
 function App() {
-  useEffect( ()=> {
+  /*useEffect( ()=> {
     changeLanguage("en-US")
-  }, [])
+  }, [])*/
   
   return (
     <>

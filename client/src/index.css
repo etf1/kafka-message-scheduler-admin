@@ -72,3 +72,16 @@ html {
 .more-space-bottom {
   margin-bottom: 3em !important;
 }
+.animate-opacity {
+  opacity: 1;  /* cant animate border without a border... */
+
+  -webkit-animation: OpacityAnimate 1.5s ease infinite;
+  -moz-animation: OpacityAnimate 1.5s ease infinite;
+  -o-animation: OpacityAnimate 1.5s ease infinite;
+  animation: OpacityAnimate 1.5s ease infinite;
+}
+@keyframes OpacityAnimate {
+  0%   { opacity:1; }
+  50% { opacity:0.5}
+  100%   { opacity:1 }
+}

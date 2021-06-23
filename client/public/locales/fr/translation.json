@@ -69,5 +69,8 @@
   "Chars": "Caractères",
   "Refresh": "Rafraîchir",
   "NoResults":"Pas de résultat...",
-  "Loading":"Chargement en cours..."
+  "Loading":"Chargement en cours...",
+
+  "Menu-Display-In-English":"Afficher en anglais",
+  "Menu-Display-In-French":"Afficher en français"
 }

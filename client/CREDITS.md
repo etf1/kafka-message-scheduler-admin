@@ -1,0 +1,1 @@
+Flags icon are downloaded from : https://www.iconfinder.com/flag-icons?price=free

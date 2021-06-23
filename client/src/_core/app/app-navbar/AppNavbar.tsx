@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { changeLanguage, Lang } from "_core/i18n";
 import { ROUTE_HOME } from "_core/router/routes";
 import Style from "./AppNavbar.module.css";
 
@@ -20,6 +21,23 @@ const AppNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleBurgerClick = () => setIsOpen((isOpen) => !isOpen);
+
+  const setLang = (lang: Lang) => {
+    changeLanguage(lang);
+  };
+
+  const getLangLabel = (lang: Lang) => {
+    switch (lang) {
+      case "en-US": {
+        return "Menu-Display-In-English";
+      }
+      case "fr-FR": {
+        return "Menu-Display-In-French";
+      }
+      default:
+        return "Menu-Display-In-English";
+    }
+  };
 
   return (
     <nav className={clsx("navbar", Style.Nav)}>
@@ -61,6 +79,32 @@ const AppNavbar = () => {
                 <span>{t("Menu-Source")}</span>
               </a>
             </span>
+            <div className={clsx("navbar-item has-dropdown is-hoverable", Style.NavbarDropdown)}>
+              <label className={clsx("navbar-link", Style.NavbarLink)} style={{ color: "#5d5d5d !important" }}>
+                <span className="icon">
+                  <i className="fa fa-flag"></i>
+                </span>
+              </label>
+
+              <div className="navbar-dropdown">
+                <span
+                  onClick={() => setLang("en-US")}
+                  className={clsx("navbar-item", "has-tooltip-left")}
+                  style={{ cursor: "pointer", paddingRight: 30 }}
+                  data-tooltip={t(getLangLabel("en-US"))}
+                >
+                  <img src="/asset/english_flag.svg" width="32" alt={t(getLangLabel("en-US"))}/>
+                </span>
+                <span
+                  onClick={() => setLang("fr-FR")}
+                  className={clsx("navbar-item", "has-tooltip-left")}
+                  style={{ cursor: "pointer", paddingRight: 30 }}
+                  data-tooltip={t(getLangLabel("fr-FR"))}
+                >
+                  <img src="/asset/french_flag.svg" width="32" alt={t(getLangLabel("fr-FR"))}/>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

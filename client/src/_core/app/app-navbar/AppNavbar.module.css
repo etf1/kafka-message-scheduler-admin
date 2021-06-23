@@ -43,3 +43,7 @@
   border-color: #3b3b3b !important;
   background-color: white !important;
 }
+.NavbarDropdown {
+  padding-right: 0.3rem !important;
+  border-left: #dadada 1px solid;
+}
