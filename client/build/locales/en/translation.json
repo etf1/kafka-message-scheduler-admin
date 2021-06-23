@@ -71,6 +71,10 @@
   "Chars": "Chars",
   "Refresh": "Refresh",
   "NoResults":"No results...",
-  "Loading":"Loading..."
+  "Loading":"Loading...",
+
+  "Menu-Display-In-English":"Display in english",
+  "Menu-Display-In-French":"Display in french"
+
 
 }
