@@ -33,3 +33,4 @@ OK - text du nb : 150 plannifications affichées, 316 plannifications au total.
 OK - augmenter la taille de la fenetre Valeur en largeur
 OK - virer la colonne ordonnanceur
 OK - ajouter taille du champ valeur dans la colonne du tableau
+OK - ajouter notif pour indiquer erreur (exemple si serveur HS)
