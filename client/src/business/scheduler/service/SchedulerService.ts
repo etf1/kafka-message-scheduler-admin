@@ -30,7 +30,7 @@ export type SearchParams = {
 export const makeSearchArgs = (p: SearchParams): string => {
   let res = '?';//`?scheduler-name=${p.schedulerName}`;
   if (p.scheduleId) {
-    res += `&schedule-id=${p.scheduleId}`;
+    res += `&schedule-id=${encodeURIComponent(p.scheduleId)}`;
   }
  /* if (p.max) {
     res += `&max=${p.max}`;
@@ -39,10 +39,10 @@ export const makeSearchArgs = (p: SearchParams): string => {
     res += `&sort-by=${p.sort} ${p.sortOrder || "asc"}`;
   }
   if (p.epochFrom) {
-    res += `&epoch-from=${p.epochFrom}`;
+    res += `&epoch-from=${encodeURIComponent(p.epochFrom)}`;
   }
   if (p.epochTo) {
-    res += `&epoch-to=${p.epochTo}`;
+    res += `&epoch-to=${encodeURIComponent(p.epochTo)}`;
   }
   return res;
 };
