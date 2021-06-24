@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import format from "date-fns/format";
 import { searchLiveSchedules, SearchParams, searchSchedules, SortOrder, SortType } from "../service/SchedulerService";
@@ -48,6 +48,8 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error>();
 
+  const prevSearhParamStr = useRef<string>();
+
   const buildResultLabel = () => {
     if (result && result.found > 0) {
       const limitedResultLabel =
@@ -70,12 +72,16 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
     //  save("SearchParamsModel"+live?"live":"all", searchModel);
     //  console.log(searchModel);
     const searchParams: SearchParams | undefined = makeParams(searchModel);
-    if (searchParams) {
+    const searchParamStr = JSON.stringify(searchParams);
+    if (searchParams && searchParamStr !== prevSearhParamStr.current) {
+      prevSearhParamStr.current = searchParamStr;
       searchMethod(searchParams)
         .then((result) => {
+
           setResult(result);
           setIsLoading(false);
           setError(undefined);
+          
         })
         .catch((err: Error) => {
           console.error(err);
