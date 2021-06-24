@@ -13,6 +13,7 @@ import Container from "_common/component/layout/container/Container";
 import Appear from "_common/component/transition/Appear";
 import { save } from "_common/service/SessionStorageService";
 import clsx from "clsx";
+import Icon from "_common/component/element/icon/Icon";
 
 const makeParams = (model: SearchParamsModel | undefined): SearchParams | undefined => {
   if (model && model.scheduler?.name) {
@@ -45,6 +46,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
   const smallScreen = useMedia(["(max-width: 1250px)", "(min-width: 1250px)"], [true, false], true);
   const schedules = result?.schedules || [];
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error>();
 
   const buildResultLabel = () => {
     if (result && result.found > 0) {
@@ -63,15 +65,22 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
 
   useEffect(() => {
     setIsLoading(true);
+
     const searchMethod = live ? searchLiveSchedules : searchSchedules;
     //  save("SearchParamsModel"+live?"live":"all", searchModel);
     //  console.log(searchModel);
     const searchParams: SearchParams | undefined = makeParams(searchModel);
     if (searchParams) {
-      searchMethod(searchParams).then((result) => {
-        setResult(result);
-        setIsLoading(false);
-      });
+      searchMethod(searchParams)
+        .then((result) => {
+          setResult(result);
+          setIsLoading(false);
+          setError(undefined);
+        })
+        .catch((err: Error) => {
+          console.error(err);
+          setError(err);
+        });
     }
   }, [searchModel, live]);
 
@@ -141,19 +150,26 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
               </strong>
             )}
             <div style={{ padding: "2rem" }}>
-              <Appear visible={schedules && schedules.length > 0}>
-                {(nodeRef) => (
-                  <div ref={nodeRef} className={clsx(isLoading && "animate-opacity")}>
-                    <ScheduleTable
-                      key="table"
-                      data={schedules}
-                      showAsTable={!smallScreen}
-                      onSort={handleSort}
-                      detailUrl={live ? ROUTE_SCHEDULE_LIVE_DETAIL : ROUTE_SCHEDULE_ALL_DETAIL}
-                    />
-                  </div>
-                )}
-              </Appear>
+              {error && (
+                <div className="animate-opacity" style={{ fontWeight: 800, color: "red" }}>
+                   <Icon name="exclamation-triangle"/>  {t("LoadingError")}
+                </div>
+              )}
+              {!error && (
+                <Appear visible={schedules && schedules.length > 0}>
+                  {(nodeRef) => (
+                    <div ref={nodeRef} className={clsx(isLoading && "animate-opacity")}>
+                      <ScheduleTable
+                        key="table"
+                        data={schedules}
+                        showAsTable={!smallScreen}
+                        onSort={handleSort}
+                        detailUrl={live ? ROUTE_SCHEDULE_LIVE_DETAIL : ROUTE_SCHEDULE_ALL_DETAIL}
+                      />
+                    </div>
+                  )}
+                </Appear>
+              )}
             </div>
           </Container>
         </div>

@@ -70,7 +70,7 @@
   "Refresh": "Rafraîchir",
   "NoResults":"Pas de résultat...",
   "Loading":"Chargement en cours...",
-
+  "LoadingError":"Une erreur est survenue lors du chargement des données.",
   "Menu-Display-In-English":"Afficher en anglais",
   "Menu-Display-In-French":"Afficher en français"
 }

@@ -72,7 +72,7 @@
   "Refresh": "Refresh",
   "NoResults":"No results...",
   "Loading":"Loading...",
-
+  "LoadingError":"Loading data error",
   "Menu-Display-In-English":"Display in english",
   "Menu-Display-In-French":"Display in french"
 

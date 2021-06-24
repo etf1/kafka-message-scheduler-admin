@@ -21,16 +21,29 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, 
   const { t } = useTranslation();
   const [schedule, setSchedule] = useState<Schedule[]>();
   const smallScreen = useMedia(["(max-width: 1250px)", "(min-width: 1250px)"], [true, false], true);
+  const [error, setError] = useState<Error>();
 
   useEffect(() => {
     if (schedulerName && scheduleId) {
       live
-        ? getLiveScheduleDetail(schedulerName, scheduleId).then((result) => {
-            setSchedule(result);
-          })
-        : getScheduleDetail(schedulerName, scheduleId).then((result) => {
-            setSchedule(result);
-          });
+        ? getLiveScheduleDetail(schedulerName, scheduleId)
+            .then((result) => {
+              setSchedule(result);
+              setError(undefined);
+            })
+            .catch((err: Error) => {
+              console.error(err);
+              setError(err);
+            })
+        : getScheduleDetail(schedulerName, scheduleId)
+            .then((result) => {
+              setSchedule(result);
+              setError(undefined);
+            })
+            .catch((err: Error) => {
+              console.error(err);
+              setError(err);
+            });
     }
   }, [schedulerName, scheduleId, live]);
 
@@ -89,7 +102,12 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, 
             }
           >
             <div style={{ padding: "2rem" }}>
-              <ScheduleVersionTable data={schedule || []} showAsTable={!smallScreen} />
+              {error && (
+                <div className="animate-opacity" style={{ fontWeight: 800, color: "red" }}>
+                  <Icon name="exclamation-triangle"/> {t("LoadingError")}
+                </div>
+              )}
+              {!error && <ScheduleVersionTable data={schedule || []} showAsTable={!smallScreen} />}
             </div>
           </Container>
         </div>

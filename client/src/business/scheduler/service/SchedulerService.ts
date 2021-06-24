@@ -105,6 +105,7 @@ export const getScheduleDetail = async (schedulerName: string, id: string): Prom
 };
 
 export const getLiveScheduleDetail = async (schedulerName: string, id: string): Promise<Schedule[]> => {
+  
   const result: Schedule[] = await get(getLiveScheduleDetailUrl(schedulerName, id));
 
   if (result.length > 0) {
