@@ -63,9 +63,9 @@
   "ScheduleVersionTable-column-TargetId":"Target ID",
   "ScheduleVersionTable-column-Value": "Value",
 
-  "Page-title-schedules-history":"Past schedules",
-  "Menu-schedules-history": "Past schedules",
-  "SchedulesHistory": "Past schedules",
+  "Page-title-schedules-history":"Triggered schedules",
+  "Menu-schedules-history": "Triggered schedules",
+  "SchedulesHistory": "Triggered schedules",
 
   "Close-button": "Close",
   "Scheduler-search-summary": "Search criteria",

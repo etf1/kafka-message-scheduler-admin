@@ -34,11 +34,11 @@ export const ROUTE_SCHEDULE_HISTORY_DETAIL = "/history/detail/:schedulerName/:sc
 export const getRouteScheduleDetailByType = (scheduleType: ScheduleType) => {
   switch (scheduleType) {
     case "live": 
-    return ROUTE_SCHEDULER_DETAIL;
+    return ROUTE_SCHEDULE_LIVE_DETAIL;
     case "history":
       return ROUTE_SCHEDULE_HISTORY_DETAIL
     default:
-      return   ROUTE_SCHEDULER_DETAIL;
+      return   ROUTE_SCHEDULE_ALL_DETAIL;
   }
 }
 
@@ -58,24 +58,7 @@ const routes: RouteConfig[] = [
     component: About,
     exact: true,
   },
-  {
-    path: ROUTE_SCHEDULERS,
-    key: "schedulers",
-    component: Schedulers,
-    exact: true,
-    menu: {
-      label: "Menu-schedulers",
-      icon: "stopwatch",
-      position: 5
-
-    },
-  },
-  {
-    path: ROUTE_SCHEDULER_DETAIL,
-    key: "scheduler-detail",
-    component: SchedulerDetail,
-    exact: true,
-  },
+ 
   {
     path: ROUTE_LIVE_SCHEDULES,
     key: "live",
@@ -128,6 +111,24 @@ const routes: RouteConfig[] = [
     path: ROUTE_SCHEDULE_HISTORY_DETAIL,
     key: "schedule",
     component: ScheduleDetailHistory,
+    exact: true,
+  },
+  {
+    path: ROUTE_SCHEDULERS,
+    key: "schedulers",
+    component: Schedulers,
+    exact: true,
+    menu: {
+      label: "Menu-schedulers",
+      icon: "stopwatch",
+      position: 5
+
+    },
+  },
+  {
+    path: ROUTE_SCHEDULER_DETAIL,
+    key: "scheduler-detail",
+    component: SchedulerDetail,
     exact: true,
   },
   {

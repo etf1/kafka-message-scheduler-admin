@@ -62,13 +62,14 @@ const ScheduleVersionTable: React.FC<ScheduleVersionTableProps> = ({ data, onCli
               <td>{formatUnixTime(schedule.epoch, t("Calendar-date-hour-format"))}</td>
               <td className={Style.colWithId}>{schedule.targetTopic}</td>
               <td className={Style.colWithId}>{schedule.targetId}</td>
-              <td onClick={() => showValueDetail(schedule)} className={clsx(Style.colWithId, Style.ColWithLink)}>
+              {value ? <td onClick={() => showValueDetail(schedule)} className={clsx(Style.colWithId, Style.ColWithLink)}>
+                
                 {truncate(value, 250)}{" "}
                 <span style={{ color: "gray", fontStyle: "italic" }}>
-                  ({value.length}&nbsp;{t("Chars")})
+                  ({value && value.length}&nbsp;{t("Chars")})
                 </span>{" "}
                 <Icon name="eye" />
-              </td>
+              </td> : <td />}
             </tr>
           );
         })}
