@@ -3,15 +3,13 @@ import { useTranslation } from "react-i18next";
 import format from "date-fns/format";
 import {
   getSearchScheduleDetailByType,
-  searchLiveSchedules,
   SearchParams,
-  searchSchedules,
   SortOrder,
   SortType,
 } from "../service/SchedulerService";
 import { ScheduleInfo, ScheduleType } from "../type";
 import ScheduleTable from "./ScheduleTable";
-import { ROUTE_SCHEDULE_LIVE_DETAIL, ROUTE_SCHEDULE_ALL_DETAIL, getRouteScheduleDetailByType } from "_core/router/routes";
+import { getRouteScheduleDetailByType } from "_core/router/routes";
 import useMedia from "_common/hook/useMedia";
 import SearchSchedulerForm, { SearchParamsModel } from "./SearchSchedulerForm";
 import { useHistory } from "react-router";
