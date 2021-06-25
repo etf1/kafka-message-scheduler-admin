@@ -1,12 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import format from "date-fns/format";
-import {
-  getSearchScheduleDetailByType,
-  SearchParams,
-  SortOrder,
-  SortType,
-} from "../service/SchedulerService";
+import { getSearchScheduleDetailByType, SearchParams, SortOrder, SortType } from "../service/SchedulerService";
 import { ScheduleInfo, ScheduleType } from "../type";
 import ScheduleTable from "./ScheduleTable";
 import { getRouteScheduleDetailByType } from "_core/router/routes";
@@ -19,6 +14,7 @@ import Appear from "_common/component/transition/Appear";
 import { save } from "_common/service/SessionStorageService";
 import clsx from "clsx";
 import Icon from "_common/component/element/icon/Icon";
+import useRefresh from "_common/hook/useRefresh";
 
 const makeParams = (model: SearchParamsModel | undefined): SearchParams | undefined => {
   if (model && model.scheduler?.name) {
@@ -58,9 +54,10 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
   const schedules = result?.schedules || [];
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error>();
+  const [refresh, count] = useRefresh();
 
   const prevSearhParamStr = useRef<string>();
-
+  const prevCount = useRef<number>();
   const buildResultLabel = () => {
     if (result && result.found > 0) {
       const limitedResultLabel =
@@ -77,10 +74,12 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
   };
 
   useEffect(() => {
-    
     const searchParams: SearchParams | undefined = makeParams(searchModel);
     const searchParamStr = JSON.stringify(searchParams);
-    if (searchParams && searchParamStr !== prevSearhParamStr.current) {
+    if (
+      (searchParams && count !== prevCount.current) ||
+      (searchParams && searchParamStr !== prevSearhParamStr.current)
+    ) {
       setIsLoading(true);
       prevSearhParamStr.current = searchParamStr;
       getSearchScheduleDetailByType(scheduleType)(searchParams)
@@ -94,7 +93,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
           setError(err);
         });
     }
-  }, [searchModel, scheduleType]);
+  }, [searchModel, scheduleType, count]);
 
   const handleSearchChange = useCallback(
     (searchModel: SearchParamsModel) => {
@@ -114,7 +113,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
         newPath.push(`epochFrom=${epochFrom}`);
       }
       const epochTo = searchModel.epochTo && format(searchModel.epochTo, t("Calendar-date-format"));
-      save(scheduleType+ "EpochTo", epochTo);
+      save(scheduleType + "EpochTo", epochTo);
       if (epochTo) {
         newPath.push(`epochTo=${epochTo}`);
       }
@@ -136,9 +135,6 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
     [searchModel]
   );
 
-  const handleRefresh = useCallback(() => {
-    setSearchModel((m) => ({ ...m }));
-  }, []);
   return (
     <React.Fragment key="SearchScheduler">
       <div className="app-box">
@@ -151,7 +147,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
                 scheduleId={scheduleId}
                 epochFrom={epochFrom || undefined}
                 epochTo={epochTo || undefined}
-                onRefresh={handleRefresh}
+                onRefresh={refresh}
               />
             </div>
           </div>
