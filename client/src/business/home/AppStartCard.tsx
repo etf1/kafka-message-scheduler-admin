@@ -2,7 +2,7 @@ import { AppStat } from "business/scheduler/service/SchedulerService";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import Icon from "_common/component/element/icon/Icon";
-import { resolvePath, ROUTE_ALL_SCHEDULES, ROUTE_LIVE_SCHEDULES, ROUTE_SCHEDULER_DETAIL } from "_core/router/routes";
+import { resolvePath, ROUTE_ALL_SCHEDULES, ROUTE_HISTORY_SCHEDULES, ROUTE_LIVE_SCHEDULES, ROUTE_SCHEDULER_DETAIL } from "_core/router/routes";
 
 type AppStatCardProps = {
   stat: AppStat;
@@ -51,6 +51,18 @@ const AppStatCard: React.FC<AppStatCardProps> = ({ stat }) => {
             <Link to={ROUTE_ALL_SCHEDULES + "?schedulerName=" + stat.scheduler}>
               <Icon name={"calendar-alt"}  style={{marginRight:20}} className={"has-tooltip-right"} data-tooltip={t("Schedules")} />{" "}
               {stat.total} {t("Schedules")}
+            </Link>
+          </h3>
+          <h3
+            className="subtitle is-6"
+            style={{
+              margin: 0,
+              padding: "1rem",
+            }}
+          >
+            <Link to={ROUTE_HISTORY_SCHEDULES + "?schedulerName=" + stat.scheduler}>
+              <Icon name={"history"}  style={{marginRight:20}} className={"has-tooltip-right"} data-tooltip={t("SchedulesHistory")} />{" "}
+              {stat.total} {t("SchedulesHistory")}
             </Link>
           </h3>
         </div>
