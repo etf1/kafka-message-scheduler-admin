@@ -62,7 +62,7 @@ const AppStatCard: React.FC<AppStatCardProps> = ({ stat }) => {
           >
             <Link to={ROUTE_HISTORY_SCHEDULES + "?schedulerName=" + stat.scheduler}>
               <Icon name={"history"}  style={{marginRight:20}} className={"has-tooltip-right"} data-tooltip={t("SchedulesHistory")} />{" "}
-              {stat.total} {t("SchedulesHistory")}
+              {stat.history} {t("SchedulesHistory")}
             </Link>
           </h3>
         </div>
