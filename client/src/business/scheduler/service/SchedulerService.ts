@@ -1,8 +1,11 @@
+import { ScheduleType } from './../type/index';
 import { get } from "_common/service/ApiUtil";
 import {
   getAppStatsUrl,
   getLiveScheduleDetailUrl,
   getLiveSchedulesUrl,
+  getHistoryScheduleDetailUrl,
+  getHistorySchedulesUrl,
   getScheduleDetailUrl,
   getSchedulersUrl,
   getSchedulesUrl,
@@ -113,3 +116,44 @@ export const getLiveScheduleDetail = async (schedulerName: string, id: string): 
   }
   throw new Error("Not found");
 };
+
+export const searchHistorySchedules = async (p: SearchParams): Promise<{found: number; schedules:ScheduleInfo[]}> => {
+  const result: { found: number; schedules: any[] } = await get(
+    getHistorySchedulesUrl(p.schedulerName) + makeSearchArgs(p)
+  );
+
+  const res = {found: result.found, schedules:makeScheduleInfoModel(result.schedules)};
+  return res;
+};
+export const getHistoryScheduleDetail = async (schedulerName: string, id: string): Promise<Schedule[]> => {
+  
+  const result: Schedule[] = await get(getHistoryScheduleDetailUrl(schedulerName, id));
+
+  if (result.length > 0) {
+    return result.map((sch) => makeScheduleModel(sch, schedulerName));
+  }
+  throw new Error("Not found");
+};
+
+export function getScheduleDetailByType (type:ScheduleType) {
+    switch (type) {
+      case "history":
+        return getHistoryScheduleDetail;
+      case "live":
+        return getLiveScheduleDetail;
+      default:
+        return getScheduleDetail;
+    }
+}
+
+
+export function getSearchScheduleDetailByType (type:ScheduleType) {
+  switch (type) {
+    case "history":
+      return searchHistorySchedules;
+    case "live":
+      return searchLiveSchedules;
+    default:
+      return searchSchedules;
+  }
+}

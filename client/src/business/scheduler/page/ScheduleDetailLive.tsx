@@ -33,8 +33,8 @@ const ScheduleDetailLive = () => {
         }
       />
 
-      <Panel icon={"calendar"} title={t("Page-title-schedule-detail", { id: scheduleId })}>
-        <ScheduleForm schedulerName={schedulerName} scheduleId={scheduleId} onClose={handleClose} live={true} />
+      <Panel icon={"bolt"} title={t("Page-title-schedule-detail", { id: scheduleId })}>
+        <ScheduleForm schedulerName={schedulerName} scheduleId={scheduleId} onClose={handleClose} scheduleType="live" />
       </Panel>
     </>
   );

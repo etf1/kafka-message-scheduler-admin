@@ -37,7 +37,7 @@ const AppStatCard: React.FC<AppStatCardProps> = ({ stat }) => {
             }}
           >
             <Link to={ROUTE_LIVE_SCHEDULES + "?schedulerName=" + stat.scheduler}>
-              <Icon name={"calendar"} style={{marginRight:20}}  className={"has-tooltip-right"} data-tooltip={t("SchedulesLive")} />{" "}
+              <Icon name={"bolt"} style={{marginRight:20}}  className={"has-tooltip-right"} data-tooltip={t("SchedulesLive")} />{" "}
               {stat.total_live} {t("SchedulesLive")}
             </Link>
           </h3>

@@ -4,5 +4,7 @@
   "schedules": "/api/scheduler/{name}/schedules",
   "schedule-detail": "/api/scheduler/{name}/schedule/{id}",
   "live-schedules": "/api/live/scheduler/{name}/schedules",
-  "live-schedule-detail": "/api/live/scheduler/{name}/schedule/{id}"
+  "live-schedule-detail": "/api/live/scheduler/{name}/schedule/{id}",
+  "history-schedules": "/api/history/scheduler/{name}/schedules",
+  "history-schedule-detail": "/api/history/scheduler/{name}/schedule/{id}"
 }

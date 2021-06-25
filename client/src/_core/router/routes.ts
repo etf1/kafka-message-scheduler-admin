@@ -1,3 +1,4 @@
+import { ScheduleType } from './../../business/scheduler/type/index';
 import { Dictionary } from "./../../_common/type/utils";
 import { replaceAll } from "_common/service/FunUtil";
 import { lazy } from "react";
@@ -9,6 +10,8 @@ const SchedulesLive = lazy(() => import("business/scheduler/page/SchedulesLive")
 const SchedulesAll = lazy(() => import("business/scheduler/page/SchedulesAll"));
 const ScheduleDetail = lazy(() => import("business/scheduler/page/ScheduleDetail"));
 const ScheduleDetailLive = lazy(() => import("business/scheduler/page/ScheduleDetailLive"));
+const SchedulesHistory = lazy(() => import("business/scheduler/page/SchedulesHistory"));
+const ScheduleDetailHistory = lazy(() => import("business/scheduler/page/ScheduleDetailHistory"));
 export type RouteConfig = {
   path: string;
   key: string;
@@ -25,6 +28,19 @@ export const ROUTE_ALL_SCHEDULES = "/all";
 export const ROUTE_SCHEDULE_ALL_DETAIL = "/all/detail/:schedulerName/:scheduleId";
 export const ROUTE_LIVE_SCHEDULES = "/live";
 export const ROUTE_SCHEDULE_LIVE_DETAIL = "/live/detail/:schedulerName/:scheduleId";
+export const ROUTE_HISTORY_SCHEDULES ="/history";
+export const ROUTE_SCHEDULE_HISTORY_DETAIL = "/history/detail/:schedulerName/:scheduleId";
+
+export const getRouteScheduleDetailByType = (scheduleType: ScheduleType) => {
+  switch (scheduleType) {
+    case "live": 
+    return ROUTE_SCHEDULER_DETAIL;
+    case "history":
+      return ROUTE_SCHEDULE_HISTORY_DETAIL
+    default:
+      return   ROUTE_SCHEDULER_DETAIL;
+  }
+}
 
 export const resolvePath = (path: string, variables: Dictionary) => {
   if (path.indexOf(":") > -1) {
@@ -50,7 +66,7 @@ const routes: RouteConfig[] = [
     menu: {
       label: "Menu-schedulers",
       icon: "stopwatch",
-      position: 4
+      position: 5
 
     },
   },
@@ -67,8 +83,20 @@ const routes: RouteConfig[] = [
     exact: true,
     menu: {
       label: "Menu-schedules-live",
-      icon: "calendar",
+      icon: "bolt",
       position: 2
+
+    },
+  },
+  {
+    path: ROUTE_HISTORY_SCHEDULES,
+    key: "history",
+    component: SchedulesHistory,
+    exact: true,
+    menu: {
+      label: "Menu-schedules-history",
+      icon: "history",
+      position: 4
 
     },
   },
@@ -94,6 +122,12 @@ const routes: RouteConfig[] = [
     path: ROUTE_SCHEDULE_ALL_DETAIL,
     key: "schedule",
     component: ScheduleDetail,
+    exact: true,
+  },
+  {
+    path: ROUTE_SCHEDULE_HISTORY_DETAIL,
+    key: "schedule",
+    component: ScheduleDetailHistory,
     exact: true,
   },
   {

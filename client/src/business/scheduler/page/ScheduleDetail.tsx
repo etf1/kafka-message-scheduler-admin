@@ -40,6 +40,7 @@ const ScheduleDetail = () => {
         schedulerName={schedulerName}
         scheduleId={scheduleId}
         onClose={handleClose}
+        scheduleType="all"
       />
     </Panel>
     </>

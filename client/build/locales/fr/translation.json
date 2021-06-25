@@ -61,6 +61,10 @@
   "ScheduleVersionTable-column-TargetId":"ID Cible",
   "ScheduleVersionTable-column-Value": "Valeur",
 
+  "Page-title-schedules-history":"Plannifications passées",
+  "Menu-schedules-history": "Planifications passées",
+  "SchedulesHistory": "Planifications passées",
+
   "Close-button": "Fermer",
   "Scheduler-search-summary": "Critères de recherche",
   "Nb-line": "ligne",

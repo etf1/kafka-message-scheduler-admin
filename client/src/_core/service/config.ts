@@ -6,6 +6,8 @@ let schedulesUrl = "";
 let scheduleDetailUrl = "";
 let liveSchedulesUrl = "";
 let liveScheduleDetailUrl = "";
+let historySchedulesUrl = "";
+let historyScheduleDetailUrl = "";
 let appStatUrl = "";
 
 async function init() {
@@ -17,6 +19,8 @@ async function init() {
   scheduleDetailUrl = response["schedule-detail"];
   liveSchedulesUrl = response["live-schedules"];
   liveScheduleDetailUrl = response["live-schedule-detail"];
+  historySchedulesUrl = response["history-schedules"];
+  historyScheduleDetailUrl = response["history-schedule-detail"];
 }
 export function getApiRoot() {
   if (apiRoot === null || apiRoot === undefined) {
@@ -42,6 +46,12 @@ export function getLiveSchedulesUrl(schedulerName: string) {
 }
 export function getLiveScheduleDetailUrl(schedulerName: string, id: string) {
   return getApiRoot()+liveScheduleDetailUrl.replace("{name}", schedulerName).replace("{id}", id);
+}
+export function getHistorySchedulesUrl(schedulerName: string) {
+  return getApiRoot()+historySchedulesUrl.replace("{name}", schedulerName);
+}
+export function getHistoryScheduleDetailUrl(schedulerName: string, id: string) {
+  return getApiRoot()+historyScheduleDetailUrl.replace("{name}", schedulerName).replace("{id}", id);
 }
 
 export default init;

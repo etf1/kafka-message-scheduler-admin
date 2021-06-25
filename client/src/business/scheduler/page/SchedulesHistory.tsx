@@ -4,24 +4,29 @@ import { useTranslation } from "react-i18next";
 import Panel from "_common/component/layout/panel/Panel";
 import endOfDay from "date-fns/endOfDay";
 import { clear, load } from "_common/service/SessionStorageService";
-import startOfDay from "date-fns/startOfDay";
-import format from "date-fns/format";
 
-const SchedulesAll = () => {
+export type SchedulesUrlParams = {
+  schedulerName?: string;
+  scheduleId?: string;
+  epochFrom?: string;
+  epochTo?: string;
+};
+
+const SchedulesHistory = () => {
   const { t } = useTranslation();
   const urlParams = new URLSearchParams(window.location.search);
-  const schedulerName = urlParams.get("schedulerName") || load("allSchedulerName", undefined);
-  const scheduleId = urlParams.get("scheduleId") || load("allScheduleId", undefined);
-  const epochFrom = urlParams.get("epochFrom") || load("allEpochFrom",  format(startOfDay(new Date()), t("Calendar-date-format")));
-  const epochTo = urlParams.get("epochTo") || load("allEpochTo", format(endOfDay(new Date()), t("Calendar-date-format")));
+  const schedulerName = urlParams.get("schedulerName") || load("historySchedulerName", undefined);
+  const scheduleId = urlParams.get("scheduleId") || load("historyScheduleId", undefined);
+  const epochFrom = urlParams.get("epochFrom") || load("historyEpochFrom", undefined);
+  const epochTo = urlParams.get("epochTo") || load("historyEpochTo", undefined);
   clear( (key) => {
-    return key.indexOf("all") ===0;
+    return key.indexOf("history") ===0;
   });
 
   return (
-    <Panel icon={"calendar-alt"} title={t("Page-title-schedules-all")}>
+    <Panel icon={"history"} title={t("Page-title-schedules-history")}>
       <SearchScheduler
-         scheduleType={"all"}
+        scheduleType={"history"}
         schedulerName={schedulerName}
         scheduleId={scheduleId}
         epochFrom={
@@ -38,4 +43,4 @@ const SchedulesAll = () => {
   );
 };
 
-export default SchedulesAll;
+export default SchedulesHistory;

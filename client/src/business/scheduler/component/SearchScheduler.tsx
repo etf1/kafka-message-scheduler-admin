@@ -1,10 +1,17 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import format from "date-fns/format";
-import { searchLiveSchedules, SearchParams, searchSchedules, SortOrder, SortType } from "../service/SchedulerService";
-import { ScheduleInfo } from "../type";
+import {
+  getSearchScheduleDetailByType,
+  searchLiveSchedules,
+  SearchParams,
+  searchSchedules,
+  SortOrder,
+  SortType,
+} from "../service/SchedulerService";
+import { ScheduleInfo, ScheduleType } from "../type";
 import ScheduleTable from "./ScheduleTable";
-import { ROUTE_SCHEDULE_LIVE_DETAIL, ROUTE_SCHEDULE_ALL_DETAIL } from "_core/router/routes";
+import { ROUTE_SCHEDULE_LIVE_DETAIL, ROUTE_SCHEDULE_ALL_DETAIL, getRouteScheduleDetailByType } from "_core/router/routes";
 import useMedia from "_common/hook/useMedia";
 import SearchSchedulerForm, { SearchParamsModel } from "./SearchSchedulerForm";
 import { useHistory } from "react-router";
@@ -31,14 +38,20 @@ const makeParams = (model: SearchParamsModel | undefined): SearchParams | undefi
   }
 };
 export type SearchSchedulerProps = {
-  live: boolean;
+  scheduleType: ScheduleType;
   schedulerName?: string;
   scheduleId?: string;
   epochFrom?: Date;
   epochTo?: Date;
 };
 
-const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, scheduleId, epochFrom, epochTo }) => {
+const SearchScheduler: React.FC<SearchSchedulerProps> = ({
+  scheduleType,
+  schedulerName,
+  scheduleId,
+  epochFrom,
+  epochTo,
+}) => {
   const { t } = useTranslation();
   const history = useHistory();
   const [searchModel, setSearchModel] = useState<SearchParamsModel | undefined>(); //;load<SearchParamsModel>("SearchParamsModel"+live?"live":"all", undefined));
@@ -68,47 +81,42 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
   useEffect(() => {
     setIsLoading(true);
 
-    const searchMethod = live ? searchLiveSchedules : searchSchedules;
-    //  save("SearchParamsModel"+live?"live":"all", searchModel);
-    //  console.log(searchModel);
     const searchParams: SearchParams | undefined = makeParams(searchModel);
     const searchParamStr = JSON.stringify(searchParams);
     if (searchParams && searchParamStr !== prevSearhParamStr.current) {
       prevSearhParamStr.current = searchParamStr;
-      searchMethod(searchParams)
+      getSearchScheduleDetailByType(scheduleType)(searchParams)
         .then((result) => {
-
           setResult(result);
           setIsLoading(false);
           setError(undefined);
-          
         })
         .catch((err: Error) => {
           console.error(err);
           setError(err);
         });
     }
-  }, [searchModel, live]);
+  }, [searchModel, scheduleType]);
 
   const handleSearchChange = useCallback(
     (searchModel: SearchParamsModel) => {
       const newPath = [];
       if (searchModel.scheduler) {
         newPath.push(`schedulerName=${searchModel.scheduler.name}`);
-        save((live ? "Live" : "All") + "SchedulerName", searchModel.scheduler.name);
+        save(scheduleType + "SchedulerName", searchModel.scheduler.name);
       }
       if (searchModel.scheduleId) {
         newPath.push(`scheduleId=${searchModel.scheduleId}`);
       }
-      save((live ? "Live" : "All") + "ScheduleId", searchModel.scheduleId);
+      save(scheduleType + "ScheduleId", searchModel.scheduleId);
 
       const epochFrom = searchModel.epochFrom && format(searchModel.epochFrom, t("Calendar-date-format"));
-      save((live ? "Live" : "All") + "EpochFrom", epochFrom);
+      save(scheduleType + "EpochFrom", epochFrom);
       if (epochFrom) {
         newPath.push(`epochFrom=${epochFrom}`);
       }
       const epochTo = searchModel.epochTo && format(searchModel.epochTo, t("Calendar-date-format"));
-      save((live ? "Live" : "All") + "EpochTo", epochTo);
+      save(scheduleType+ "EpochTo", epochTo);
       if (epochTo) {
         newPath.push(`epochTo=${epochTo}`);
       }
@@ -116,7 +124,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
       history.replace(window.location.pathname + "?" + newPath.join("&"));
       setSearchModel(searchModel);
     },
-    [history, live, t]
+    [history, scheduleType, t]
   );
 
   const handleSort = useCallback(
@@ -158,7 +166,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
             <div style={{ padding: "2rem" }}>
               {error && (
                 <div className="animate-opacity" style={{ fontWeight: 800, color: "red" }}>
-                   <Icon name="exclamation-triangle"/>  {t("LoadingError")}
+                  <Icon name="exclamation-triangle" /> {t("LoadingError")}
                 </div>
               )}
               {!error && (
@@ -170,7 +178,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({ live, schedulerName, 
                         data={schedules}
                         showAsTable={!smallScreen}
                         onSort={handleSort}
-                        detailUrl={live ? ROUTE_SCHEDULE_LIVE_DETAIL : ROUTE_SCHEDULE_ALL_DETAIL}
+                        detailUrl={getRouteScheduleDetailByType(scheduleType)}
                       />
                     </div>
                   )}

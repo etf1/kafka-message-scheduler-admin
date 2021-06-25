@@ -15,18 +15,18 @@ export type SchedulesUrlParams = {
 const SchedulesLive = () => {
   const { t } = useTranslation();
   const urlParams = new URLSearchParams(window.location.search);
-  const schedulerName = urlParams.get("schedulerName") || load("LiveSchedulerName", undefined);
-  const scheduleId = urlParams.get("scheduleId") || load("LiveScheduleId", undefined);
-  const epochFrom = urlParams.get("epochFrom") || load("LiveEpochFrom", undefined);
-  const epochTo = urlParams.get("epochTo") || load("LiveEpochTo", undefined);
+  const schedulerName = urlParams.get("schedulerName") || load("liveSchedulerName", undefined);
+  const scheduleId = urlParams.get("scheduleId") || load("liveScheduleId", undefined);
+  const epochFrom = urlParams.get("epochFrom") || load("liveEpochFrom", undefined);
+  const epochTo = urlParams.get("epochTo") || load("liveEpochTo", undefined);
   clear( (key) => {
-    return key.indexOf("Live") ===0;
+    return key.indexOf("live") ===0;
   });
 
   return (
-    <Panel icon={"calendar"} title={t("Page-title-schedules-live")}>
+    <Panel icon={"bolt"} title={t("Page-title-schedules-live")}>
       <SearchScheduler
-        live={true}
+        scheduleType={"live"}
         schedulerName={schedulerName}
         scheduleId={scheduleId}
         epochFrom={

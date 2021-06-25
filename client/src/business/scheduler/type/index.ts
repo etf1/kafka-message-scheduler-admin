@@ -26,3 +26,6 @@ export type Schedule = ScheduleInfo & {
   topic: string;
   value: string;
 };
+
+
+export type ScheduleType = "live" | "all" | "history"

@@ -1,8 +1,10 @@
 import { useTranslation } from "react-i18next";
 
 import { useEffect, useState } from "react";
-import { Schedule } from "../type";
-import { getLiveScheduleDetail, getScheduleDetail } from "../service/SchedulerService";
+import { Schedule, ScheduleType } from "../type";
+import {
+  getScheduleDetailByType,
+} from "../service/SchedulerService";
 import Container from "_common/component/layout/container/Container";
 import ScheduleVersionTable from "./ScheduleVersionTable";
 import useMedia from "_common/hook/useMedia";
@@ -14,10 +16,10 @@ export type ScheduleFormProps = {
   schedulerName: string;
   scheduleId: string;
   onClose: () => void;
-  live?: boolean;
+  scheduleType: ScheduleType;
 };
 
-const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, onClose, live }) => {
+const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, onClose, scheduleType }) => {
   const { t } = useTranslation();
   const [schedule, setSchedule] = useState<Schedule[]>();
   const smallScreen = useMedia(["(max-width: 1250px)", "(min-width: 1250px)"], [true, false], true);
@@ -25,27 +27,17 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, 
 
   useEffect(() => {
     if (schedulerName && scheduleId) {
-      live
-        ? getLiveScheduleDetail(schedulerName, scheduleId)
-            .then((result) => {
-              setSchedule(result);
-              setError(undefined);
-            })
-            .catch((err: Error) => {
-              console.error(err);
-              setError(err);
-            })
-        : getScheduleDetail(schedulerName, scheduleId)
-            .then((result) => {
-              setSchedule(result);
-              setError(undefined);
-            })
-            .catch((err: Error) => {
-              console.error(err);
-              setError(err);
-            });
+      getScheduleDetailByType(scheduleType)(schedulerName, scheduleId)
+        .then((result) => {
+          setSchedule(result);
+          setError(undefined);
+        })
+        .catch((err: Error) => {
+          console.error(err);
+          setError(err);
+        });
     }
-  }, [schedulerName, scheduleId, live]);
+  }, [schedulerName, scheduleId, scheduleType]);
 
   const firstSchedule = schedule && schedule[0];
 
@@ -104,7 +96,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, 
             <div style={{ padding: "2rem" }}>
               {error && (
                 <div className="animate-opacity" style={{ fontWeight: 800, color: "red" }}>
-                  <Icon name="exclamation-triangle"/> {t("LoadingError")}
+                  <Icon name="exclamation-triangle" /> {t("LoadingError")}
                 </div>
               )}
               {!error && <ScheduleVersionTable data={schedule || []} showAsTable={!smallScreen} />}
