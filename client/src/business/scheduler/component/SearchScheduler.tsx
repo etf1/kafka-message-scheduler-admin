@@ -77,11 +77,11 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
   };
 
   useEffect(() => {
-    setIsLoading(true);
-
+    
     const searchParams: SearchParams | undefined = makeParams(searchModel);
     const searchParamStr = JSON.stringify(searchParams);
     if (searchParams && searchParamStr !== prevSearhParamStr.current) {
+      setIsLoading(true);
       prevSearhParamStr.current = searchParamStr;
       getSearchScheduleDetailByType(scheduleType)(searchParams)
         .then((result) => {
