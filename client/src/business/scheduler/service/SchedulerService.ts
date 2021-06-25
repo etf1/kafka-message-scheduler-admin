@@ -17,7 +17,7 @@ export type SortOrder = "asc" | "desc";
 export type AppStat = {
   scheduler: string;
   total_live:number;
-  history:number;
+  total_history:number;
   total:number;
 }
 
