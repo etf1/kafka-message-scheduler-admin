@@ -31,7 +31,7 @@ The server exposes two ports:
 - `/` will expose the user interface
 - `/api` will expose the api endpoints
 
-## Routes
+## API Routes
 
 GET methods
 
@@ -39,23 +39,23 @@ URL Parameters:
 - `{name}`: scheduler name
 - `{id}`: schedule ID
 
-# config
+### config
 - `/stats` : expose some statistics
 - `/schedulers` : list of registered schedulers
 
-# all schedules
+### all schedules
 - `/scheduler/{name}/schedules`: search for schedules 
 - `/scheduler/{name}/schedule/{id}`: get schedule detail
 
-# live schedules
+### live schedules
 - `/live/scheduler/{name}/schedules`: search for schedules
 - `/scheduler/{name}/schedule/{id}`: get schedule detail
 
-# history schedules
+### history schedules
 - `/history/scheduler/{name}/schedules`: search for schedules
 - `/history/scheduler/{name}/schedule/{id}`: get schedule detail
 
-# search parameters
+### search parameters
 
 - `schedule-id`: part of the schedule ID
 - `epoch-from`: lower range of schedule epoch
