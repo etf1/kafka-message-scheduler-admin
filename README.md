@@ -17,7 +17,7 @@ docker run -d --restart=always -e SCHEDULERS_ADDR=scheduler \
 The mini version is a "mocked" version of the admin all in one, for demonstration purpose
 
 ```
-docker run -d --restart=always -e -p 80:9000 -p 9001:9001 \
+docker run -d --restart=always -e -p 9000:9000 -p 9001:9001 \
    --name scheduler-admin-mini etf1/kafka-message-scheduler-admin:mini
 ```
 
