@@ -1,4 +1,4 @@
-**scheduler admin** is a admin GUI for administration of [kafka message schedulers](https://github.com/etf1/kafka-message-scheduler)
+**scheduler admin** is a admin GUI for administration of [kafka message scheduler](https://github.com/etf1/kafka-message-scheduler)
 
 
 ### User Interface
@@ -13,10 +13,12 @@ Scheduler admin exposes an user interface. You can access it in your web browser
 
 To run the scheduler admin you can use docker, it will need a scheduler to connect to, you can specify in the variable env. `SCHEDULERS_ADDR` for example: `SCHEDULERS_ADDR=scheduler`.
 
-### Production version
+### Production ready version
 
 ```
-docker run -d --restart=always -e SCHEDULERS_ADDR=scheduler -p 9000:9000 -p 9001:9001 --name scheduler-admin etf1/kafka-message-scheduler-admin
+docker run -d --restart=always -e SCHEDULERS_ADDR=<schedulers-address> \
+   -p 9000:9000 -p 9001:9001 --name scheduler-admin \
+   etf1/kafka-message-scheduler-admin
 ```
 
 ### Mini version
@@ -24,8 +26,10 @@ docker run -d --restart=always -e SCHEDULERS_ADDR=scheduler -p 9000:9000 -p 9001
 The mini version is a "mocked" version of the admin all in one, for demonstration purpose
 
 ```
-docker run -d --restart=always -e -p 9000:9000 -p 9001:9001 --name scheduler-admin-mini etf1/kafka-message-scheduler-admin:mini
+docker run -d --restart=always -e -p 9000:9000 -p 9001:9001 \
+   --name scheduler-admin-mini etf1/kafka-message-scheduler-admin:mini
 ```
+Then open browser to `localhost:9000`
 
 ## Usage
 
@@ -37,7 +41,7 @@ The server exposes two ports:
 - `/` will expose the user interface
 - `/api` will expose the api endpoints
 
-## Routes
+## API Routes
 
 GET methods
 
@@ -45,23 +49,23 @@ URL Parameters:
 - `{name}`: scheduler name
 - `{id}`: schedule ID
 
-# config
+### config
 - `/stats` : expose some statistics
 - `/schedulers` : list of registered schedulers
 
-# all schedules
+### all schedules
 - `/scheduler/{name}/schedules`: search for schedules 
 - `/scheduler/{name}/schedule/{id}`: get schedule detail
 
-# live schedules
+### live schedules
 - `/live/scheduler/{name}/schedules`: search for schedules
 - `/scheduler/{name}/schedule/{id}`: get schedule detail
 
-# history schedules
+### history schedules
 - `/history/scheduler/{name}/schedules`: search for schedules
 - `/history/scheduler/{name}/schedule/{id}`: get schedule detail
 
-# search parameters
+### search parameters
 
 - `schedule-id`: part of the schedule ID
 - `epoch-from`: lower range of schedule epoch
