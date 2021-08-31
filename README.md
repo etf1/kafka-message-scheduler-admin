@@ -4,10 +4,10 @@
 
 To run the scheduler admin you can use docker, it will need a scheduler to connect to, you can specify in the variable env. `SCHEDULERS_ADDR` for example: `SCHEDULERS_ADDR=scheduler`.
 
-### Production version
+### Production ready version
 
 ```
-docker run -d --restart=always -e SCHEDULERS_ADDR=scheduler \
+docker run -d --restart=always -e SCHEDULERS_ADDR=<schedulers-address> \
    -p 9000:9000 -p 9001:9001 --name scheduler-admin \
    etf1/kafka-message-scheduler-admin
 ```
@@ -20,6 +20,7 @@ The mini version is a "mocked" version of the admin all in one, for demonstratio
 docker run -d --restart=always -e -p 9000:9000 -p 9001:9001 \
    --name scheduler-admin-mini etf1/kafka-message-scheduler-admin:mini
 ```
+Then open browser to `localhost:9000`
 
 ## Usage
 
