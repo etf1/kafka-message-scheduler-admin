@@ -1,4 +1,4 @@
-**scheduler admin** is a admin GUI for administration of [kafka message schedulers](https://github.com/etf1/kafka-message-scheduler)
+**scheduler admin** is a admin GUI for administration of [kafka message scheduler](https://github.com/etf1/kafka-message-scheduler)
 
 ## Getting started
 
@@ -7,7 +7,9 @@ To run the scheduler admin you can use docker, it will need a scheduler to conne
 ### Production version
 
 ```
-docker run -d --restart=always -e SCHEDULERS_ADDR=scheduler -p 80:9000 -p 9001:9001 --name scheduler-admin etf1/kafka-message-scheduler-admin
+docker run -d --restart=always -e SCHEDULERS_ADDR=scheduler \
+   -p 9000:9000 -p 9001:9001 --name scheduler-admin \
+   etf1/kafka-message-scheduler-admin
 ```
 
 ### Mini version
@@ -15,7 +17,8 @@ docker run -d --restart=always -e SCHEDULERS_ADDR=scheduler -p 80:9000 -p 9001:9
 The mini version is a "mocked" version of the admin all in one, for demonstration purpose
 
 ```
-docker run -d --restart=always -e -p 80:9000 -p 9001:9001 --name scheduler-admin-mini etf1/kafka-message-scheduler-admin:mini
+docker run -d --restart=always -e -p 80:9000 -p 9001:9001 \
+   --name scheduler-admin-mini etf1/kafka-message-scheduler-admin:mini
 ```
 
 ## Usage
