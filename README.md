@@ -1,15 +1,21 @@
 **scheduler admin** is a admin GUI for administration of [kafka message schedulers](https://github.com/etf1/kafka-message-scheduler)
 
-## Installation
+## Getting started
 
-### With Docker
+To run the scheduler admin you can use docker, it will need a scheduler to connect to, you can specify in the variable env. `SCHEDULERS_ADDR` for example: `SCHEDULERS_ADDR=scheduler`.
 
-```docker run -d \
-  --restart=always \
-  -p 9000:9000 \
-  -p 9001:9001 \
-  --name scheduler-admin \
-  etf1/kafka-message-scheduler-admin
+### Production version
+
+```
+docker run -d --restart=always -e SCHEDULERS_ADDR=scheduler -p 80:9000 -p 9001:9001 --name scheduler-admin etf1/kafka-message-scheduler-admin
+```
+
+### Mini version
+
+The mini version is a "mocked" version of the admin all in one, for demonstration purpose
+
+```
+docker run -d --restart=always -e -p 80:9000 -p 9001:9001 --name scheduler-admin-mini etf1/kafka-message-scheduler-admin:mini
 ```
 
 ## Usage
@@ -51,14 +57,11 @@ URL Parameters:
 - `schedule-id`: part of the schedule ID
 - `epoch-from`: lower range of schedule epoch
 - `epoch-to`: upper range of schedule epoch
-- `sort-by`: sort field, format is `field order`. 
 - `max`: max number of result returned (cannot be more than 1000)
-
-Available options for field are: `timestamp, id, epoch`
-Available options for order are: `asc,desc`
-Default is `timestamp desc`
-Example `id asc`
-
+- `sort-by`: sort field, format is `field order`. 
+   - Available options for field are: `timestamp`, `id`, `epoch`
+   - Available options for order are: `asc`, `desc`
+   - Default is `timestamp desc`
 
 ## Development
 
@@ -90,7 +93,10 @@ To start the server `make start`
 
 For development you will need a running admin server launched as described before or the mini version of the scheduler admin which is running without any external dependencies:
 
-- `docker run -p 8080:9000 etf1/kafka-message-scheduler-admin:mini`: startup mini version of the scheduler (no external dependencies required)
+- `docker run -p 9000:9000 etf1/kafka-message-scheduler-admin:mini`: startup mini version of the scheduler (no external dependencies required)
+
+or start a standard admin server
+
 - `make start` (inside /server): startup GO server on local
 
 The frontend is written with TypeScript and React. You can use the following commands to manage the development lifecycle:
@@ -103,7 +109,6 @@ The frontend is written with TypeScript and React. You can use the following com
 To start the server `yarn && yarn start`
 
 Then open brower at the classic address: http://localhost:3000
-
 
 ## Contributors
 
