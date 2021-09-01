@@ -14,12 +14,10 @@
 
 To run the scheduler admin you can use docker, it will need a scheduler to connect to, you can specify in the variable env. `SCHEDULERS_ADDR` for example: `SCHEDULERS_ADDR=scheduler`.
 
-### Production ready version
+### Regular version
 
 ```
-docker run -d --restart=always -e SCHEDULERS_ADDR=<schedulers-address> \
-   -p 9000:9000 -p 9001:9001 --name scheduler-admin \
-   etf1/kafka-message-scheduler-admin
+docker run -d -p 9000:9000 -e SCHEDULERS_ADDR=<schedulers-address> etf1/kafka-message-scheduler-admin
 ```
 
 ### Mini version
@@ -27,9 +25,9 @@ docker run -d --restart=always -e SCHEDULERS_ADDR=<schedulers-address> \
 The mini version is a "mocked" version of the admin all in one, for demonstration purpose
 
 ```
-docker run -d --restart=always -e -p 9000:9000 -p 9001:9001 \
-   --name scheduler-admin-mini etf1/kafka-message-scheduler-admin:mini
+docker run -d -e -p 9000:9000 etf1/kafka-message-scheduler-admin:mini
 ```
+
 Then open browser at `localhost:9000`
 
 ## Usage
@@ -76,6 +74,19 @@ URL Parameters:
    - Available options for field are: `timestamp`, `id`, `epoch`
    - Available options for order are: `asc`, `desc`
    - Default is `timestamp desc`
+
+## Configuration
+
+| Env. variable    | Default         | Description                                                                                                                                                |
+|------------------|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| LOG_LEVEL        | info            | logging level (panic, fatal, error, warning, info, debug, trace)                                                                                           |
+| GRAYLOG_SERVER   |                 | graylog server address                                                                                                                                     |
+| METRICS_ADDR     | :9001           | prometheus metrics port                                                                                                                                    |
+| SERVER_ADDR      | :9000           | server address port                                                                                                                                        |
+| SCHEDULERS_ADDR  | localhost:8000  | comma separated list of address of schedulers, may or may not contain port (default port is 8000), for example: SCHEDULERS_ADDR=scheduler1,scheduler2:8000 |
+| STATIC_FILES_DIR | ../client/build | location of the UI static files for the HTML & js files                                                                                                    |
+| DATA_ROOT_DIR    | ./.db           | Default location of internal database files                                                                                                                |
+| API_SERVER_ONLY  | false           | when true, only the rest api is exposed without serving the static files and default route is / (instead of /api)                                          |
 
 ## Development
 
@@ -136,7 +147,7 @@ Then open browser at: http://localhost:3000
 
 ```
 cd client
-docker run -p 9000:9000 etf1/kafka-message-scheduler-admin:mini
+docker run -d -p 9000:9000 etf1/kafka-message-scheduler-admin:mini
 yarn
 yarn start
 ```
