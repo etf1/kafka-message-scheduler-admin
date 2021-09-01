@@ -142,5 +142,5 @@ yarn start
 
 ## Contributors
 
-- [Emmanuel FERTER](https://github.com/eferte)
+- [Emmanuel FERTE](https://github.com/eferte)
 - [Fatih KARAKAS](https://github.com/fkarakas)
