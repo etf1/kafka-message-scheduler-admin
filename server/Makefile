@@ -32,14 +32,9 @@ test:
 	go test -v -tags musl -count=1 ./...
 
 test.integration:
-	RUN_INTEGRATION_TESTS=yes go test -v -tags musl -count=10 -run=^TestKafkaWatchableStore_AddBuckets ./...
+	RUN_INTEGRATION_TESTS=yes go test -v -tags musl -count=1 ./...
 
-tests: test.integration
-
-# test.integration:
-# 	RUN_INTEGRATION_TESTS=yes go test -v -tags musl -count=1 ./...
-
-# tests: lint test test.integration
+tests: lint test test.integration
 
 tests.docker:
 	docker-compose -p tests build tests
