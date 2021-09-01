@@ -1,4 +1,5 @@
-[![CI](https://github.com/etf1/kafka-message-scheduler-admin/actions/workflows/build.yml/badge.svg)](https://github.com/etf1/kafka-message-scheduler-admin/actions/workflows/build.yml)
+[![build](https://github.com/etf1/kafka-message-scheduler-admin/actions/workflows/build.yml/badge.svg)](https://github.com/etf1/kafka-message-scheduler-admin/actions/workflows/build.yml)
+[![docker](https://github.com/etf1/kafka-message-scheduler-admin/actions/workflows/docker.yml/badge.svg)](https://github.com/etf1/kafka-message-scheduler-admin/actions/workflows/docker.yml)
 
 **Scheduler admin** is a admin GUI for administration of [kafka message scheduler](https://github.com/etf1/kafka-message-scheduler)
 
