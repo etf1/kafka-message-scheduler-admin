@@ -187,7 +187,7 @@ loop:
 			if evt.EventType == store.StoreResetType {
 				reset++
 			}
-		case <-time.After(5 * time.Second):
+		case <-time.After(10 * time.Second):
 			t.Logf("timeout, exiting")
 			break loop
 		}
