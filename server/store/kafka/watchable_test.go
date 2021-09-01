@@ -174,6 +174,7 @@ loop:
 		select {
 		case evt, ok := <-lst:
 			if !ok {
+				t.Logf("channel closed, exiting")
 				break
 			}
 			total++
@@ -187,6 +188,7 @@ loop:
 				reset++
 			}
 		case <-time.After(5 * time.Second):
+			t.Logf("timeout, exiting")
 			break loop
 		}
 	}
