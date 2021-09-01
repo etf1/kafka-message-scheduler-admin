@@ -85,7 +85,8 @@ URL Parameters:
 | SERVER_ADDR      | :9000           | server address port                                                                                                                                        |
 | SCHEDULERS_ADDR  | localhost:8000  | comma separated list of address of schedulers, may or may not contain port (default port is 8000), for example: SCHEDULERS_ADDR=scheduler1,scheduler2:8000 |
 | STATIC_FILES_DIR | ../client/build | location of the UI static files for the HTML & js files                                                                                                    |
-| DATA_ROOT_DIR    | ./.db           | Default location of internal database files                                                                                                                ||
+| DATA_ROOT_DIR    | ./.db           | Default location of internal database files                                                                                                                |
+| API_SERVER_ONLY  | false           | when true, only the rest api is exposed without serving the static files and default route is / (instead of /api)                                          |
 
 ## Development
 
