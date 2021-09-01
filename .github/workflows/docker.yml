@@ -28,7 +28,7 @@ jobs:
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: ./server
-          file: ./cmd/kafka/Dockerfile
+          file: ./server/cmd/kafka/Dockerfile
           push: true
           tags: ${{ github.repository }}:${{ steps.get_version.outputs.TAG_NAME }}
       
@@ -36,6 +36,6 @@ jobs:
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: ./server
-          file: ./cmd/mini/Dockerfile
+          file: ./server/cmd/mini/Dockerfile
           push: true
           tags: ${{ github.repository }}:mini
