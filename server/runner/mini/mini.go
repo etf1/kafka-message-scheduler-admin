@@ -41,6 +41,7 @@ func newScheduler(name string) httpresolver.Scheduler {
 				IP:               net.IPv4(localhostIP()),
 				HostNames:        []string{"localhost"},
 				Topics:           []string{"schedules"},
+				HistoryTopic:     "history",
 				BootstrapServers: "localhost:9092",
 			},
 		},
