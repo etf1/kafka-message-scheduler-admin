@@ -75,6 +75,18 @@ URL Parameters:
    - Available options for order are: `asc`, `desc`
    - Default is `timestamp desc`
 
+## Configuration
+
+| Env. variable    | Default         | Description                                                                                                                                                |
+|------------------|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| LOG_LEVEL        | info            | logging level (panic, fatal, error, warning, info, debug, trace)                                                                                           |
+| GRAYLOG_SERVER   |                 | graylog server address                                                                                                                                     |
+| METRICS_ADDR     | :9001           | prometheus metrics port                                                                                                                                    |
+| SERVER_ADDR      | :9000           | server address port                                                                                                                                        |
+| SCHEDULERS_ADDR  | localhost:8000  | comma separated list of address of schedulers, may or may not contain port (default port is 8000), for example: SCHEDULERS_ADDR=scheduler1,scheduler2:8000 |
+| STATIC_FILES_DIR | ../client/build | location of the UI static files for the HTML & js files                                                                                                    |
+| DATA_ROOT_DIR    | ./.db           | Default location of internal database files                                                                                                                |
+
 ## Development
 
 ### Backend (in folder /server)
