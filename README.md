@@ -3,8 +3,6 @@
 
 ### User Interface
 
-Scheduler admin exposes an user interface. You can access it in your web browser on http://localhost:9000/.
-
 ![Home](docs/screenshots/one.png)
 ![List](docs/screenshots/two.png)
 ![Detail](docs/screenshots/three.png)
@@ -29,7 +27,7 @@ The mini version is a "mocked" version of the admin all in one, for demonstratio
 docker run -d --restart=always -e -p 9000:9000 -p 9001:9001 \
    --name scheduler-admin-mini etf1/kafka-message-scheduler-admin:mini
 ```
-Then open browser to `localhost:9000`
+Then open browser at `localhost:9000`
 
 ## Usage
 
@@ -98,7 +96,15 @@ The backend is written in Go. You can use the following commands to manage the d
 - `make tests`: execute all tests
 - `make tests.docker`: execute all tests in "black box" inside docker containers
 
-To start the server `make start`
+Then start the server `make start`
+
+#### Quick start
+
+```
+cd server
+make up
+make start
+```
 
 ### Frontend (in folder /client)
 
@@ -119,9 +125,18 @@ The frontend is written with TypeScript and React. You can use the following com
 - `yarn build`: generate the transpiled and minified files and assets
 - `yarn test`: execute unit tests
 
-To start the server `yarn && yarn start`
+To start the nodejs dev. server `yarn && yarn start`
 
-Then open brower at the classic address: http://localhost:3000
+Then open browser at: http://localhost:3000
+
+#### Quick start
+
+```
+cd client
+docker run -p 9000:9000 etf1/kafka-message-scheduler-admin:mini
+yarn
+yarn start
+```
 
 ## Contributors
 
