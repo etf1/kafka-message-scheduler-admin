@@ -1,0 +1,52 @@
+name: docker
+on:
+  push:
+    tags: ['*']
+
+env:
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+          
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Build & run tests in docker
+        working-directory: ./server
+        run: make tests.docker
+      
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKER_LOGIN }}
+          password: ${{ secrets.DOCKER_PWD }}
+      
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=TAG_NAME::${GITHUB_REF/refs\/tags\//}     
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        working-directory: ./server
+        with:
+          context: .
+          file: ./cmd/kafka/Dockerfile
+          push: true
+          tags: ${{ github.repository }}:${{ steps.get_version.outputs.TAG_NAME }}
+      
+      - name: Build and push Docker image for mini version
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        working-directory: ./server
+        with:
+          context: .
+          file: ./cmd/mini/Dockerfile
+          push: true
+          tags: ${{ github.repository }}:mini
