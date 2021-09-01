@@ -2,7 +2,6 @@ package config
 
 import (
 	"os"
-	"strconv"
 	"strings"
 	"time"
 
@@ -14,18 +13,6 @@ var (
 	serverAddr             = ""
 	DefaultShutdownTimeout = 5 * time.Second
 )
-
-func getDuration(name string, defaultValue time.Duration) time.Duration {
-	value, set := os.LookupEnv(name)
-	if set {
-		d, err := time.ParseDuration(value)
-		if err != nil {
-			return defaultValue
-		}
-		return d
-	}
-	return defaultValue
-}
 
 func getBool(name string, defaultValue bool) bool {
 	value, set := os.LookupEnv(name)
@@ -49,18 +36,6 @@ func getStrings(name string, defaultValue []string) []string {
 		return helper.SplitTrim(value)
 	}
 	return defaultValue
-}
-
-func getInt(name string, defaultValue int) int {
-	value, set := os.LookupEnv(name)
-	if !set {
-		return defaultValue
-	}
-	i, err := strconv.Atoi(value)
-	if err != nil {
-		return defaultValue
-	}
-	return i
 }
 
 func LogLevel() log.Level {
@@ -92,14 +67,6 @@ func ServerAddr() string {
 	return getString("SERVER_ADDR", ":9000")
 }
 
-func GroupID() string {
-	return getString("GROUP_ID", "scheduler-admin-cg")
-}
-
-func SessionTimeout() int {
-	return getInt("SESSION_TIMEOUT", 6000)
-}
-
 func SchedulersAddr() []string {
 	return getStrings("SCHEDULERS_ADDR", []string{"localhost:8000"})
 }
@@ -119,8 +86,4 @@ func DataRootDir() string {
 		return dir + "/"
 	}
 	return dir
-}
-
-func ShutdownTimeout() time.Duration {
-	return getDuration("SHUTDOWN_TIMEOUT", DefaultShutdownTimeout)
 }
