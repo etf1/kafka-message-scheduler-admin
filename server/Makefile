@@ -19,6 +19,18 @@ bin:
 mini:
 	go build ${LDFLAGS} -tags musl -v -o bin/mini ./cmd/mini
 
+docker:
+	docker build -t admin:local -f ./cmd/kafka/Dockerfile ..
+
+docker.mini:
+	docker build -t admin-mini:local -f ./cmd/mini/Dockerfile ..
+
+run.docker: docker
+	docker run -p 9000:9000 admin:local
+
+run.docker.mini: docker.mini
+	docker run -p 9000:9000 admin-mini:local
+
 start.mini:
 	go run ${LDFLAGS} -tags musl -v ./cmd/mini
 
