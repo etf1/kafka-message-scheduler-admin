@@ -3,6 +3,7 @@ package kafka
 import (
 	"fmt"
 	"reflect"
+	"time"
 
 	"github.com/etf1/kafka-message-scheduler-admin/server/store"
 	"github.com/etf1/kafka-message-scheduler/schedule/kafka"
@@ -45,12 +46,15 @@ func NewWatchableStore(buckets ...Bucket) (*WatchableStore, error) {
 func (ws WatchableStore) Close() {
 	defer log.Warnf("watchable kafka store closed")
 
-	ws.processor.close()
-
 	log.Warnf("closing watchable kafka store ...")
 	for _, c := range ws.consumers {
 		c.close()
 	}
+
+	// wait for consumer Poll timeout, otherwise we will get "panic: send on closed channel"
+	time.Sleep(1 * time.Second)
+
+	ws.processor.close()
 }
 
 func (ws *WatchableStore) AddBuckets(buckets ...Bucket) {

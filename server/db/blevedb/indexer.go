@@ -43,7 +43,7 @@ type indexer struct {
 	bleve.Index
 }
 
-func newIndexer(path string) (indexer, error) {
+func newIndexer(path string) (*indexer, error) {
 	// a generic reusable mapping for keyword text
 	keywordFieldMapping := bleve.NewTextFieldMapping()
 	keywordFieldMapping.Analyzer = keyword.Name
@@ -63,17 +63,18 @@ func newIndexer(path string) (indexer, error) {
 
 	index, err := bleve.New(path, mapping)
 	if err != nil {
-		return indexer{}, err
+		return nil, err
 	}
 
-	return indexer{
+	return &indexer{
 		make(chan event, MaxChanSize),
 		index,
 	}, nil
 }
 
-func (i indexer) close() {
+func (i *indexer) close() {
 	close(i.input)
+	i.input = nil
 }
 
 func (i indexer) start() {
@@ -150,27 +151,27 @@ loop:
 	}
 }
 
-func (i indexer) upsert(id string, data document) error {
+func (i indexer) upsert(id string, data document) {
 	if i.input == nil {
-		return fmt.Errorf("indexer not initialized or closed")
+		return
 	}
 	i.input <- event{
 		upsertType,
 		id,
 		data,
 	}
-	return nil
+	return
 }
 
-func (i indexer) delete(id string) error {
+func (i indexer) delete(id string) {
 	if i.input == nil {
-		return fmt.Errorf("indexer not initialized or closed")
+		return
 	}
 	i.input <- event{
 		eventType: deleteType,
 		id:        id,
 	}
-	return nil
+	return
 }
 
 /*

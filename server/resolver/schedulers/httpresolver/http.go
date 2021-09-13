@@ -102,7 +102,6 @@ func (r Resolver) List() ([]schedulers.Scheduler, error) {
 		}
 
 		// renvoie la liste des ips pour un host donné: ex: google.com => [216.58.215.46 2a00:1450:4007:808::200e]
-		log.Printf(">>>>>>> host: >%v<", host)
 		ips, err := net.LookupIP(host)
 		if err != nil {
 			log.Errorf("unable to lookup ip for host %v: %v", host, err)

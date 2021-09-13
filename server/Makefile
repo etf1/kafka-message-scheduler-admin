@@ -34,6 +34,7 @@ run.docker.mini: docker.mini
 start.mini:
 	go run ${LDFLAGS} -tags musl -v ./cmd/mini
 
+.PHONY: bin
 start:
 	go run ${LDFLAGS} -tags musl -v ./cmd/kafka
 

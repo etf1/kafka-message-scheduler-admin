@@ -1,6 +1,8 @@
 package kafka
 
 import (
+	"time"
+
 	confluent "github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/etf1/kafka-message-scheduler-admin/server/helper"
 	"github.com/etf1/kafka-message-scheduler-admin/server/store"
@@ -139,8 +141,8 @@ func (p processor) close() {
 func (p processor) start() {
 	go func() {
 		defer func() {
-			close(p.processChan)
-			close(p.processedChan)
+			//close(p.processChan)
+			//close(p.processedChan)
 			p.exitChan <- true
 			log.Printf("processor closed")
 		}()
@@ -148,8 +150,13 @@ func (p processor) start() {
 		for {
 			select {
 			case <-p.stopChan:
-				return
-			case msg := <-p.processChan:
+				log.Printf("processor stopChan called")
+				close(p.processChan)
+			case msg, ok := <-p.processChan:
+				if !ok {
+					close(p.processedChan)
+					return
+				}
 				if p.action != nil {
 					err := p.action(msg)
 					if err != nil {
@@ -215,12 +222,15 @@ func NewStore(buckets []Bucket) (Store, error) {
 func (s Store) Close() {
 	defer log.Printf("kafka store closed")
 
-	s.processor.close()
-
 	log.Printf("closing kafka store ...")
 	for _, c := range s.consumers {
 		c.close()
 	}
+
+	// wait for consumer Poll timeout, otherwise we will get "panic: send on closed channel"
+	time.Sleep(1 * time.Second)
+
+	// s.processor.close()
 }
 
 func (s Store) Get(schedulerName, scheduleID string) ([]store.Schedule, error) {

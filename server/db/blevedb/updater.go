@@ -1,8 +1,6 @@
 package blevedb
 
 import (
-	"fmt"
-
 	"github.com/etf1/kafka-message-scheduler-admin/server/store"
 	"github.com/etf1/kafka-message-scheduler/schedule"
 	log "github.com/sirupsen/logrus"
@@ -68,26 +66,24 @@ loop:
 	}
 }
 
-func (u updater) upsert(id string, s schedule.Schedule) error {
+func (u updater) upsert(id string, s schedule.Schedule) {
 	if u.input == nil {
-		return fmt.Errorf("indexer not initialized or closed")
+		return
 	}
 	u.input <- event{
 		eventType: upsertType,
 		id:        id,
 		data:      s,
 	}
-	return nil
 }
 
-func (u updater) delete(id string, s schedule.Schedule) error {
+func (u updater) delete(id string, s schedule.Schedule) {
 	if u.input == nil {
-		return fmt.Errorf("indexer not initialized or closed")
+		return
 	}
 	u.input <- event{
 		eventType: deleteType,
 		id:        id,
 		data:      s,
 	}
-	return nil
 }

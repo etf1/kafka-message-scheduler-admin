@@ -17,7 +17,7 @@ import (
 var (
 	app                 = "kafka-message-scheduler-admin"
 	version             = "undefined"
-	enableTevjefMetrics = true
+	enableTevjefMetrics = false
 )
 
 func main() {

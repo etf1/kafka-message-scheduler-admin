@@ -31,7 +31,7 @@ func (r Runner) Close() {
 func NewRunner(dataDir string) *Runner {
 	return &Runner{
 		stopChan: make(chan bool),
-		exitChan: make(chan bool),
+		exitChan: make(chan bool, 1),
 		dataDir:  dataDir,
 	}
 }
@@ -79,7 +79,7 @@ func (r *Runner) Start() error {
 		Path:          dir + "schedules.bleve",
 	})
 	if err != nil {
-		return fmt.Errorf("cannot create bleve db: %w", err)
+		return fmt.Errorf("cannot create bleve db %v: %w", dir, err)
 	}
 	defer coldDB.Close()
 

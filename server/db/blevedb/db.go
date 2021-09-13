@@ -23,7 +23,7 @@ const (
 type DB struct {
 	store.BatchableStore
 	sourceStore store.Watchable
-	idxr        indexer
+	idxr        *indexer
 	updtr       updater
 }
 
@@ -83,34 +83,20 @@ func bleveID(sch schedule.Schedule) string {
 	}
 }
 
-func (d DB) upsert(sch store.Schedule) error {
+func (d DB) upsert(sch store.Schedule) {
 	// upsert in bbolt store
-	err := d.updtr.upsert(sch.ID(), sch)
-	if err != nil {
-		return err
-	}
+	d.updtr.upsert(sch.ID(), sch)
 
 	// upsert in bleve index
-	err = d.idxr.upsert(bleveID(sch), toDocument(sch))
-	if err != nil {
-		return err
-	}
-	return nil
+	d.idxr.upsert(bleveID(sch), toDocument(sch))
 }
 
-func (d DB) delete(sch schedule.Schedule) error {
+func (d DB) delete(sch schedule.Schedule) {
 	// delete in bbolt store
-	err := d.updtr.delete(sch.ID(), sch)
-	if err != nil {
-		return err
-	}
+	d.updtr.delete(sch.ID(), sch)
 
 	// delete in bleve index
-	err = d.idxr.delete(bleveID(sch))
-	if err != nil {
-		return err
-	}
-	return nil
+	d.idxr.delete(bleveID(sch))
 }
 
 func (d DB) watch() {
@@ -127,16 +113,10 @@ func (d DB) watch() {
 		switch evt.EventType {
 		case store.UpsertType:
 			log.Printf("received upsert watch event from store: %+v", evt)
-			err := d.upsert(evt.Schedule)
-			if err != nil {
-				log.Errorf("cannot upsert event %+v: %v", evt.Schedule, err)
-			}
+			d.upsert(evt.Schedule)
 		case store.DeletedType:
 			log.Printf("received delete watch event from store: %+v", evt)
-			err := d.delete(evt.Schedule)
-			if err != nil {
-				log.Errorf("cannot delete event %+v: %v", evt.Schedule, err)
-			}
+			d.delete(evt.Schedule)
 		// the store has been reset need to delete all data
 		case store.StoreResetType:
 			schedulerName := evt.Schedule.SchedulerName
@@ -156,10 +136,7 @@ func (d DB) watch() {
 			}
 			// delete all schedules for the specified scheduler
 			for sch := range list {
-				err = d.delete(sch)
-				if err != nil {
-					log.Errorf("reset: cannot delete event %v: %v", evt.Schedule, err)
-				}
+				d.delete(sch)
 			}
 		}
 	}
