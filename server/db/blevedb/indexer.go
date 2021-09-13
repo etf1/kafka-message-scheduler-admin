@@ -160,7 +160,6 @@ func (i indexer) upsert(id string, data document) {
 		id,
 		data,
 	}
-	return
 }
 
 func (i indexer) delete(id string) {
@@ -171,7 +170,6 @@ func (i indexer) delete(id string) {
 		eventType: deleteType,
 		id:        id,
 	}
-	return
 }
 
 /*

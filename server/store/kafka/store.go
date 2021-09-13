@@ -141,8 +141,6 @@ func (p processor) close() {
 func (p processor) start() {
 	go func() {
 		defer func() {
-			//close(p.processChan)
-			//close(p.processedChan)
 			p.exitChan <- true
 			log.Printf("processor closed")
 		}()
@@ -230,7 +228,7 @@ func (s Store) Close() {
 	// wait for consumer Poll timeout, otherwise we will get "panic: send on closed channel"
 	time.Sleep(1 * time.Second)
 
-	// s.processor.close()
+	s.processor.close()
 }
 
 func (s Store) Get(schedulerName, scheduleID string) ([]store.Schedule, error) {

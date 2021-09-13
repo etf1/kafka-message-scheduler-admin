@@ -80,6 +80,10 @@ func APIServerOnly() bool {
 	return getBool("API_SERVER_ONLY", false)
 }
 
+func KafkaMessageBodyDecoder() string {
+	return getString("KAFKA_MESSAGE_BODY_DECODER", "")
+}
+
 func DataRootDir() string {
 	dir := getString("DATA_ROOT_DIR", "./.db")
 	if !strings.HasSuffix(dir, "/") {
