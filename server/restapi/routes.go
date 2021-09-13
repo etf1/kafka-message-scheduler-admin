@@ -81,7 +81,7 @@ func searchSchedules(d db.DB) func(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(http.StatusOK)
 
 		_, err = w.Write([]byte(fmt.Sprintf("{%q: %d, %q: [", "found", found, "schedules")))
@@ -224,7 +224,7 @@ func respondWithError(w http.ResponseWriter, message string) {
 }
 
 func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(code)
 
 	if payload != nil {
