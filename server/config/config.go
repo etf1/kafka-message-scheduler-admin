@@ -80,8 +80,13 @@ func APIServerOnly() bool {
 	return getBool("API_SERVER_ONLY", false)
 }
 
+// URL for the http decoder can start with http:// or not
 func KafkaMessageBodyDecoder() string {
-	return getString("KAFKA_MESSAGE_BODY_DECODER", "")
+	u := strings.ToLower(getString("KAFKA_MESSAGE_BODY_DECODER", ""))
+	if strings.HasPrefix(u, "http://") || strings.HasPrefix(u, "https://") {
+		return u
+	}
+	return "http://" + u
 }
 
 func DataRootDir() string {

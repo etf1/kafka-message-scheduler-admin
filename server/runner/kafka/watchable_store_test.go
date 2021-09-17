@@ -28,7 +28,7 @@ func TestKafkaWatchableStoreFromResolver_Watch(t *testing.T) {
 
 	resolver := httpresolver.NewResolver(config.SchedulersAddr())
 
-	kstore, err := kafka.NewWatchableStoreFromResolver(resolver, kafka.DefaultTopics)
+	kstore, err := kafka.NewWatchableStoreFromResolver(resolver, kafka.DefaultTopics, nil)
 	if err != nil {
 		t.Errorf("failed to create kafka store: %v\n", err)
 	}

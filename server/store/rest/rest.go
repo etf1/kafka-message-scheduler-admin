@@ -10,6 +10,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
+	"github.com/etf1/kafka-message-scheduler-admin/server/decoder"
 	"github.com/etf1/kafka-message-scheduler-admin/server/helper"
 	"github.com/etf1/kafka-message-scheduler-admin/server/resolver/schedulers/httpresolver"
 	"github.com/etf1/kafka-message-scheduler-admin/server/store"
@@ -45,11 +46,13 @@ func (s Schedule) String() string {
 
 type HTTPRetriever struct {
 	httpresolver.Resolver
+	dec decoder.Decoder
 }
 
-func NewStore(r httpresolver.Resolver) *HTTPRetriever {
+func NewStore(r httpresolver.Resolver, dec decoder.Decoder) *HTTPRetriever {
 	return &HTTPRetriever{
 		Resolver: r,
+		dec:      dec,
 	}
 }
 
@@ -126,9 +129,20 @@ func (h HTTPRetriever) getSchedules(schedulerName string, filter func(s schedule
 
 				for _, s := range res {
 					if filter(s) {
+						var sch schedule.Schedule = s
+
+						if h.dec != nil {
+							sdec, err := h.dec.Decode(s)
+							if err != nil {
+								log.Warnf("cannot decode rest schedule %v: %v", err, s.ID())
+							} else {
+								sch = sdec
+							}
+						}
+
 						result = append(result, store.Schedule{
 							SchedulerName: schedulerName,
-							Schedule:      s,
+							Schedule:      sch,
 						})
 					}
 				}

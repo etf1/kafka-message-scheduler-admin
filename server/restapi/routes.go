@@ -183,10 +183,6 @@ func getSchedule(d db.DB) func(w http.ResponseWriter, r *http.Request) {
 			respondWithError(w, err.Error())
 			return
 		}
-		fmt.Printf(">>>>>>>> %+v %T", sch, sch)
-
-		a, _ := json.Marshal(sch)
-		fmt.Println("xxxxxx", string(a))
 
 		if len(sch) == 0 {
 			respondWithJSON(w, http.StatusNotFound, nil)

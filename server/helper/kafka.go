@@ -152,7 +152,7 @@ func CreateTopics(nbTopic int, nbPartitions []int, prefix string) ([]string, err
 	}
 
 	for _, result := range results {
-		log.Printf("%s\n", result)
+		log.Printf("%s", result)
 	}
 
 	return topics, nil
@@ -299,4 +299,21 @@ func AssertMessagesinTopic(topic string, msgs []*confluent.Message) error {
 	}
 
 	return nil
+}
+
+func CopyKafkaSchedule(s kafka_schedule.Schedule) kafka_schedule.Schedule {
+	s2 := s
+	msg2 := *s.Message
+	s2.Message = &msg2
+
+	return s2
+}
+
+type KafkaMessageSimpleDecoder struct {
+	Called int
+}
+
+func (k *KafkaMessageSimpleDecoder) Decode(s schedule.Schedule) (schedule.Schedule, error) {
+	k.Called++
+	return s, nil
 }

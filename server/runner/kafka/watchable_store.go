@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/etf1/kafka-message-scheduler-admin/server/decoder"
 	"github.com/etf1/kafka-message-scheduler-admin/server/resolver/schedulers"
 	"github.com/etf1/kafka-message-scheduler-admin/server/resolver/schedulers/httpresolver"
 	"github.com/etf1/kafka-message-scheduler-admin/server/store/kafka"
@@ -68,7 +69,7 @@ func (wr *WatchableStoreFromResolver) updateBuckets() error {
 
 type TopicFunc func(s httpresolver.Scheduler) []string
 
-func NewWatchableStoreFromResolver(resolver httpresolver.Resolver, topics TopicFunc) (*WatchableStoreFromResolver, error) {
+func NewWatchableStoreFromResolver(resolver httpresolver.Resolver, topics TopicFunc, d decoder.Decoder) (*WatchableStoreFromResolver, error) {
 	wr := &WatchableStoreFromResolver{
 		resolver: resolver,
 		stopChan: make(chan bool, 1),
@@ -76,7 +77,7 @@ func NewWatchableStoreFromResolver(resolver httpresolver.Resolver, topics TopicF
 		topics:   topics,
 	}
 
-	ws, err := kafka.NewWatchableStore()
+	ws, err := kafka.NewWatchableStore(d)
 	if err != nil {
 		return wr, err
 	}

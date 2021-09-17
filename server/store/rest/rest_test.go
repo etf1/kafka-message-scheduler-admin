@@ -1,10 +1,8 @@
 // INTEGRATION TESTS
 
 // requirements: a running kafka-message-scheduler:mini
-// you can start the integration stack with: `make dev.up`
-// WARNING: schedules defined in scheduler made be gone when triggered
-// you should then restart the scheduler service: `make dev.restart.scheduler`
-
+// you can start the integration stack with: `make up`
+// or `docker-compose -p dev restart scheduler`
 package rest_test
 
 import (
@@ -23,15 +21,18 @@ func getSchedulerName() string {
 	return "localhost"
 }
 
+// Rule #1: Get should work as expected
 func TestRest_Get(t *testing.T) {
 	helper.VerifyIfSkipIntegrationTests(t)
 
 	schedulerName := getSchedulerName()
 
+	dec := &helper.KafkaMessageSimpleDecoder{}
 	rstore := rest.NewStore(
 		httpresolver.Resolver{
 			Hosts: []string{schedulerName},
 		},
+		dec,
 	)
 
 	result, err := rstore.Get(schedulerName, "schedule-1")
@@ -42,17 +43,24 @@ func TestRest_Get(t *testing.T) {
 	if len(result) == 0 {
 		t.Errorf("unexpected result: %v", result)
 	}
+
+	if dec.Called == 0 {
+		t.Errorf("unexpected decoder count: %v", dec.Called)
+	}
 }
 
+// Rule #2: List should work as expected
 func TestRest_List(t *testing.T) {
 	helper.VerifyIfSkipIntegrationTests(t)
 
 	schedulerName := getSchedulerName()
 
+	dec := &helper.KafkaMessageSimpleDecoder{}
 	rstore := rest.NewStore(
 		httpresolver.Resolver{
 			Hosts: []string{schedulerName},
 		},
+		dec,
 	)
 
 	// wait for goroutines to be scheduled
@@ -75,5 +83,8 @@ func TestRest_List(t *testing.T) {
 
 	if v := count; v == 0 {
 		t.Errorf("unexpected schedules length: %v", v)
+	}
+	if dec.Called == 0 {
+		t.Errorf("unexpected decoder count: %v", dec.Called)
 	}
 }

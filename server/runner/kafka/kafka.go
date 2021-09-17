@@ -10,6 +10,8 @@ import (
 	"github.com/etf1/kafka-message-scheduler-admin/server/config"
 	"github.com/etf1/kafka-message-scheduler-admin/server/db/blevedb"
 	"github.com/etf1/kafka-message-scheduler-admin/server/db/simple"
+	"github.com/etf1/kafka-message-scheduler-admin/server/decoder"
+	"github.com/etf1/kafka-message-scheduler-admin/server/decoder/httpdecoder"
 	"github.com/etf1/kafka-message-scheduler-admin/server/helper"
 	"github.com/etf1/kafka-message-scheduler-admin/server/resolver/schedulers/httpresolver"
 	"github.com/etf1/kafka-message-scheduler-admin/server/runner"
@@ -59,6 +61,14 @@ func (r *Runner) Start() error {
 		log.Println(variable[0], "=>", variable[1])
 	}
 
+	var dec decoder.Decoder
+
+	if decoderURL := config.KafkaMessageBodyDecoder(); decoderURL != "" {
+		dec = httpdecoder.Decoder{
+			URL: decoderURL,
+		}
+	}
+
 	// cold DB
 	resolver := httpresolver.NewResolver(config.SchedulersAddr())
 	bboltStore, err := bbolt.NewStore(dir + "schedules.bbolt")
@@ -67,7 +77,7 @@ func (r *Runner) Start() error {
 	}
 	defer bboltStore.Close()
 
-	watchableStore, err := NewWatchableStoreFromResolver(resolver, SchedulesTopics)
+	watchableStore, err := NewWatchableStoreFromResolver(resolver, SchedulesTopics, dec)
 	if err != nil {
 		return fmt.Errorf("cannot create watchable store: %w", err)
 	}
@@ -90,7 +100,7 @@ func (r *Runner) Start() error {
 	}
 	defer historyBboltStore.Close()
 
-	historyWatchableStore, err := NewWatchableStoreFromResolver(resolver, HistoryTopic)
+	historyWatchableStore, err := NewWatchableStoreFromResolver(resolver, HistoryTopic, dec)
 	if err != nil {
 		return fmt.Errorf("cannot create history watchable store: %w", err)
 	}
@@ -108,7 +118,7 @@ func (r *Runner) Start() error {
 
 	// live DB
 	liveDB := simple.DB{
-		Store: rest.NewStore(resolver),
+		Store: rest.NewStore(resolver, dec),
 	}
 
 	srv := runner.NewServer(coldDB, liveDB, historyDB, resolver)

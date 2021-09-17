@@ -5,23 +5,27 @@ import (
 	"reflect"
 	"time"
 
+	"github.com/etf1/kafka-message-scheduler-admin/server/decoder"
 	"github.com/etf1/kafka-message-scheduler-admin/server/store"
+	"github.com/etf1/kafka-message-scheduler/schedule"
 	"github.com/etf1/kafka-message-scheduler/schedule/kafka"
 	log "github.com/sirupsen/logrus"
 )
 
 type WatchableStore struct {
 	consumers map[string]consumer
+	dec       decoder.Decoder
 	processor
 }
 
-func NewWatchableStore(buckets ...Bucket) (*WatchableStore, error) {
+func NewWatchableStore(dec decoder.Decoder, buckets ...Bucket) (*WatchableStore, error) {
 	p := newProcessor(nil)
 	p.start()
 
 	ws := WatchableStore{
 		consumers: make(map[string]consumer),
 		processor: p,
+		dec:       dec,
 	}
 
 	for _, bucket := range buckets {
@@ -104,13 +108,25 @@ func (ws WatchableStore) Watch() (chan store.Event, error) {
 				if len(e.Value) == 0 {
 					evtType = store.DeletedType
 				}
+
+				var sch schedule.Schedule = &kafka.Schedule{
+					Message: e.Message,
+				}
+
+				if ws.dec != nil {
+					sdec, err := ws.dec.Decode(sch)
+					if err != nil {
+						log.Warnf("cannot decode kafka schedule %v: %v", sch.ID(), err)
+					} else {
+						sch = sdec
+					}
+				}
+
 				resultChan <- store.Event{
 					EventType: evtType,
 					Schedule: store.Schedule{
 						SchedulerName: e.name,
-						Schedule: kafka.Schedule{
-							Message: e.Message,
-						},
+						Schedule:      sch,
 					},
 				}
 			case storeResetType:

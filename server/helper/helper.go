@@ -4,59 +4,19 @@ import (
 	"crypto/rand"
 	"fmt"
 	"math/big"
-	"net"
 	"os"
 	"strings"
-	"sync"
 	"testing"
-	"time"
 
 	lorem "github.com/drhodes/golorem"
 	log "github.com/sirupsen/logrus"
 )
 
 const (
-	MaxRand        = 1000000
-	LoremMin       = 50
-	LoremMax       = 100
-	PortRange      = 500
-	PortStartRange = 9002
-	MaxRetries     = 5
+	MaxRand  = 1000000
+	LoremMin = 50
+	LoremMax = 100
 )
-
-var (
-	mu sync.Mutex
-)
-
-func WaitForHTTPServer(addr string) error {
-	count := 1
-
-	for {
-		timeout := 1 * time.Second
-
-		_, err := net.DialTimeout("tcp", addr, timeout)
-		if err != nil {
-			log.Printf("unreachable host %v: %v", addr, err)
-		} else {
-			log.Printf("reachable host %v", addr)
-			return nil
-		}
-
-		time.Sleep(timeout)
-
-		count++
-		if count == MaxRetries {
-			return fmt.Errorf("unreachable host after %v retries: %v", MaxRetries, addr)
-		}
-	}
-}
-
-func NextServerAddr(prefix string) string {
-	defer mu.Unlock()
-	mu.Lock()
-	// TODO: check is the port is available before returning
-	return fmt.Sprintf("%s:%d", prefix, PortStartRange+RandNumWithMax(PortRange))
-}
 
 func Lipsum() string {
 	return lorem.Paragraph(LoremMin, LoremMax)
