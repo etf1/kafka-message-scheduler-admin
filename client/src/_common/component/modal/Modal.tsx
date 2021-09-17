@@ -88,7 +88,7 @@ const Modal: React.FC<ModalProps> = ({
             type="button"
           />
         </header>
-        <section
+        <pre
           className="modal-card-body"
           style={{
             minHeight: height || "20vh",
@@ -97,7 +97,7 @@ const Modal: React.FC<ModalProps> = ({
           }}
         >
           {children}
-        </section>
+        </pre>
         <footer
           className="modal-card-foot"
           style={{ padding: 16, justifyContent: "flex-end" }}
