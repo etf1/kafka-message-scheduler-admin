@@ -87,7 +87,7 @@ URL Parameters:
 | STATIC_FILES_DIR | ../client/build | location of the UI static files for the HTML & js files                                                                                                    |
 | DATA_ROOT_DIR    | ./.db           | Default location of internal database files                                                                                                                |
 | API_SERVER_ONLY  | false           | when true, only the rest api is exposed without serving the static files and default route is / (instead of /api)                                          |
-| KAFKA_MESSAGE_BODY_DECODER  |            | set an endpoint for decoding kafka message payload. Post with payload {id:xxx target-topic:yyy ...}                                          |
+| KAFKA_MESSAGE_BODY_DECODER  |            | set an endpoint for decoding kafka message payload. Post with payload {id:xxx target-topic:yyy value:[base64 of the kafka message body]}                                          |
 
 ## Development
 
