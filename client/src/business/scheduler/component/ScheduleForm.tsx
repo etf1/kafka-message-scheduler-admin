@@ -52,7 +52,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, 
               </>
             }
           >
-            <div style={{ padding: "2rem" }}>
+            <div >
               {firstSchedule && (
                 <div className="columns is-desktop">
                   <div className="column is-6">
@@ -85,6 +85,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, 
               )}
             </div>
           </Container>
+          <hr style={{marginLeft:-20, width:"133%"}}/>
           <Container
             title={
               <>
@@ -93,7 +94,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedulerName, scheduleId, 
               </>
             }
           >
-            <div style={{ padding: "2rem" }}>
+            <div >
               {error && (
                 <div className="animate-opacity" style={{ fontWeight: 800, color: "red" }}>
                   <Icon name="exclamation-triangle" /> {t("LoadingError")}

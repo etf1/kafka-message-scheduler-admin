@@ -139,8 +139,8 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
     <React.Fragment key="SearchScheduler">
       <div className="app-box">
         <div className="container">
-          <div style={{ padding: "2rem", paddingTop: "1rem", paddingBottom: 0 }}>
-            <div className="more-space-top more-space-bottom">
+          <div style={{  paddingBottom: 0 }}>
+            <div className="space-top space-bottom">
               <SearchSchedulerForm
                 onChange={handleSearchChange}
                 schedulerName={schedulerName}
@@ -151,13 +151,14 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
               />
             </div>
           </div>
+          <hr style={{marginLeft:-20, width:"133%"}}/>
           <Container title={buildResultLabel()}>
             {(!schedules || schedules.length === 0) && (
               <strong style={{ color: "gray", fontStyle: "italic" }}>
                 {isLoading ? t("Loading") : t("NoResults")}
               </strong>
             )}
-            <div style={{ padding: "2rem" }}>
+            <div>
               {error && (
                 <div className="animate-opacity" style={{ fontWeight: 800, color: "red" }}>
                   <Icon name="exclamation-triangle" /> {t("LoadingError")}

@@ -1,13 +1,12 @@
-@media only screen and (max-width: 450px) {
-  .Column {
-    padding: 0;
-  }
+.Column {
+  padding: 0;
+  margin-bottom: 2rem;
 }
 
 
 .Title {
   color: #505050;
-  padding-left: 1.8rem;
-  margin-top: 2rem;
-  margin-bottom: 0.3rem !important;
+  padding-left: 0rem;
+  margin-top: 0rem;
+  margin-bottom: 0.4rem !important;
 }

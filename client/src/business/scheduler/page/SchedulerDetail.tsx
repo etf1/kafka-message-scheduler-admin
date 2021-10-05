@@ -49,7 +49,7 @@ const SchedulerDetail = () => {
                   </>
                 }
               >
-                <div style={{ padding: "2rem" }}>
+                <div>
                   {scheduler && (
                     <div className="columns">
                       <div className="column">
@@ -75,6 +75,8 @@ const SchedulerDetail = () => {
             </div>
           )}
         </Appear>
+         <hr style={{marginLeft:-20, width:"133%"}}/>
+        
         <Appear visible={instances && instances.length > 0}>
           {(nodeRef) => (
             <div ref={nodeRef}>
@@ -89,7 +91,7 @@ const SchedulerDetail = () => {
                   </>
                 }
               >
-                <div style={{ padding: "2rem" }}>
+                <div>
                   <SchedulerInstanceTable schedulerInstances={instances} />
                 </div>
               </Container>
