@@ -25,7 +25,7 @@ docker run -d -p 9000:9000 -e SCHEDULERS_ADDR=<schedulers-address> etf1/kafka-me
 The mini version is a "mocked" version of the admin all in one, for demonstration purpose
 
 ```
-docker run -d -e -p 9000:9000 etf1/kafka-message-scheduler-admin:mini
+docker run -d -p 9000:9000 etf1/kafka-message-scheduler-admin:mini
 ```
 
 Then open browser at `localhost:9000`
