@@ -12,6 +12,16 @@ jobs:
     steps:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
+
+      - name: Install node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Build /public
+        working-directory: ./client
+        run: yarn && yarn build
+
       - name: Build & test
         working-directory: ./server
         run: make tests.docker
