@@ -30,7 +30,7 @@ jobs:
         run: echo ::set-output name=TAG_NAME::${GITHUB_REF/refs\/tags\//}     
 
       - name: Build /public
-        run: npm i && npm run build
+        run: yarn && yarn build
 
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
