@@ -88,16 +88,17 @@ const Modal: React.FC<ModalProps> = ({
             type="button"
           />
         </header>
-        <pre
+        <div
           className="modal-card-body"
           style={{
             minHeight: height || "20vh",
-            display: "grid",
-            alignItems: "center"
+            display: "block",
+            alignItems: "center",
+            padding: 0
           }}
         >
           {children}
-        </pre>
+        </div>
         <footer
           className="modal-card-foot"
           style={{ padding: 16, justifyContent: "flex-end" }}
