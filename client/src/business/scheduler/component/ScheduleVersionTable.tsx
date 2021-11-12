@@ -8,6 +8,7 @@ import clsx from "clsx";
 import { base64DecToArr, truncate, UTF8ArrToStr } from "_common/service/FunUtil";
 import Icon from "_common/component/element/icon/Icon";
 import ModalService from "_common/component/modal/ModalService";
+import ScheduleValue from "./ScheduleValue";
 
 const formatUnixTime = (time: number, fmt: string) => {
   if (time) {
@@ -38,7 +39,16 @@ const ScheduleVersionTable: React.FC<ScheduleVersionTableProps> = ({ data, onCli
   const { t } = useTranslation();
 
   const showValueDetail = (schedule: Schedule) => {
-    ModalService.message({ title: t("Schedule-field-target-value"), message: getScheduleValue(schedule.value) });
+
+    ModalService.open({
+      title: t("Schedule-field-target-value"),
+      width:"70%", onSave:(() => Promise.resolve(true)), onCancel :(() => Promise.resolve(true)),
+      showSaveButton:false,
+      cancelLabel:"Fermer",
+      content: <ScheduleValue value={getScheduleValue(schedule.value)} />
+
+    })
+  
   };
 
   return showAsTable || showAsTable === undefined ? (
