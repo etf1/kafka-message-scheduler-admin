@@ -42,7 +42,7 @@ const ScheduleVersionTable: React.FC<ScheduleVersionTableProps> = ({ data, onCli
 
     ModalService.open({
       title: t("Schedule-field-target-value"),
-      width:"70%", onSave:(() => Promise.resolve(true)), onCancel :(() => Promise.resolve(true)),
+      width:"80%", onSave:(() => Promise.resolve(true)), onCancel :(() => Promise.resolve(true)),
       showSaveButton:false,
       cancelLabel:"Fermer",
       content: <ScheduleValue value={getScheduleValue(schedule.value)} />
