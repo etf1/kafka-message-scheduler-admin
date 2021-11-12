@@ -145,12 +145,74 @@ func (r *Runner) Start() error {
 	logErr(historyStore.Add(sch2.Name(), genRandVersions(schs[100:150])...))
 	logErr(historyStore.Add(sch3.Name(), genRandVersions(schs[200:250])...))
 
-	jsonStr := `{
- "firstName": "Joe",
- "lastName": "Lafrite",
- "status": "fried",
- "creationDate": "2018-05-06T08:00:00Z"
-}`
+	jsonStr :=
+		`[
+	{
+	"firstName": "Joe",
+	"lastName": "Lafrite",
+	"status": "fried",
+	"creationDate": "2018-05-06T08:00:00Z"
+	},
+	{
+	"firstName": "Joe",
+	"lastName": "Lafrite",
+	"status": "fried",
+	"creationDate": "2018-05-06T08:00:00Z"
+   },
+   {
+	"firstName": "Joe",
+	"lastName": "Lafrite",
+	"status": "fried",
+	"creationDate": "2018-05-06T08:00:00Z"
+   },
+   {
+	"firstName": "Joe",
+	"lastName": "Lafrite",
+	"status": "fried",
+	"creationDate": "2018-05-06T08:00:00Z"
+   },
+   {
+	"firstName": "Joe",
+	"lastName": "Lafrite",
+	"status": "fried",
+	"creationDate": "2018-05-06T08:00:00Z"
+   },
+   {
+	"firstName": "Joe",
+	"lastName": "Lafrite",
+	"status": "fried",
+	"creationDate": "2018-05-06T08:00:00Z"
+   },
+   {
+	"firstName": "Joe",
+	"lastName": "Lafrite",
+	"status": "fried",
+	"creationDate": "2018-05-06T08:00:00Z"
+   },
+   {
+	"firstName": "Joe",
+	"lastName": "Lafrite",
+	"status": "fried",
+	"creationDate": "2018-05-06T08:00:00Z"
+   },
+   {
+	"firstName": "Joe",
+	"lastName": "Lafrite",
+	"status": "fried",
+	"creationDate": "2018-05-06T08:00:00Z"
+   },
+   {
+	"firstName": "Joe",
+	"lastName": "Lafrite",
+	"status": "fried",
+	"creationDate": "2018-05-06T08:00:00Z"
+   },
+   {
+	"firstName": "Joe",
+	"lastName": "Lafrite",
+	"status": "fried",
+	"creationDate": "2018-05-06T08:00:00Z"
+   }]`
 	jsonMsg := schs[0]
 	jsonMsg.Key = []byte("target-id-json")
 	jsonMsg.Value = []byte(jsonStr)
