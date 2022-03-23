@@ -76,7 +76,7 @@ const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({
   const { schedulers } = useSchedulers();
   const [model, dispatch] = useReducer<SearchParamsReducer>(searchParamsReducer, {
     scheduler: load<Scheduler>(
-      "SearchParamsModel-Scheduler",
+      "SearchParamsModel-Scheduler"+schedulerName,
       (schedulers && schedulers.find((s) => s.name === schedulerName)) || undefined
     ),
     scheduleId: scheduleId || "",
@@ -91,9 +91,9 @@ const SearchSchedulerForm: React.FC<SearchSchedulerFormType> = ({
 
   useEffect(() => {
     if (model) {
-      save("SearchParamsModel-Scheduler", model.scheduler);
+      save("SearchParamsModel-Scheduler"+schedulerName, model.scheduler);
     }
-  }, [model]);
+  }, [model, schedulerName]);
 
   useEffect(() => {
     if (schedulers && schedulers.length > 0) {

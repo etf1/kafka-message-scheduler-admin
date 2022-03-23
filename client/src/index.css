@@ -1,13 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Chango&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap");
 
 html,
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
+    sans-serif;
 }
 
 html {
@@ -73,7 +72,7 @@ html {
   margin-bottom: 3em !important;
 }
 .animate-opacity {
-  opacity: 1;  /* cant animate border without a border... */
+  opacity: 1; /* cant animate border without a border... */
 
   -webkit-animation: OpacityAnimate 1.5s ease infinite;
   -moz-animation: OpacityAnimate 1.5s ease infinite;
@@ -81,7 +80,25 @@ html {
   animation: OpacityAnimate 1.5s ease infinite;
 }
 @keyframes OpacityAnimate {
-  0%   { opacity:1; }
-  50% { opacity:0.5}
-  100%   { opacity:1 }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.gray {
+  color: "gray";
+}
+
+.italic {
+  font-style: "italic";
+}
+
+.mtop-20 {
+  margin-top: 20px;
 }
