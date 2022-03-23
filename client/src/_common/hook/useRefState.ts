@@ -17,7 +17,7 @@ export default function useRefState<S>(
       (value: S | ((old: S) => S)): void => {
         valueRef.current = isFunction(value) ? value(valueRef.current) : value;
         refresh();
-      }
+      },
     ],
     // eslint-disable-next-line
     []

@@ -8,18 +8,21 @@ import { clear, load } from "_common/service/SessionStorageService";
 const SchedulesAll = () => {
   const { t } = useTranslation();
   const urlParams = new URLSearchParams(window.location.search);
-  const schedulerName = urlParams.get("schedulerName") || load("allSchedulerName", undefined);
-  const scheduleId = urlParams.get("scheduleId") || load("allScheduleId", undefined);
-  const epochFrom = urlParams.get("epochFrom") || load("allEpochFrom",  undefined);
+  const schedulerName =
+    urlParams.get("schedulerName") || load("allSchedulerName", undefined);
+  const scheduleId =
+    urlParams.get("scheduleId") || load("allScheduleId", undefined);
+  const epochFrom =
+    urlParams.get("epochFrom") || load("allEpochFrom", undefined);
   const epochTo = urlParams.get("epochTo") || load("allEpochTo", undefined);
-  clear( (key) => {
-    return key.indexOf("all") ===0;
+  clear((key) => {
+    return key.indexOf("all") === 0;
   });
 
   return (
     <Panel icon={"calendar-alt"} title={t("Page-title-schedules-all")}>
       <SearchScheduler
-         scheduleType={"all"}
+        scheduleType={"all"}
         schedulerName={schedulerName}
         scheduleId={scheduleId}
         epochFrom={
@@ -28,7 +31,8 @@ const SchedulesAll = () => {
           undefined
         }
         epochTo={
-          (epochTo && endOfDay(parse(epochTo, t("Calendar-date-format"), new Date()))) ||
+          (epochTo &&
+            endOfDay(parse(epochTo, t("Calendar-date-format"), new Date()))) ||
           undefined
         }
       />

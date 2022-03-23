@@ -6,7 +6,7 @@ import {
   isArray,
   isFunction,
   isDictionary,
-  sameKey
+  sameKey,
 } from "_common/type/utils";
 
 function isSelectedValueType(

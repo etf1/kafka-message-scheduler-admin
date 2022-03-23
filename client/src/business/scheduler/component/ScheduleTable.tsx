@@ -24,46 +24,63 @@ export type ScheduleTableProps = {
   onSort: (column: SortType, sortOrder: SortOrder) => void;
   detailUrl: string;
   showAsTable?: boolean;
-
 };
 
-const ScheduleTable: React.FC<ScheduleTableProps> = ({  data, detailUrl, onClick, onSort, showAsTable }) => {
+const ScheduleTable: React.FC<ScheduleTableProps> = ({
+  data,
+  detailUrl,
+  onClick,
+  onSort,
+  showAsTable,
+}) => {
   const { t } = useTranslation();
   const [sort, setSort] = useState<SortModel>();
 
   const handleSort = (column: SortType) => {
     if (sort && column === sort.type) {
-      setSort({type:sort.type, order: sort.order==="asc"? "desc":"asc"});
+      setSort({
+        type: sort.type,
+        order: sort.order === "asc" ? "desc" : "asc",
+      });
     } else {
-      setSort({type:column, order: "asc"});
+      setSort({ type: column, order: "asc" });
     }
   };
 
-  useEffect(()=>{
-
+  useEffect(() => {
     sort && onSort(sort.type, sort.order);
-
   }, [sort, onSort]);
 
-  const renderSortIcon = (key:SortType, sort:SortModel)=> {
+  const renderSortIcon = (key: SortType, sort: SortModel) => {
     if (sort?.type === key) {
-        if (sort?.order === "asc") {
-          return <Icon name="long-arrow-alt-down" />
-        } else {
-          return <Icon name="long-arrow-alt-up" />
-        }
+      if (sort?.order === "asc") {
+        return <Icon name="long-arrow-alt-down" />;
+      } else {
+        return <Icon name="long-arrow-alt-up" />;
+      }
     }
 
     return null;
-  }
+  };
 
   return showAsTable || showAsTable === undefined ? (
-    <table  key="table" className="table is-striped is-hoverable is-fullwidth">
+    <table key="table" className="table is-striped is-hoverable is-fullwidth">
       <thead>
         <tr>
-          <th style={{cursor:"pointer"}} onClick={() => handleSort("id")}>{t("ScheduleTable-column-ID")} {renderSortIcon("id", sort)}</th>
-          <th style={{cursor:"pointer"}} onClick={() => handleSort("timestamp")}>{t("ScheduleTable-column-CreationDate")} {renderSortIcon("timestamp", sort)}</th>
-          <th style={{cursor:"pointer"}} onClick={() => handleSort("epoch")}>{t("ScheduleTable-column-TiggerDate")} {renderSortIcon("epoch", sort)}</th>
+          <th style={{ cursor: "pointer" }} onClick={() => handleSort("id")}>
+            {t("ScheduleTable-column-ID")} {renderSortIcon("id", sort)}
+          </th>
+          <th
+            style={{ cursor: "pointer" }}
+            onClick={() => handleSort("timestamp")}
+          >
+            {t("ScheduleTable-column-CreationDate")}{" "}
+            {renderSortIcon("timestamp", sort)}
+          </th>
+          <th style={{ cursor: "pointer" }} onClick={() => handleSort("epoch")}>
+            {t("ScheduleTable-column-TiggerDate")}{" "}
+            {renderSortIcon("epoch", sort)}
+          </th>
           <th>{t("ScheduleTable-column-TargetTopic")}</th>
           <th>{t("ScheduleTable-column-TargetId")}</th>
         </tr>
@@ -72,7 +89,10 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({  data, detailUrl, onClick
       <tbody>
         {data.map((schedule, index) => {
           return (
-            <tr key={`${index} ${schedule.scheduler}/${schedule.id}`} onClick={() => onClick && onClick(schedule)}>
+            <tr
+              key={`${index} ${schedule.scheduler}/${schedule.id}`}
+              onClick={() => onClick && onClick(schedule)}
+            >
               <td className={clsx(Style.ColWithId, Style.ColWithLink)}>
                 <Link
                   to={resolvePath(detailUrl, {
@@ -83,8 +103,15 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({  data, detailUrl, onClick
                   {schedule.id}
                 </Link>
               </td>
-              <td>{formatUnixTime(schedule.timestamp, t("Calendar-date-hour-format"))}</td>
-              <td>{formatUnixTime(schedule.epoch, t("Calendar-date-hour-format"))}</td>
+              <td>
+                {formatUnixTime(
+                  schedule.timestamp,
+                  t("Calendar-date-hour-format")
+                )}
+              </td>
+              <td>
+                {formatUnixTime(schedule.epoch, t("Calendar-date-hour-format"))}
+              </td>
               <td className={Style.colWithId}>{schedule.targetTopic}</td>
               <td className={Style.colWithId}>{schedule.targetId}</td>
             </tr>
@@ -110,27 +137,41 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({  data, detailUrl, onClick
                   scheduleId: schedule.id,
                 })}
               >
-                <span className={clsx(Style.ValueField, Style.ColWithLink)}>{schedule.id}</span>
+                <span className={clsx(Style.ValueField, Style.ColWithLink)}>
+                  {schedule.id}
+                </span>
               </Link>
             </div>
-          
+
             <div className="space-right">
-              <strong className="space-right">{t("Schedule-field-creation-date")}</strong>
+              <strong className="space-right">
+                {t("Schedule-field-creation-date")}
+              </strong>
               <span className={clsx("space-right", Style.ValueField)}>
-                {formatUnixTime(schedule.timestamp, t("Calendar-date-hour-format"))},{" "}
+                {formatUnixTime(
+                  schedule.timestamp,
+                  t("Calendar-date-hour-format")
+                )}
+                ,{" "}
               </span>
-              <strong className={clsx("space-right", Style.ValueField)}>{t("Schedule-field-trigger-date")}</strong>
+              <strong className={clsx("space-right", Style.ValueField)}>
+                {t("Schedule-field-trigger-date")}
+              </strong>
               <span className={Style.ValueField}>
                 {formatUnixTime(schedule.epoch, t("Calendar-date-hour-format"))}
               </span>
             </div>
 
             <div className="space-right">
-              <strong className="space-right">{t("Schedule-field-target-topic")}</strong>
+              <strong className="space-right">
+                {t("Schedule-field-target-topic")}
+              </strong>
               <span className={Style.ValueField}>{schedule.targetTopic}</span>
             </div>
             <div className="space-right">
-              <strong className="space-right">{t("Schedule-field-target-id")}</strong>
+              <strong className="space-right">
+                {t("Schedule-field-target-id")}
+              </strong>
               <span className={Style.ValueField}>{schedule.targetId}</span>
             </div>
           </fieldset>

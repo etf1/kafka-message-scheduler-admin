@@ -1,0 +1,8 @@
+.Home {
+  margin: 3rem;
+  margin-top: 6rem;
+}
+.LoadingError {
+  font-weight: 800;
+  color: red;
+}

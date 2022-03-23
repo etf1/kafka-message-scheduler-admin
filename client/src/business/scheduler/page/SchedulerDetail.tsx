@@ -9,7 +9,11 @@ import Container from "_common/component/layout/container/Container";
 import Panel from "_common/component/layout/panel/Panel";
 import Appear from "_common/component/transition/Appear";
 import { pluralizeIf } from "_core/i18n";
-import { resolvePath, ROUTE_SCHEDULERS, ROUTE_SCHEDULER_DETAIL } from "_core/router/routes";
+import {
+  resolvePath,
+  ROUTE_SCHEDULERS,
+  ROUTE_SCHEDULER_DETAIL,
+} from "_core/router/routes";
 
 const SchedulerDetail = () => {
   const { t } = useTranslation();
@@ -55,15 +59,27 @@ const SchedulerDetail = () => {
                       <div className="column">
                         <fieldset disabled style={{ textAlign: "left" }}>
                           <div className="field">
-                            <label className="label">{t("Scheduler-field-name")}</label>
+                            <label className="label">
+                              {t("Scheduler-field-name")}
+                            </label>
                             <div className="control">
-                              <input className="input" type="text" defaultValue={scheduler.name} />
+                              <input
+                                className="input"
+                                type="text"
+                                defaultValue={scheduler.name}
+                              />
                             </div>
                           </div>
                           <div className="field">
-                            <label className="label">{t("Scheduler-field-port")}</label>
+                            <label className="label">
+                              {t("Scheduler-field-port")}
+                            </label>
                             <div className="control">
-                              <input className="input" type="text" defaultValue={scheduler.http_port} />
+                              <input
+                                className="input"
+                                type="text"
+                                defaultValue={scheduler.http_port}
+                              />
                             </div>
                           </div>
                         </fieldset>
@@ -75,8 +91,8 @@ const SchedulerDetail = () => {
             </div>
           )}
         </Appear>
-         <hr style={{marginLeft:-20, width:"133%"}}/>
-        
+        <hr style={{ marginLeft: -20, width: "133%" }} />
+
         <Appear visible={instances && instances.length > 0}>
           {(nodeRef) => (
             <div ref={nodeRef}>
@@ -86,8 +102,11 @@ const SchedulerDetail = () => {
                     <Icon name="copy" />
                     {instances.length +
                       " " +
-                      pluralizeIf(instances.length, t("Scheduler-field-instance"), t("Scheduler-field-instances")) ||
-                      ""}
+                      pluralizeIf(
+                        instances.length,
+                        t("Scheduler-field-instance"),
+                        t("Scheduler-field-instances")
+                      ) || ""}
                   </>
                 }
               >

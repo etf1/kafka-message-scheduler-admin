@@ -9,7 +9,7 @@ export type ContainerProps = {
 const Container: React.FC<ContainerProps> = ({
   title,
   size = 12,
-  children
+  children,
 }) => {
   let offset = "";
   if (size === 8) {
@@ -27,7 +27,7 @@ const Container: React.FC<ContainerProps> = ({
           Style.Column
         )}
       >
-        {title && <h3 className={clsx("title is-5", Style.Title)} >{title}</h3>}
+        {title && <h3 className={clsx("title is-5", Style.Title)}>{title}</h3>}
         {children}
       </div>
     </div>

@@ -47,7 +47,7 @@ const Modal: React.FC<ModalProps> = ({
   focused = "none",
   showSaveButton = true,
   showCancelButton = true,
-  disabled = false
+  disabled = false,
 }) => {
   const { t } = useTranslation();
   const padding = zIndex * MODAL_SPACING;
@@ -56,7 +56,7 @@ const Modal: React.FC<ModalProps> = ({
   const style = {
     width: typeof width === "string" ? width : (width as number) + padding,
     paddingLeft: padding,
-    paddingTop: padding
+    paddingTop: padding,
   };
   useEffect(() => {
     if (focused === "save") {
@@ -94,7 +94,7 @@ const Modal: React.FC<ModalProps> = ({
             minHeight: height || "20vh",
             display: "block",
             alignItems: "center",
-            padding: 0
+            padding: 0,
           }}
         >
           {children}

@@ -13,9 +13,10 @@ import { useState, useEffect, useMemo, useCallback } from "react";
  * @returns one value of param "values" or else default value
  */
 function useMedia<T>(queries: string[], values: T[], defaultValue: T) {
-  const mediaQueries = useMemo(() => queries.map((q) => window.matchMedia(q)), [
-    queries,
-  ]);
+  const mediaQueries = useMemo(
+    () => queries.map((q) => window.matchMedia(q)),
+    [queries]
+  );
   const getValue = useCallback(() => {
     const index = mediaQueries.findIndex((mql) => mql.matches);
     return typeof values[index] !== "undefined" ? values[index] : defaultValue;

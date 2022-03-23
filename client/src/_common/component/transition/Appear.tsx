@@ -19,7 +19,7 @@ const Appear = ({ visible, timeout, fadeMore, children }: AppearProps) => {
         enter: Style.enter,
         enterActive: fadeMore ? Style.enterMoreActive : Style.enterActive,
         exit: Style.exit,
-        exitActive: fadeMore ? Style.exitMoreActive : Style.exitActive
+        exitActive: fadeMore ? Style.exitMoreActive : Style.exitActive,
       }}
     >
       {children && children(nodeRef)}

@@ -9,9 +9,19 @@ export interface ModalConfig {
   saveLabel?: string;
   cancelLabel?: string;
   content: React.ReactNode;
-  onSave: (event: undefined | React.MouseEvent<HTMLButtonElement, MouseEvent> | KeyboardEvent) => Promise<boolean>;
+  onSave: (
+    event:
+      | undefined
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+      | KeyboardEvent
+  ) => Promise<boolean>;
   onCancel: (
-    event: "onPrevious" | "onNext" | undefined | React.MouseEvent<HTMLButtonElement, MouseEvent> | KeyboardEvent
+    event:
+      | "onPrevious"
+      | "onNext"
+      | undefined
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+      | KeyboardEvent
   ) => Promise<boolean>;
   focused?: "save" | "cancel";
   showSaveButton?: boolean;
@@ -19,13 +29,18 @@ export interface ModalConfig {
 }
 
 class ModalServiceImpl {
-  private modalProviderHandler: ((config: ModalConfig) => void) | undefined = undefined;
+  private modalProviderHandler: ((config: ModalConfig) => void) | undefined =
+    undefined;
 
   private closeTopModal: (() => void) | undefined = undefined;
 
   private t: TFunction | undefined;
 
-  setModalProvider = (modalProviderHandler: (config: ModalConfig) => void, closeTopModal: () => void, t: TFunction) => {
+  setModalProvider = (
+    modalProviderHandler: (config: ModalConfig) => void,
+    closeTopModal: () => void,
+    t: TFunction
+  ) => {
     this.modalProviderHandler = modalProviderHandler;
     this.closeTopModal = closeTopModal;
     this.t = t;

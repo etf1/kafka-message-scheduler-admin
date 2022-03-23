@@ -13,7 +13,7 @@ let appStatUrl = "";
 async function init() {
   const response = await get("/configuration.json");
   apiRoot = response["api-root"];
-  appStatUrl= response["stats"];
+  appStatUrl = response["stats"];
   schedulersUrl = response["schedulers"];
   schedulesUrl = response["schedules"];
   scheduleDetailUrl = response["schedule-detail"];
@@ -30,28 +30,39 @@ export function getApiRoot() {
   return apiRoot;
 }
 export function getAppStatsUrl() {
-  return getApiRoot()+appStatUrl;
+  return getApiRoot() + appStatUrl;
 }
 export function getSchedulersUrl() {
-  return getApiRoot()+schedulersUrl;
+  return getApiRoot() + schedulersUrl;
 }
 export function getSchedulesUrl(schedulerName: string) {
-  return getApiRoot()+schedulesUrl.replace("{name}", schedulerName);
+  return getApiRoot() + schedulesUrl.replace("{name}", schedulerName);
 }
 export function getScheduleDetailUrl(schedulerName: string, id: string) {
-  return getApiRoot()+scheduleDetailUrl.replace("{name}", schedulerName).replace("{id}", id);
+  return (
+    getApiRoot() +
+    scheduleDetailUrl.replace("{name}", schedulerName).replace("{id}", id)
+  );
 }
 export function getLiveSchedulesUrl(schedulerName: string) {
-  return getApiRoot()+liveSchedulesUrl.replace("{name}", schedulerName);
+  return getApiRoot() + liveSchedulesUrl.replace("{name}", schedulerName);
 }
 export function getLiveScheduleDetailUrl(schedulerName: string, id: string) {
-  return getApiRoot()+liveScheduleDetailUrl.replace("{name}", schedulerName).replace("{id}", id);
+  return (
+    getApiRoot() +
+    liveScheduleDetailUrl.replace("{name}", schedulerName).replace("{id}", id)
+  );
 }
 export function getHistorySchedulesUrl(schedulerName: string) {
-  return getApiRoot()+historySchedulesUrl.replace("{name}", schedulerName);
+  return getApiRoot() + historySchedulesUrl.replace("{name}", schedulerName);
 }
 export function getHistoryScheduleDetailUrl(schedulerName: string, id: string) {
-  return getApiRoot()+historyScheduleDetailUrl.replace("{name}", schedulerName).replace("{id}", id);
+  return (
+    getApiRoot() +
+    historyScheduleDetailUrl
+      .replace("{name}", schedulerName)
+      .replace("{id}", id)
+  );
 }
 
 export default init;

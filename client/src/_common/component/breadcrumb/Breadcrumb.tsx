@@ -8,7 +8,11 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ data }) => {
   const len = data.length;
 
   return (
-    <nav className="breadcrumb" aria-label="breadcrumbs" style={{ marginLeft: "1rem" }}>
+    <nav
+      className="breadcrumb"
+      aria-label="breadcrumbs"
+      style={{ marginLeft: "1rem" }}
+    >
       <ul>
         {data.map((u, index) => {
           return index < len - 1 ? (
@@ -25,6 +29,5 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ data }) => {
     </nav>
   );
 };
-
 
 export default Breadcrumb;

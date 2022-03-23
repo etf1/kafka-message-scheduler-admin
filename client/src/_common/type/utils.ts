@@ -90,7 +90,7 @@ export function getValueOrFunctionValue<T>(
  * @param key la valeur de la clé à comparer
  * @returns Un prédicat qui, pour un objet de type T ou une primitive de type T, permet de savoir s'il est égal ou non à la clé donnée.
  */
- export function sameKey<T>(keyField: string, key: string) {
+export function sameKey<T>(keyField: string, key: string) {
   return (d: T) =>
     isPrimitive(d)
       ? d === key

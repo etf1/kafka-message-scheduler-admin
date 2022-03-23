@@ -26,7 +26,12 @@ const AppLeftSidebar = () => {
       {routesWithMenu.map(({ path, key, menu }) => {
         return (
           <Link key={key} data-key="menu-item" to={path}>
-            <div className={clsx(Style.MenuItem, bestStartPath(allPaths, path) ? Style.MenuItemSelected : null)}>
+            <div
+              className={clsx(
+                Style.MenuItem,
+                bestStartPath(allPaths, path) ? Style.MenuItemSelected : null
+              )}
+            >
               <Icon
                 name={menu?.icon || ""}
                 size="lg"

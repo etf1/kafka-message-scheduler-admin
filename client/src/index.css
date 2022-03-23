@@ -5,8 +5,8 @@
 
 html,
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
 html {
@@ -103,6 +103,6 @@ html {
   display: block;
 }
 
-.min-width-100 {
+.min-width-100  {
   min-width: 100%;
 }

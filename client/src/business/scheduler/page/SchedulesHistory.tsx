@@ -15,12 +15,15 @@ export type SchedulesUrlParams = {
 const SchedulesHistory = () => {
   const { t } = useTranslation();
   const urlParams = new URLSearchParams(window.location.search);
-  const schedulerName = urlParams.get("schedulerName") || load("historySchedulerName", undefined);
-  const scheduleId = urlParams.get("scheduleId") || load("historyScheduleId", undefined);
-  const epochFrom = urlParams.get("epochFrom") || load("historyEpochFrom", undefined);
+  const schedulerName =
+    urlParams.get("schedulerName") || load("historySchedulerName", undefined);
+  const scheduleId =
+    urlParams.get("scheduleId") || load("historyScheduleId", undefined);
+  const epochFrom =
+    urlParams.get("epochFrom") || load("historyEpochFrom", undefined);
   const epochTo = urlParams.get("epochTo") || load("historyEpochTo", undefined);
-  clear( (key) => {
-    return key.indexOf("history") ===0;
+  clear((key) => {
+    return key.indexOf("history") === 0;
   });
 
   return (
@@ -35,7 +38,8 @@ const SchedulesHistory = () => {
           undefined
         }
         epochTo={
-          (epochTo && endOfDay(parse(epochTo, t("Calendar-date-format"), new Date()))) ||
+          (epochTo &&
+            endOfDay(parse(epochTo, t("Calendar-date-format"), new Date()))) ||
           undefined
         }
       />

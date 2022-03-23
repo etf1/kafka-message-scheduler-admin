@@ -45,7 +45,11 @@ const AppNavbar = () => {
         <div className="navbar-brand">
           <span
             role="button"
-            className={clsx("navbar-burger burger white", isOpen ? "is-active" : null, Style.NavbarMenu)}
+            className={clsx(
+              "navbar-burger burger white",
+              isOpen ? "is-active" : null,
+              Style.NavbarMenu
+            )}
             aria-label="menu"
             aria-expanded="false"
             data-target="navbarMenu"
@@ -56,18 +60,33 @@ const AppNavbar = () => {
             <span aria-hidden="true"></span>
           </span>
         </div>
-        <div id="navbarMenu" className={clsx("navbar-menu", Style.NavbarMenu, isOpen ? "is-active" : null)}>
+        <div
+          id="navbarMenu"
+          className={clsx(
+            "navbar-menu",
+            Style.NavbarMenu,
+            isOpen ? "is-active" : null
+          )}
+        >
           <div className="navbar-start">
             <span className={clsx("navbar-item", Style.Brand)}>
-              <a className={clsx("button is-white", Style.NavbarLink)} href={ROUTE_HOME}>
-                <span className={Style.BrandTitle}>{highlightFirstLetter(t("App-title"), "#00b89c")}</span>
+              <a
+                className={clsx("button is-white", Style.NavbarLink)}
+                href={ROUTE_HOME}
+              >
+                <span className={Style.BrandTitle}>
+                  {highlightFirstLetter(t("App-title"), "#00b89c")}
+                </span>
               </a>
             </span>
           </div>
           <div className="navbar-end">
             <span className={clsx("navbar-item")}>
               <a
-                className={clsx("button is-white is-outlined", Style.NavbarLink)}
+                className={clsx(
+                  "button is-white is-outlined",
+                  Style.NavbarLink
+                )}
                 target="_blank"
                 rel="noreferrer"
                 href="https://github.com/etf1/kafka-message-scheduler-admin"
@@ -79,8 +98,16 @@ const AppNavbar = () => {
                 <span>{t("Menu-Source")}</span>
               </a>
             </span>
-            <div className={clsx("navbar-item has-dropdown is-hoverable", Style.NavbarDropdown)}>
-              <label className={clsx("navbar-link", Style.NavbarLink)} style={{ color: "#5d5d5d !important" }}>
+            <div
+              className={clsx(
+                "navbar-item has-dropdown is-hoverable",
+                Style.NavbarDropdown
+              )}
+            >
+              <label
+                className={clsx("navbar-link", Style.NavbarLink)}
+                style={{ color: "#5d5d5d !important" }}
+              >
                 <span className="icon">
                   <i className="fa fa-flag"></i>
                 </span>
@@ -93,7 +120,11 @@ const AppNavbar = () => {
                   style={{ cursor: "pointer", paddingRight: 30 }}
                   data-tooltip={t(getLangLabel("en-US"))}
                 >
-                  <img src="/asset/english_flag.svg" width="32" alt={t(getLangLabel("en-US"))}/>
+                  <img
+                    src="/asset/english_flag.svg"
+                    width="32"
+                    alt={t(getLangLabel("en-US"))}
+                  />
                 </span>
                 <span
                   onClick={() => setLang("fr-FR")}
@@ -101,7 +132,11 @@ const AppNavbar = () => {
                   style={{ cursor: "pointer", paddingRight: 30 }}
                   data-tooltip={t(getLangLabel("fr-FR"))}
                 >
-                  <img src="/asset/french_flag.svg" width="32" alt={t(getLangLabel("fr-FR"))}/>
+                  <img
+                    src="/asset/french_flag.svg"
+                    width="32"
+                    alt={t(getLangLabel("fr-FR"))}
+                  />
                 </span>
               </div>
             </div>

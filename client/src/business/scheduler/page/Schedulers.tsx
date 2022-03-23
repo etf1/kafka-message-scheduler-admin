@@ -12,8 +12,20 @@ const Schedulers = () => {
 
   return (
     <Panel icon={"stopwatch"} title={t("Page-title-schedulers")}>
-      {error && <div className="animate-opacity" style={{ fontWeight: 800, color: "red" }}><Icon name="exclamation-triangle"/> {t("LoadingError")}</div>}
-      {!error && schedulers && <SchedulerTable schedulers={schedulers} detailUrl={ROUTE_SCHEDULER_DETAIL} />}
+      {error && (
+        <div
+          className="animate-opacity"
+          style={{ fontWeight: 800, color: "red" }}
+        >
+          <Icon name="exclamation-triangle" /> {t("LoadingError")}
+        </div>
+      )}
+      {!error && schedulers && (
+        <SchedulerTable
+          schedulers={schedulers}
+          detailUrl={ROUTE_SCHEDULER_DETAIL}
+        />
+      )}
     </Panel>
   );
 };

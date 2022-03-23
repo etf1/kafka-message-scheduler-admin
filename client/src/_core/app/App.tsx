@@ -12,25 +12,25 @@ function App() {
   /*useEffect( ()=> {
     changeLanguage("en-US")
   }, [])*/
-  
+
   return (
     <>
       <Router>
-      <Switch>
-            {routes.map((route) => {
-              return (
-                <Route key={route.key} exact={route.exact} path={route.path}>
-                  <AppLeftSidebar />
-                  <AppNavbar />
-                  <div className={Style.AppContainer}>
-                    <Suspense fallback={<div></div>}>
-                      <route.component />
-                    </Suspense>
-                  </div>
-                </Route>
-              );
-            })}
-          </Switch>
+        <Switch>
+          {routes.map((route) => {
+            return (
+              <Route key={route.key} exact={route.exact} path={route.path}>
+                <AppLeftSidebar />
+                <AppNavbar />
+                <div className={Style.AppContainer}>
+                  <Suspense fallback={<div></div>}>
+                    <route.component />
+                  </Suspense>
+                </div>
+              </Route>
+            );
+          })}
+        </Switch>
       </Router>
       <ModalProvider />
     </>

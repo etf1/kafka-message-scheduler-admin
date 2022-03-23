@@ -27,5 +27,4 @@ export type Schedule = ScheduleInfo & {
   value: string;
 };
 
-
-export type ScheduleType = "live" | "all" | "history"
+export type ScheduleType = "live" | "all" | "history";

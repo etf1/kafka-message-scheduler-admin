@@ -37,9 +37,8 @@ function DatePicker({
   isRight,
   disabled,
 }: DatePickerProps) {
-  const { popupVisible, setPopupVisible, popupRef } = usePopup<HTMLDivElement>(
-    false
-  );
+  const { popupVisible, setPopupVisible, popupRef } =
+    usePopup<HTMLDivElement>(false);
 
   const handleItemClick = (item: Date) => {
     setPopupVisible(false);
@@ -65,7 +64,7 @@ function DatePicker({
     ? {}
     : {
         rightIcon: (
-          <span className="icon" style={{  color: "#dc8080" }}>
+          <span className="icon" style={{ color: "#dc8080" }}>
             <i className="fas fa-times" aria-hidden="true"></i>
           </span>
         ),
@@ -75,7 +74,7 @@ function DatePicker({
           onChange && onChange(undefined);
         },
         leftIcon: (
-          <span className="icon" style={{  }}>
+          <span className="icon" style={{}}>
             <i className="fas fa-calendar-alt" aria-hidden="true"></i>
           </span>
         ),

@@ -2,7 +2,10 @@ import { Dictionary, isPrimitive } from "_common/type/utils";
 
 const BASE_KEY = "kafka-msg-scheduler-admin-v0";
 
-export function load<T>(key: string, defaultValue: T | undefined): T | undefined {
+export function load<T>(
+  key: string,
+  defaultValue: T | undefined
+): T | undefined {
   const store = sessionStorage.getItem(BASE_KEY);
   if (store) {
     try {
@@ -28,7 +31,10 @@ export function save<T>(key: string, value: T) {
 
   const result: Dictionary = store ? JSON.parse(window.atob(store)) : {};
   if (isPrimitive(value) || value === undefined) {
-    const storedValue = { ...result, [key]: { __primitive__value: true, value } };
+    const storedValue = {
+      ...result,
+      [key]: { __primitive__value: true, value },
+    };
     sessionStorage.setItem(BASE_KEY, window.btoa(JSON.stringify(storedValue)));
   } else {
     const storedValue = { ...result, [key]: value };
@@ -41,7 +47,7 @@ export function clear(keepKeyPredicat: (key: string) => boolean) {
   if (store) {
     let data: any = JSON.parse(window.atob(store));
     let result: Dictionary = {};
-    Object.keys(data).forEach ( key => {
+    Object.keys(data).forEach((key) => {
       if (keepKeyPredicat(key)) {
         result[key] = data[key];
       }

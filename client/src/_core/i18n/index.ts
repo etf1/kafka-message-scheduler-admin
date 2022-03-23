@@ -8,8 +8,7 @@ import { isNumber } from "_common/type/utils";
 import { Locale } from "date-fns";
 import { fr, enGB, enUS } from "date-fns/locale";
 
-
-export type Lang =  "en-US" | "fr-FR";
+export type Lang = "en-US" | "fr-FR";
 
 i18n
   // load translation using http -> see /public/locales (i.e. https://github.com/i18next/react-i18next/tree/master/example/react/public/locales)

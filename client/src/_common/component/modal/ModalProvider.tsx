@@ -45,7 +45,12 @@ const ModalProvider = (): JSX.Element => {
   const activeModals = getActiveModals();
 
   const modals = activeModals.map((conf, i) => {
-    const handleSave = async (e: undefined | React.MouseEvent<HTMLButtonElement, MouseEvent> | KeyboardEvent) => {
+    const handleSave = async (
+      e:
+        | undefined
+        | React.MouseEvent<HTMLButtonElement, MouseEvent>
+        | KeyboardEvent
+    ) => {
       setButtonsDisabled(true);
       const result = await conf.onSave(e);
       setButtonsDisabled(false);
@@ -54,7 +59,12 @@ const ModalProvider = (): JSX.Element => {
       }
     };
 
-    const handleCancel = async (e: undefined | React.MouseEvent<HTMLButtonElement, MouseEvent> | KeyboardEvent) => {
+    const handleCancel = async (
+      e:
+        | undefined
+        | React.MouseEvent<HTMLButtonElement, MouseEvent>
+        | KeyboardEvent
+    ) => {
       setButtonsDisabled(true);
       const result = await conf.onCancel(e);
       setButtonsDisabled(false);
