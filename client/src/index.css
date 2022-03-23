@@ -92,13 +92,17 @@ html {
 }
 
 .gray {
-  color: "gray";
+  color: gray;
 }
 
 .italic {
-  font-style: "italic";
+  font-style: italic;
 }
 
-.mtop-20 {
-  margin-top: 20px;
+.block {
+  display: block;
+}
+
+.min-width-100 {
+  min-width: 100%;
 }
