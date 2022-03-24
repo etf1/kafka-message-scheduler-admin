@@ -21,6 +21,17 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Setup yarn
+        run: npm install -g yarn
+
+      - name: Install dependencies
+        working-directory: ./client
+        run: yarn
+
+      - name: Build /public
+        working-directory: ./client
+        run: yarn build
+
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
@@ -30,11 +41,7 @@ jobs:
       
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=TAG_NAME::${GITHUB_REF/refs\/tags\//}     
-
-      - name: Build /public
-        working-directory: ./client
-        run: yarn && yarn build
+        run: echo ::set-output name=TAG_NAME::$(git describe --always --abbrev=1 --tags --match "v[0-9]*")
 
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
