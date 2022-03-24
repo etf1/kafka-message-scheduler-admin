@@ -91,7 +91,7 @@ URL Parameters:
 
 ## Development
 
-### Backend (in folder /server)
+### Backend (in folder ./server)
 
 #### Prerequisities
 
@@ -121,7 +121,7 @@ make up
 make start
 ```
 
-### Frontend (in folder /client)
+### Frontend (in folder ./client)
 
 #### Prerequisities
 
