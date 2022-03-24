@@ -15,6 +15,11 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+const (
+	BaseNumber = 10
+	BitSize    = 64
+)
+
 func NewRouter(coldDB, liveDB, historyDB db.DB, resv schedulers.Resolver) http.Handler {
 	return cors.AllowAll().Handler(initRouter(coldDB, liveDB, historyDB, resv))
 }
@@ -84,7 +89,7 @@ func searchSchedules(d db.DB) func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(http.StatusOK)
 
-		_, err = w.Write([]byte(fmt.Sprintf("{%q: %d, %q: [", "found", found, "schedules")))
+		_, err = fmt.Fprintf(w, "{%q: %d, %q: [", "found", found, "schedules")
 		if err != nil {
 			log.Errorf("cannot write response start: %v", err)
 		}
@@ -195,7 +200,7 @@ func getSchedule(d db.DB) func(w http.ResponseWriter, r *http.Request) {
 
 func epoch(s string) int64 {
 	if s != "" {
-		n, err := strconv.ParseInt(s, 10, 64)
+		n, err := strconv.ParseInt(s, BaseNumber, BitSize)
 		if err != nil {
 			return 0
 		}

@@ -51,7 +51,7 @@ func TestRestAPIServer_getSchedule_not_found_or_error(t *testing.T) {
 			t.Run(fmt.Sprintf("case #%v", i+1), func(t *testing.T) {
 				createSchedulerSchedules(tt.schedules, stores...)
 
-				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, prefix+tt.url, nil)
+				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, prefix+tt.url, http.NoBody)
 				response := executeRequest(router, req)
 				checkResponseJSON(t, tt.expectedCode, response, tt.expectedResponse)
 			})
@@ -97,7 +97,7 @@ func TestRestAPIServer_getSchedule_found(t *testing.T) {
 			t.Run(fmt.Sprintf("case #%v", i+1), func(t *testing.T) {
 				createSchedulerSchedules(tt.schedules, stores...)
 
-				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, prefix+url, nil)
+				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, prefix+url, http.NoBody)
 				response := executeRequest(router, req)
 
 				checkResponseJSON(t, http.StatusOK, response, toJSON(t, tt.expectedSchedules))
@@ -131,7 +131,7 @@ func TestRestAPIServer_listSchedulers_not_found_or_error(t *testing.T) {
 				resolver.Reset()
 				resolver.Add(tt.schedulers...)
 			}
-			req, _ := http.NewRequestWithContext(ctx, http.MethodGet, "/schedulers", nil)
+			req, _ := http.NewRequestWithContext(ctx, http.MethodGet, "/schedulers", http.NoBody)
 			response := executeRequest(router, req)
 			checkResponseJSON(t, tt.expectedCode, response, tt.expectedResponse)
 		})
@@ -162,7 +162,7 @@ func TestRestAPIServer_listSchedulers_found(t *testing.T) {
 		t.Run(fmt.Sprintf("case #%v", i+1), func(t *testing.T) {
 			createSchedulers(resolver, tt.expectedSchedulers)
 
-			req, _ := http.NewRequestWithContext(ctx, http.MethodGet, "/schedulers", nil)
+			req, _ := http.NewRequestWithContext(ctx, http.MethodGet, "/schedulers", http.NoBody)
 			response := executeRequest(router, req)
 			checkResponseJSON(t, http.StatusOK, response, toJSON(t, tt.schedulers))
 		})
@@ -206,7 +206,7 @@ func TestRestAPIServer_searchSchedules_no_query(t *testing.T) {
 				createSchedulerSchedules(tt.schedules, stores...)
 
 				surl := fmt.Sprintf(url, tt.scheduler)
-				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, surl, nil)
+				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, surl, http.NoBody)
 				response := executeRequest(router, req)
 
 				checkResponseJSON(t, tt.expectedCode, response, toJSON(t,
@@ -262,7 +262,7 @@ func TestRestAPIServer_searchSchedules_search_by_schedulerName(t *testing.T) {
 		for i, tt := range tests {
 			t.Run(fmt.Sprintf("case #%v", i+1), func(t *testing.T) {
 				createSchedulerSchedules(tt.schedules, stores...)
-				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, fmt.Sprintf(url, tt.scheduler), nil)
+				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, fmt.Sprintf(url, tt.scheduler), http.NoBody)
 				response := executeRequest(router, req)
 
 				checkResponseJSON(t, tt.expectedCode, response, toJSON(t, struct {
@@ -316,7 +316,7 @@ func TestRestAPIServer_searchSchedules_search_by_scheduleID(t *testing.T) {
 				createSchedulerSchedules(tt.schedules, stores...)
 
 				surl := fmt.Sprintf(url, tt.scheduler)
-				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, tt.query.toURLParams(surl), nil)
+				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, tt.query.toURLParams(surl), http.NoBody)
 				response := executeRequest(router, req)
 
 				checkResponseJSON(t, tt.expectedCode, response, toJSON(t, struct {
@@ -382,7 +382,7 @@ func TestRestAPIServer_searchSchedules_max(t *testing.T) {
 				createSchedulerSchedules(tt.schedules, stores...)
 
 				surl := fmt.Sprintf(url, tt.scheduler)
-				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, tt.query.toURLParams(surl), nil)
+				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, tt.query.toURLParams(surl), http.NoBody)
 				response := executeRequest(router, req)
 
 				checkResponseJSON(t, http.StatusOK, response, toJSON(t, struct {
@@ -448,7 +448,7 @@ func TestRestAPIServer_searchSchedules_sort_by(t *testing.T) {
 				createSchedulerSchedules(tt.schedules, stores...)
 
 				surl := fmt.Sprintf(url, "scheduler-1")
-				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, tt.query.toURLParams(surl), nil)
+				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, tt.query.toURLParams(surl), http.NoBody)
 				response := executeRequest(router, req)
 
 				checkResponseJSON(t, http.StatusOK, response, toJSON(t, struct {
@@ -519,7 +519,7 @@ func TestRestAPIServer_searchSchedules_search_by_epoch(t *testing.T) {
 				createSchedulerSchedules(tt.schedules, stores...)
 
 				surl := fmt.Sprintf(url, "scheduler-1")
-				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, tt.query.toURLParams(surl), nil)
+				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, tt.query.toURLParams(surl), http.NoBody)
 				response := executeRequest(router, req)
 
 				checkResponseJSON(t, tt.expectedCode, response, toJSON(t, struct {
@@ -585,7 +585,7 @@ func TestRestAPIServer_live_searchSchedules_search_multicriteria(t *testing.T) {
 				createSchedulerSchedules(tt.schedules, stores...)
 
 				surl := fmt.Sprintf(url, tt.scheduler)
-				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, tt.query.toURLParams(surl), nil)
+				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, tt.query.toURLParams(surl), http.NoBody)
 				response := executeRequest(router, req)
 
 				checkResponseJSON(t, tt.expectedCode, response, toJSON(t, struct {
@@ -635,7 +635,7 @@ func TestRestAPIServer_stats(t *testing.T) {
 			t.Run(fmt.Sprintf("case #%v", i+1), func(t *testing.T) {
 				createSchedulerSchedules(tt.schedules, stores...)
 
-				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+				req, _ := http.NewRequestWithContext(ctx, http.MethodGet, url, http.NoBody)
 				response := executeRequest(router, req)
 
 				checkResponseJSON(t, http.StatusOK, response, toJSON(t, []struct {

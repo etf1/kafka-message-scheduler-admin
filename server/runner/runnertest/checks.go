@@ -2,7 +2,7 @@ package runnertest
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 
@@ -23,7 +23,7 @@ func CheckResponse(resp *http.Response, err error) error {
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return fmt.Errorf("unexpected error: %v", err)
 	}

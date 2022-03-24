@@ -5,7 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 
@@ -50,7 +50,7 @@ func (h Decoder) Post(payload interface{}) ([]byte, error) {
 	log.Println("response status code:", resp.StatusCode)
 	log.Println("response headers:", resp.Header)
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}

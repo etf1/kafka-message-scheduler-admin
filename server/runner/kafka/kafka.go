@@ -19,6 +19,10 @@ import (
 	"github.com/etf1/kafka-message-scheduler-admin/server/store/rest"
 )
 
+const (
+	FileMode = 0755
+)
+
 type Runner struct {
 	stopChan chan bool
 	exitChan chan bool
@@ -51,7 +55,7 @@ func (r *Runner) Start() error {
 	if !strings.HasSuffix(dir, "/") {
 		dir += "/"
 	}
-	err := os.MkdirAll(dir, 0755)
+	err := os.MkdirAll(dir, FileMode)
 	if err != nil {
 		return fmt.Errorf("cannot directories %v: %w", dir, err)
 	}

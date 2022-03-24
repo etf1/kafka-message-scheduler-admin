@@ -42,7 +42,7 @@ func get(path string, timeout time.Duration) (*http.Response, error) {
 
 	url := "http://" + addr + path
 
-	req, err := http.NewRequestWithContext(context.TODO(), http.MethodGet, url, nil)
+	req, err := http.NewRequestWithContext(context.TODO(), http.MethodGet, url, http.NoBody)
 	if err != nil {
 		return nil, err
 	}

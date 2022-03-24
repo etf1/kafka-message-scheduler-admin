@@ -22,6 +22,7 @@ const (
 	AdminTimeout = 2 * time.Second
 	ReadTimeout  = 5 * time.Second
 	FlushTimeout = 10000
+	BaseNumber   = 10
 )
 
 // Converts int, string to slice of byte
@@ -47,7 +48,7 @@ func NewKafkaSchedule(topic string, key, value interface{}, epoch int64, targetT
 	headers := []confluent.Header{
 		{
 			Key:   kafka_schedule.Epoch,
-			Value: toBytes(strconv.FormatInt(epoch, 10)),
+			Value: toBytes(strconv.FormatInt(epoch, BaseNumber)),
 		},
 		{
 			Key:   kafka_schedule.TargetTopic,
@@ -74,7 +75,7 @@ func Message(topic string, key, value interface{}, epoch int64) *confluent.Messa
 	headers := []confluent.Header{
 		{
 			Key:   kafka_schedule.Epoch,
-			Value: []byte(strconv.FormatInt(epoch, 10)),
+			Value: []byte(strconv.FormatInt(epoch, BaseNumber)),
 		}}
 
 	return &confluent.Message{

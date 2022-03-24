@@ -45,12 +45,12 @@ test:
 	go test -v -tags musl -count=1 ./...
 
 test.integration:
-	RUN_INTEGRATION_TESTS=yes go test -v -tags musl -count=1 ./...
+	RUN_INTEGRATION_TESTS=yes go test -v -tags musl -failfast -count=1 ./...
 
 tests: lint test test.integration
 
 tests.docker:
-	docker-compose -p tests build tests
-	BOOTSTRAP_SERVERS="kafka:29092" docker-compose -p tests up tests | tee ${TMPDIR}/tests.result
-	docker-compose -p tests down
-	bash ./scripts/check_gotest.sh ${TMPDIR}/tests.result
+	docker-compose -p testsenv build tests; \
+	BOOTSTRAP_SERVERS="kafka:29092" docker-compose -p testsenv up --exit-code-from tests tests; ret=$$?; \
+	docker-compose -p testsenv down -v; \
+	exit $$ret;

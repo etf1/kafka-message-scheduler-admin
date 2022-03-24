@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 
@@ -92,6 +92,30 @@ func (h HTTPRetriever) getSchedules(schedulerName string, filter func(s schedule
 
 	result := []store.Schedule{}
 
+	getSchedules := func(host string) ([]Schedule, error) {
+		resp, err := helper.Get(host, "/schedules", DefaultTimeout)
+		if err != nil {
+			return nil, err
+		}
+		defer resp.Body.Close()
+
+		if resp.StatusCode != http.StatusOK {
+			return nil, fmt.Errorf("http request failed for %v with unexpected status code  %v", host, resp.StatusCode)
+		}
+
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return nil, err
+		}
+
+		res := []Schedule{}
+		err = json.NewDecoder(bytes.NewReader(body)).Decode(&res)
+		if err != nil {
+			return nil, err
+		}
+		return res, nil
+	}
+
 	for _, _scheduler := range schedulers {
 		sch, ok := _scheduler.(httpresolver.Scheduler)
 		if !ok {
@@ -104,23 +128,8 @@ func (h HTTPRetriever) getSchedules(schedulerName string, filter func(s schedule
 		if sch.HostName == schedulerName {
 			for _, instance := range sch.Instances {
 				log.Printf("instance=%v", instance.Name()+":"+sch.HTTPPort)
-				resp, err := helper.Get(instance.Name()+":"+sch.HTTPPort, "/schedules", DefaultTimeout)
-				if err != nil {
-					return nil, err
-				}
-				defer resp.Body.Close()
 
-				if resp.StatusCode != http.StatusOK {
-					return nil, fmt.Errorf("http request failed for %v with unexpected status code  %v", instance.Name(), resp.StatusCode)
-				}
-
-				body, err := ioutil.ReadAll(resp.Body)
-				if err != nil {
-					return nil, err
-				}
-
-				res := []Schedule{}
-				err = json.NewDecoder(bytes.NewReader(body)).Decode(&res)
+				res, err := getSchedules(instance.Name() + ":" + sch.HTTPPort)
 				if err != nil {
 					return nil, err
 				}

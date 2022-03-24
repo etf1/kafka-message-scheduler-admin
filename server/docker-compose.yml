@@ -1,19 +1,27 @@
 version: '3'
 services:
+
   tests:
     build:
       context: .
       dockerfile: Dockerfile.test
-    command: ["bash", "./scripts/run_tests.sh"]
+    command: ["make", "tests"]
     environment:
       SCHEDULERS_ADDR: scheduler:8000
     depends_on:
-      - kafka
-      - scheduler
+      kafka:
+        condition: service_healthy
+      scheduler:
+        condition: service_healthy
 
   scheduler:
     image: etf1/kafka-message-scheduler:mini
     hostname: scheduler
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider http://localhost:8000/info || exit 1"]
+      timeout: 5s
+      interval: 10s
+      retries: 5
     ports:
       - 8000:8000
     # dont remove, dont modify, used for override
@@ -24,15 +32,27 @@ services:
     image: confluentinc/cp-zookeeper
     ports:
       - 2181:2181
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'ruok' | nc -w 2 localhost 2181 | grep imok"]
+      interval: 20s
+      timeout: 10s
+      retries: 10
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+      # for health check "ruok"
+      KAFKA_OPTS: "-Dzookeeper.4lw.commands.whitelist=*"
 
   kafka:
     image: confluentinc/cp-kafka
-    restart: on-failure
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-topics --bootstrap-server localhost:9092 --list"]
+      interval: 30s
+      timeout: 10s
+      retries: 20
     ports:
       # Exposes 9092 for external connections to the broker
       # Use kafka:29092 for connections internal on the docker network

@@ -5,7 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net"
 	"net/http"
 	"sync"
@@ -29,7 +29,7 @@ func Get(host, url string, timeout time.Duration) (*http.Response, error) {
 	full := "http://" + host + url
 	log.Printf("calling get url: %v", full)
 
-	req, err := http.NewRequestWithContext(context.TODO(), http.MethodGet, full, nil)
+	req, err := http.NewRequestWithContext(context.TODO(), http.MethodGet, full, http.NoBody)
 
 	if err != nil {
 		return nil, err
@@ -72,7 +72,7 @@ func DecodeJSON(host, url string, timeout time.Duration, v interface{}, checkRes
 		return fmt.Errorf("invalid response from host %v: %w", host, err)
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return fmt.Errorf("cannot readall of the body from host %v: %v", host, resp.StatusCode)
 	}

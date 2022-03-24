@@ -12,9 +12,11 @@ import (
 	bolt "go.etcd.io/bbolt"
 )
 
-var (
-	BatchSize = 1000
-	ChanSize  = 1000
+const (
+	BatchSize  = 1000
+	ChanSize   = 1000
+	FileMode   = 0666
+	BaseNumber = 10
 )
 
 type DB struct {
@@ -38,7 +40,7 @@ func NewSchedule(id, epoch interface{}, timestamp ...time.Time) Schedule {
 	case int:
 		sid = strconv.Itoa(v)
 	case int64:
-		sid = strconv.FormatInt(v, 10)
+		sid = strconv.FormatInt(v, BaseNumber)
 	case string:
 		sid = v
 	default:
@@ -86,7 +88,7 @@ func (s Schedule) String() string {
 }
 
 func NewStore(path string) (DB, error) {
-	db, err := bolt.Open(path, 0666, &bolt.Options{Timeout: 5 * time.Second})
+	db, err := bolt.Open(path, FileMode, &bolt.Options{Timeout: 5 * time.Second})
 	if err != nil {
 		return DB{}, err
 	}

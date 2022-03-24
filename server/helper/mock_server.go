@@ -9,6 +9,10 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+const (
+	Code999 = 999
+)
+
 type MockedServer struct {
 	s          *httptest.Server
 	successful int
@@ -25,7 +29,7 @@ func MockServerForQuery(query string, code int, body string) *MockedServer {
 			diffs := dmp.DiffMain(query, r.URL.RawQuery, false)
 			log.Printf("Query != Expected Query: %s", dmp.DiffPrettyText(diffs))
 			server.failed = append(server.failed, r.URL.RawQuery)
-			http.Error(w, "fail", 999)
+			http.Error(w, "fail", Code999)
 			return
 		}
 		server.successful++

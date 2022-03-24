@@ -71,6 +71,11 @@ func randInt(min, max int) int {
 	return rand.Intn(max-min+1) + min
 }
 
+func ARandInt() int {
+	min, max := 1, 100
+	return randInt(min, max)
+}
+
 func genRandVersions(src []kafka.Schedule) []schedule.Schedule {
 	min := 0
 	max := 10
@@ -82,8 +87,8 @@ func genRandVersions(src []kafka.Schedule) []schedule.Schedule {
 		// number of versions
 		nbVersions := randInt(min, max)
 		for j := 0; j < nbVersions; j++ {
-			targetTopic := fmt.Sprintf("%v%v", ksch.TargetTopic(), randInt(1, 10))
-			targetID := fmt.Sprintf("%v%v", ksch.TargetKey(), randInt(1, 100))
+			targetTopic := fmt.Sprintf("%v%v", ksch.TargetTopic(), ARandInt())
+			targetID := fmt.Sprintf("%v%v", ksch.TargetKey(), ARandInt())
 			var value interface{} = lipsum()
 			if i == deletedIndex {
 				value = nil
@@ -127,7 +132,7 @@ func (r *Runner) Start() error {
 
 	for i := 0; i < size; i++ {
 		t := now.Add(time.Duration(i) * time.Second)
-		targetTopic := fmt.Sprintf("target-topic-%v", randInt(0, 100))
+		targetTopic := fmt.Sprintf("target-topic-%v", ARandInt())
 		targetKey := fmt.Sprintf("target-id-%v", i+1)
 		value := "some french char: éàçèùäâ" + lipsum()
 		schs[i] = newKafkaSchedule("schedules", fmt.Sprintf("schedule-%v", i+1), value, t.Unix(), targetTopic, targetKey)
