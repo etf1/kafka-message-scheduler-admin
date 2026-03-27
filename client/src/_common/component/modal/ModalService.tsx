@@ -1,7 +1,7 @@
-import { TFunction } from "i18next";
-import React from "react";
+import type { TFunction } from 'i18next';
+import React from 'react';
 
-const DEFAULT_MODAL_WIDTH = "80%";
+const DEFAULT_MODAL_WIDTH = '80%';
 
 export interface ModalConfig {
   width: number | string;
@@ -9,38 +9,23 @@ export interface ModalConfig {
   saveLabel?: string;
   cancelLabel?: string;
   content: React.ReactNode;
-  onSave: (
-    event:
-      | undefined
-      | React.MouseEvent<HTMLButtonElement, MouseEvent>
-      | KeyboardEvent
-  ) => Promise<boolean>;
+  onSave: (event: undefined | React.MouseEvent<HTMLButtonElement, MouseEvent> | KeyboardEvent) => Promise<boolean>;
   onCancel: (
-    event:
-      | "onPrevious"
-      | "onNext"
-      | undefined
-      | React.MouseEvent<HTMLButtonElement, MouseEvent>
-      | KeyboardEvent
+    event: 'onPrevious' | 'onNext' | undefined | React.MouseEvent<HTMLButtonElement, MouseEvent> | KeyboardEvent,
   ) => Promise<boolean>;
-  focused?: "save" | "cancel";
+  focused?: 'save' | 'cancel';
   showSaveButton?: boolean;
   showCancelButton?: boolean;
 }
 
 class ModalServiceImpl {
-  private modalProviderHandler: ((config: ModalConfig) => void) | undefined =
-    undefined;
+  private modalProviderHandler: ((config: ModalConfig) => void) | undefined = undefined;
 
   private closeTopModal: (() => void) | undefined = undefined;
 
   private t: TFunction | undefined;
 
-  setModalProvider = (
-    modalProviderHandler: (config: ModalConfig) => void,
-    closeTopModal: () => void,
-    t: TFunction
-  ) => {
+  setModalProvider = (modalProviderHandler: (config: ModalConfig) => void, closeTopModal: () => void, t: TFunction) => {
     this.modalProviderHandler = modalProviderHandler;
     this.closeTopModal = closeTopModal;
     this.t = t;
@@ -50,7 +35,7 @@ class ModalServiceImpl {
     this.modalProviderHandler &&
     this.modalProviderHandler({
       width: config.width || DEFAULT_MODAL_WIDTH,
-      title: config.title || "",
+      title: config.title || '',
       saveLabel: config.saveLabel,
       cancelLabel: config.cancelLabel,
       content: config.content,
@@ -76,15 +61,15 @@ class ModalServiceImpl {
     saveLabel?: string;
     cancelLabel?: string;
     width?: number;
-    focused?: "save" | "cancel";
+    focused?: 'save' | 'cancel';
   }): Promise<boolean> =>
     new Promise(
       (resolve) =>
         this.modalProviderHandler &&
         this.modalProviderHandler({
           width: width || DEFAULT_MODAL_WIDTH,
-          title: title || "",
-          saveLabel: saveLabel || (this.t && this.t("Confirm")),
+          title: title || '',
+          saveLabel: saveLabel || (this.t && this.t('Confirm')),
           cancelLabel: cancelLabel,
           content: message,
           onSave: async () => {
@@ -96,7 +81,7 @@ class ModalServiceImpl {
             return Promise.resolve(true);
           },
           focused,
-        })
+        }),
     );
 
   message = ({
@@ -115,9 +100,9 @@ class ModalServiceImpl {
         this.modalProviderHandler &&
         this.modalProviderHandler({
           width: width || DEFAULT_MODAL_WIDTH,
-          title: title || "",
+          title: title || '',
           showSaveButton: false,
-          cancelLabel: this.t && this.t("Close-button"),
+          cancelLabel: this.t && this.t('Close-button'),
           content: message,
           onSave: async () => {
             resolve(true);
@@ -127,8 +112,8 @@ class ModalServiceImpl {
             resolve(false);
             return Promise.resolve(true);
           },
-          focused: "cancel",
-        })
+          focused: 'cancel',
+        }),
     );
 }
 

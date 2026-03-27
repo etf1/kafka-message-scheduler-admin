@@ -18,7 +18,7 @@ const (
 	DefaultTimeout = 5 * time.Second
 	PortRange      = 500
 	PortStartRange = 9002
-	MaxRetries     = 5
+	MaxRetries     = 15
 )
 
 var (
@@ -56,7 +56,7 @@ var CheckResponseNil = CheckResponse(func(resp *http.Response) error {
 })
 
 func DecodeJSON(host, url string, timeout time.Duration, v interface{}, checkResponse ...CheckResponse) error {
-	resp, err := Get(host, url, DefaultTimeout)
+	resp, err := Get(host, url, timeout)
 	if err != nil {
 		return fmt.Errorf("cannot get info from host %v: %v", host, err)
 	}
@@ -110,8 +110,16 @@ func WaitForHTTPServer(addr string) error {
 }
 
 func NextServerAddr(prefix string) string {
-	defer mu.Unlock()
 	mu.Lock()
-	// TODO: check is the port is available before returning
-	return fmt.Sprintf("%s:%d", prefix, PortStartRange+RandNumWithMax(PortRange))
+	defer mu.Unlock()
+
+	// Let the OS assign a free port — eliminates port collision flakiness.
+	listener, err := net.Listen("tcp", prefix+":0")
+	if err != nil {
+		// Fallback to random port (should never happen in tests).
+		return fmt.Sprintf("%s:%d", prefix, PortStartRange+RandNumWithMax(PortRange))
+	}
+	addr := listener.Addr().String()
+	listener.Close()
+	return addr
 }

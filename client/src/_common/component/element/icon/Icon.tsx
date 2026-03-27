@@ -1,13 +1,13 @@
-import clsx from "clsx";
-import React from "react";
-import { slsx } from "_common/service/FunUtil";
-import { Dictionary } from "_common/type/utils";
-import "./Icon.css";
+import { slsx } from '_common/service/FunUtil';
+import { Dictionary } from '_common/type/utils';
+import clsx from 'clsx';
+import React from 'react';
+import './Icon.css';
 
 export type IconProps = React.HTMLAttributes<HTMLSpanElement> & {
   name: string;
-  rotated?: "0" | "45" | "90" | "180";
-  size?: "" | "lg" | "2x" | "3x";
+  rotated?: '0' | '45' | '90' | '180';
+  size?: '' | 'lg' | '2x' | '3x';
   isLeft?: boolean;
   isRight?: boolean;
   isSmall?: boolean;
@@ -30,29 +30,24 @@ const Icon = ({
 }: IconProps): React.ReactElement => {
   const dataTransform = {} as Dictionary<string>;
   if (rotated) {
-    dataTransform["data-fa-transform"] = `rotate-${rotated}`;
+    dataTransform['data-fa-transform'] = `rotate-${rotated}`;
   }
   return (
     <span
       key={name + className + rotated + size}
       className={clsx(
-        "icon defaultSize",
-        isLeft ? "is-left" : "",
-        isRight ? "is-right" : "",
-        isSmall ? "is-small" : "",
+        'icon defaultSize',
+        isLeft ? 'is-left' : '',
+        isRight ? 'is-right' : '',
+        isSmall ? 'is-small' : '',
 
-        className
+        className,
       )}
-      style={slsx(
-        { borderBottomStyle: "none" },
-        style,
-        { marginLeft },
-        { marginRight }
-      )}
+      style={slsx({ borderBottomStyle: 'none' }, style, { marginLeft }, { marginRight })}
       {...otherProps}
     >
       <i
-        className={clsx(`fas fa-${name}`, size ? `fa-${size}` : "")}
+        className={clsx(`fas fa-${name}`, size ? `fa-${size}` : '')}
         {...dataTransform}
       ></i>
     </span>

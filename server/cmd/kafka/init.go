@@ -80,13 +80,14 @@ func initPprof(enabledBydefault bool) func() {
 				shutdown()
 			case <-startchan:
 				server = &http.Server{
-					Addr:    "localhost:6060",
-					Handler: router,
+					Addr:              "localhost:6060",
+					Handler:           router,
+					ReadHeaderTimeout: 10 * time.Second,
 				}
 				go func() {
 					log.Warnf("starting http pprof server")
 					log.Println(server.ListenAndServe())
-					log.Warnf("http server pprof shutted down")
+					log.Warnf("http server pprof shut down")
 					server = nil
 				}()
 			}
@@ -103,8 +104,9 @@ func initProm() func() {
 	mux.HandleFunc("/metrics", promhttp.Handler().ServeHTTP)
 
 	srv := &http.Server{
-		Addr:    config.MetricsAddr(),
-		Handler: mux,
+		Addr:              config.MetricsAddr(),
+		Handler:           mux,
+		ReadHeaderTimeout: 10 * time.Second,
 	}
 
 	exitChan := make(chan bool)

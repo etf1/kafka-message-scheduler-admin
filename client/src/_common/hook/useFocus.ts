@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { useRef } from "react";
-import { later } from "_common/service/FunUtil";
+import { later } from '_common/service/FunUtil';
+import { useRef } from 'react';
 
 const useFocus = (): [React.MutableRefObject<any>, () => void] => {
   const htmlElRef = useRef<any>(null);

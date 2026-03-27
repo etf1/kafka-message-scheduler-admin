@@ -39,9 +39,10 @@ func NewServer(coldDB, liveDB, historyDB db.DB, resolver schedulers.Resolver) *h
 	}
 
 	return &http.Server{
-		Handler:      router,
-		Addr:         config.ServerAddr(),
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
+		Handler:           router,
+		Addr:              config.ServerAddr(),
+		WriteTimeout:      15 * time.Second,
+		ReadTimeout:       15 * time.Second,
+		ReadHeaderTimeout: 10 * time.Second,
 	}
 }

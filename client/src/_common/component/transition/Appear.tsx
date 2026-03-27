@@ -1,6 +1,6 @@
-import React from "react";
-import { CSSTransition } from "react-transition-group";
-import Style from "./Appear.module.css";
+import React from 'react';
+import { CSSTransition } from 'react-transition-group';
+import Style from './Appear.module.css';
 
 export type AppearProps = {
   visible: boolean | undefined;

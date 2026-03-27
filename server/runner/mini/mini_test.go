@@ -3,7 +3,6 @@ package mini_test
 import (
 	"log"
 	"testing"
-	"time"
 
 	"github.com/etf1/kafka-message-scheduler-admin/server/config"
 	"github.com/etf1/kafka-message-scheduler-admin/server/helper"
@@ -11,207 +10,65 @@ import (
 	"github.com/etf1/kafka-message-scheduler-admin/server/runner/runnertest"
 )
 
-// Rule #1: runner must expose the api server endpoint /schedulers
-func TestMiniRunner_schedulers(t *testing.T) {
-	exitchan := make(chan bool, 1)
+// runMiniTest starts a mini runner on a free port, registers cleanup via t.Cleanup,
+// waits for the server to be ready, and calls checkFn to exercise the endpoint.
+func runMiniTest(t *testing.T, checkFn func() error) {
+	t.Helper()
 
 	runner := mini.NewRunner()
-
-	// set a random port to avoid conflict
 	config.SetServerAddr(helper.NextServerAddr("localhost"))
 
+	exitchan := make(chan bool, 1)
 	go func() {
 		if err := runner.Start(); err != nil {
-			log.Printf("failed to create the default kafka runner: %v", err)
+			log.Printf("failed to start the mini runner: %v", err)
 		}
 		exitchan <- true
 	}()
 
-	// wait for the goroutine to be scheduled
-	time.Sleep(1 * time.Second)
+	t.Cleanup(func() {
+		runner.Close()
+		<-exitchan
+	})
 
-	err := helper.WaitForHTTPServer(config.ServerAddr())
-	if err != nil {
-		t.Errorf("unreachable host: %v", err)
+	if err := helper.WaitForHTTPServer(config.ServerAddr()); err != nil {
+		t.Fatalf("unreachable host: %v", err)
 	}
 
-	err = runnertest.CheckSchedulersEndPoint()
-	if err != nil {
+	if err := checkFn(); err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
+}
 
-	// wait for previous goroutine to exit
-loop:
-	for {
-		select {
-		case <-time.After(2 * time.Second):
-			runner.Close()
-		case <-exitchan:
-			break loop
-		}
-	}
+// Rule #1: runner must expose the api server endpoint /schedulers
+func TestMiniRunner_schedulers(t *testing.T) {
+	runMiniTest(t, runnertest.CheckSchedulersEndPoint)
 }
 
 // Rule #2: runner must expose the api server endpoint /schedules
 func TestMiniRunner_schedules(t *testing.T) {
-	exitchan := make(chan bool, 1)
-
-	runner := mini.NewRunner()
-
-	// set a random port to avoid conflict
-	config.SetServerAddr(helper.NextServerAddr("localhost"))
-
-	go func() {
-		if err := runner.Start(); err != nil {
-			log.Printf("failed to create the default kafka runner: %v", err)
-		}
-		exitchan <- true
-	}()
-
-	// wait for the goroutine to be scheduled
-	time.Sleep(1 * time.Second)
-
-	err := helper.WaitForHTTPServer(config.ServerAddr())
-	if err != nil {
-		t.Errorf("unreachable host: %v", err)
-	}
-
-	err = runnertest.CheckSchedulesEndPoint("scheduler-1")
-	if err != nil {
-		t.Errorf("unexpected error: %v", err)
-	}
-
-	// wait for previous goroutine to exit
-loop:
-	for {
-		select {
-		case <-time.After(2 * time.Second):
-			runner.Close()
-		case <-exitchan:
-			break loop
-		}
-	}
+	runMiniTest(t, func() error {
+		return runnertest.CheckSchedulesEndPoint("scheduler-1")
+	})
 }
 
 // Rule #3: runner must expose the api server endpoint /scheduler/{name}/schedule/{id}
 func TestMiniRunner_schedule_detail(t *testing.T) {
-	exitchan := make(chan bool, 1)
-
-	runner := mini.NewRunner()
-
-	// set a random port to avoid conflict
-	config.SetServerAddr(helper.NextServerAddr("localhost"))
-
-	go func() {
-		if err := runner.Start(); err != nil {
-			log.Printf("failed to create the default kafka runner: %v", err)
-		}
-		exitchan <- true
-	}()
-
-	// wait for the goroutine to be scheduled
-	time.Sleep(1 * time.Second)
-
-	err := helper.WaitForHTTPServer(config.ServerAddr())
-	if err != nil {
-		t.Errorf("unreachable host: %v", err)
-	}
-
-	err = runnertest.CheckScheduleDetailEndPoint("scheduler-1", "schedule-1")
-	if err != nil {
-		t.Errorf("unexpected error: %v", err)
-	}
-
-	// wait for previous goroutine to exit
-loop:
-	for {
-		select {
-		case <-time.After(2 * time.Second):
-			runner.Close()
-		case <-exitchan:
-			break loop
-		}
-	}
+	runMiniTest(t, func() error {
+		return runnertest.CheckScheduleDetailEndPoint("scheduler-1", "schedule-1")
+	})
 }
 
 // Rule #4: runner must expose the api server endpoint /live/schedules
 func TestMiniRunner_live_schedules(t *testing.T) {
-	exitchan := make(chan bool, 1)
-
-	runner := mini.NewRunner()
-
-	// set a random port to avoid conflict
-	config.SetServerAddr(helper.NextServerAddr("localhost"))
-
-	go func() {
-		if err := runner.Start(); err != nil {
-			log.Printf("failed to create the default kafka runner: %v", err)
-		}
-		exitchan <- true
-	}()
-
-	// wait for the goroutine to be scheduled
-	time.Sleep(1 * time.Second)
-
-	err := helper.WaitForHTTPServer(config.ServerAddr())
-	if err != nil {
-		t.Errorf("unreachable host: %v", err)
-	}
-
-	err = runnertest.CheckLiveSchedulesEndPoint("scheduler-1")
-	if err != nil {
-		t.Errorf("unexpected error: %v", err)
-	}
-
-	// wait for previous goroutine to exit
-loop:
-	for {
-		select {
-		case <-time.After(2 * time.Second):
-			runner.Close()
-		case <-exitchan:
-			break loop
-		}
-	}
+	runMiniTest(t, func() error {
+		return runnertest.CheckLiveSchedulesEndPoint("scheduler-1")
+	})
 }
 
 // Rule #5: runner must expose the api server endpoint /live/scheduler/{name}/schedule/{id}
 func TestMiniRunner_detail_live_schedule(t *testing.T) {
-	exitchan := make(chan bool, 1)
-
-	runner := mini.NewRunner()
-
-	// set a random port to avoid conflict
-	config.SetServerAddr(helper.NextServerAddr("localhost"))
-
-	go func() {
-		if err := runner.Start(); err != nil {
-			log.Printf("failed to create the default kafka runner: %v", err)
-		}
-		exitchan <- true
-	}()
-
-	// wait for the goroutine to be scheduled
-	time.Sleep(1 * time.Second)
-
-	err := helper.WaitForHTTPServer(config.ServerAddr())
-	if err != nil {
-		t.Errorf("unreachable host: %v", err)
-	}
-
-	err = runnertest.CheckLiveScheduleDetailEndPoint("scheduler-1", "schedule-1")
-	if err != nil {
-		t.Errorf("unexpected error: %v", err)
-	}
-
-	// wait for previous goroutine to exit
-loop:
-	for {
-		select {
-		case <-time.After(2 * time.Second):
-			runner.Close()
-		case <-exitchan:
-			break loop
-		}
-	}
+	runMiniTest(t, func() error {
+		return runnertest.CheckLiveScheduleDetailEndPoint("scheduler-1", "schedule-1")
+	})
 }

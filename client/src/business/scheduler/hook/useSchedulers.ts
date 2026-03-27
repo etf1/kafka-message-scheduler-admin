@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-import useRefresh from "_common/hook/useRefresh";
-import { listAllSchedulers } from "../service/SchedulerService";
-import { Scheduler } from "./../type/index";
+import useRefresh from '_common/hook/useRefresh';
+import { useEffect, useState } from 'react';
+import { listAllSchedulers } from '../service/SchedulerService';
+import { Scheduler } from './../type/index';
+
 const useSchedulers = () => {
   const [refresh, count] = useRefresh();
   const [schedulers, setSchedulers] = useState<Scheduler[]>([]);
@@ -17,7 +18,7 @@ const useSchedulers = () => {
         setError(undefined);
       } catch (err) {
         console.error(err);
-        setError(err);
+        setError(err as Error);
       }
     })();
   }, [count]);

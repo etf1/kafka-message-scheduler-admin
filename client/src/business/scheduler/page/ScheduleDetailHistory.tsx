@@ -1,13 +1,9 @@
-import ScheduleForm from "business/scheduler/component/ScheduleForm";
-import { useTranslation } from "react-i18next";
-import { useHistory, useParams } from "react-router-dom";
-import Breadcrumb from "_common/component/breadcrumb/Breadcrumb";
-import Panel from "_common/component/layout/panel/Panel";
-import {
-  resolvePath,
-  ROUTE_HISTORY_SCHEDULES,
-  ROUTE_SCHEDULE_HISTORY_DETAIL,
-} from "_core/router/routes";
+import Breadcrumb from '_common/component/breadcrumb/Breadcrumb';
+import Panel from '_common/component/layout/panel/Panel';
+import { ROUTE_HISTORY_SCHEDULES, ROUTE_SCHEDULE_HISTORY_DETAIL, resolvePath } from '_core/router/routes';
+import ScheduleForm from 'business/scheduler/component/ScheduleForm';
+import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
 
 type ScheduleDetailHistoryUrlParams = {
   schedulerName: string;
@@ -16,13 +12,12 @@ type ScheduleDetailHistoryUrlParams = {
 
 const ScheduleDetailHistory = () => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const handleClose = () => {
-    history.goBack();
+    navigate(-1);
   };
 
-  const { schedulerName, scheduleId } =
-    useParams<ScheduleDetailHistoryUrlParams>();
+  const { schedulerName, scheduleId } = useParams<ScheduleDetailHistoryUrlParams>();
 
   return (
     <>
@@ -30,27 +25,26 @@ const ScheduleDetailHistory = () => {
         data={[
           {
             linkTo: ROUTE_HISTORY_SCHEDULES,
-            label: t("Menu-schedules-history"),
+            label: t('Menu-schedules-history'),
           },
           {
             linkTo: resolvePath(ROUTE_SCHEDULE_HISTORY_DETAIL, {
               schedulerName: schedulerName,
               scheduleId: scheduleId,
             }),
-            label: scheduleId,
+            label: scheduleId ?? '',
           },
         ]}
       />
-
       <Panel
-        icon={"history"}
-        title={t("Page-title-schedule-detail", { id: scheduleId })}
+        icon={'history'}
+        title={t('Page-title-schedule-detail', { id: scheduleId })}
       >
         <ScheduleForm
-          schedulerName={schedulerName}
-          scheduleId={scheduleId}
+          schedulerName={schedulerName!}
+          scheduleId={scheduleId!}
           onClose={handleClose}
-          scheduleType="history"
+          scheduleType='history'
         />
       </Panel>
     </>

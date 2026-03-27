@@ -8,19 +8,22 @@
 }
 
 .Brand {
-  font-weight: 900;
-  font-family: "Caveat", cursive;
+  font-weight: 700;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 .Brand a {
   display: flex;
   align-items: center;
+  gap: 8px;
 }
+
 .BrandTitle {
-  font-size: 2.6rem;
+  font-size: 1.3rem;
   color: #374256;
-  margin-left: 0px;
+  letter-spacing: -0.02em;
 }
+
 .NavbarMenu {
   background-color: white;
 }
@@ -46,4 +49,11 @@
 .NavbarDropdown {
   padding-right: 0.3rem !important;
   border-left: #dadada 1px solid;
+}
+.LangButton {
+  cursor: pointer;
+  padding-right: 30px;
+  background: none;
+  border: none;
+  font: inherit;
 }

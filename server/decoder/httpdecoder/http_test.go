@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"testing"
 
-	confluent "github.com/confluentinc/confluent-kafka-go/kafka"
+	confluent "github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"github.com/etf1/kafka-message-scheduler-admin/server/decoder/httpdecoder"
 	"github.com/etf1/kafka-message-scheduler-admin/server/helper"
 	"github.com/etf1/kafka-message-scheduler/schedule/kafka"

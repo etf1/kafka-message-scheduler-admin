@@ -1,10 +1,11 @@
-import clsx from "clsx";
-import React, { useState } from "react";
-import Appear from "_common/component/transition/Appear";
-import Icon from "_common/component/element/icon/Icon";
-import Style from "./Panel.module.css";
+import Icon from '_common/component/element/icon/Icon';
+import Appear from '_common/component/transition/Appear';
+import clsx from 'clsx';
+import React, { useState } from 'react';
+import Style from './Panel.module.css';
 
 type PanelProps = {
+  children?: React.ReactNode;
   title?: React.ReactNode;
   icon?: string;
   iconStyle?: React.CSSProperties;
@@ -29,34 +30,43 @@ const Panel: React.FC<PanelProps> = ({
   };
 
   return (
-    <div className={clsx("box", Style.Panel, className)} {...restProps}>
-      <div className="columns">
-        <div className="column" onClick={handleClick}>
-          <p className={clsx("title is-4", Style.Title)}>
+    <div
+      className={clsx('box', Style.Panel, className)}
+      {...restProps}
+    >
+      <div className='columns'>
+        <div
+          className='column'
+          onClick={handleClick}
+        >
+          <p className={clsx('title is-4', Style.Title)}>
             {icon && (
               <Icon
                 name={icon}
                 className={Style.TitleIcon}
-                size="lg"
+                size='lg'
                 style={iconStyle}
               />
             )}
             <Appear visible={!!title}>
               {(nodeRef) => (
-                <span ref={nodeRef} className="ml5">
+                <span
+                  ref={nodeRef}
+                  className='ml5'
+                >
                   {title}
                 </span>
               )}
             </Appear>
           </p>
         </div>
-        {rightHeader && <div className="column is-narrow">{rightHeader}</div>}
+        {rightHeader && <div className='column is-narrow'>{rightHeader}</div>}
         {allowCollapse && (
           <div
-            className={clsx("column is-narrow", Style.CollapseIcon)}
+            className={clsx('column is-narrow', Style.CollapseIcon)}
             onClick={handleClick}
           >
-            <Icon name={isDown ? "chevron-up" : "chevron-down"} />
+            <Icon name={isDown ? 'chevron-up' : 'chevron-down'} />
           </div>
         )}
       </div>

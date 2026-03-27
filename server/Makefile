@@ -1,6 +1,5 @@
 VERSION ?= $(shell git describe --always --abbrev=1 --tags --match "v[0-9]*")
 LDFLAGS=-ldflags "-X main.version=${VERSION}"
-TMPDIR := $(shell mktemp -d)
 
 up:
 	docker-compose -p dev up -d kafka scheduler
@@ -34,7 +33,7 @@ run.docker.mini: docker.mini
 start.mini:
 	go run ${LDFLAGS} -tags musl -v ./cmd/mini
 
-.PHONY: bin
+.PHONY: start
 start:
 	go run ${LDFLAGS} -tags musl -v ./cmd/kafka
 

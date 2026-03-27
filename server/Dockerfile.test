@@ -1,7 +1,7 @@
 FROM golang:alpine
 
 RUN apk update && apk add --no-cache gcc curl libc-dev git bash make
-RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.45.0
+RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.64.8
 
 RUN mkdir -p /admin/tests
 

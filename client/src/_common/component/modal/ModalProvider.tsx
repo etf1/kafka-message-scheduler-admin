@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import useRefState from "_common/hook/useRefState";
-import ModalService, { ModalConfig } from "./ModalService";
-import Modal from "./Modal";
-import { useTranslation } from "react-i18next";
+import useRefState from '_common/hook/useRefState';
+import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import Modal from './Modal';
+import ModalService, { ModalConfig } from './ModalService';
 
 /**
  *
@@ -37,20 +37,14 @@ const ModalProvider = (): JSX.Element => {
         setActiveModals((activeModals) => [...activeModals, conf]);
       },
       closeTopModal,
-      t
+      t,
     );
-    // eslint-disable-next-line
   }, []);
 
   const activeModals = getActiveModals();
 
   const modals = activeModals.map((conf, i) => {
-    const handleSave = async (
-      e:
-        | undefined
-        | React.MouseEvent<HTMLButtonElement, MouseEvent>
-        | KeyboardEvent
-    ) => {
+    const handleSave = async (e: undefined | React.MouseEvent<HTMLButtonElement, MouseEvent> | KeyboardEvent) => {
       setButtonsDisabled(true);
       const result = await conf.onSave(e);
       setButtonsDisabled(false);
@@ -59,12 +53,7 @@ const ModalProvider = (): JSX.Element => {
       }
     };
 
-    const handleCancel = async (
-      e:
-        | undefined
-        | React.MouseEvent<HTMLButtonElement, MouseEvent>
-        | KeyboardEvent
-    ) => {
+    const handleCancel = async (e: undefined | React.MouseEvent<HTMLButtonElement, MouseEvent> | KeyboardEvent) => {
       setButtonsDisabled(true);
       const result = await conf.onCancel(e);
       setButtonsDisabled(false);
@@ -75,7 +64,6 @@ const ModalProvider = (): JSX.Element => {
 
     return (
       <Modal
-        /* eslint-disable-next-line react/no-array-index-key */
         key={`${i}${conf.title}.${conf.width}`}
         onSave={handleSave}
         onCancel={handleCancel}

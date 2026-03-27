@@ -254,17 +254,14 @@ func (d DB) Search(q db.SearchQuery) (total int, result chan schedule.Schedule, 
 	search.Size = max
 	search.Fields = fields
 
-	log.Warnf("search query='%v' max=%v sort=%v", queryString, max, sortBy)
+	log.Debugf("search query='%v' max=%v sort=%v", queryString, max, sortBy)
 	start := time.Now()
 	searchResults, err := d.idxr.Search(search)
 	if err != nil {
 		return 0, nil, err
 	}
 
-	docCount, err := d.idxr.DocCount()
-	fmt.Printf("doc count: %v %v\n", docCount, err)
-
-	fmt.Printf("search done query=%v elapsed=%v: %v\n", searchQuery, time.Since(start), searchResults)
+	log.Debugf("search done query=%v elapsed=%v total=%v", queryString, time.Since(start), searchResults.Total)
 
 	hitsCount := searchResults.Total
 
@@ -285,7 +282,7 @@ func (d DB) Search(q db.SearchQuery) (total int, result chan schedule.Schedule, 
 			start := time.Now()
 			// get complete schedule object from internal store
 			schs, err := d.Get(scheduler, scheduleID)
-			log.Warnf("store get one hit %v: %v", scheduleID, time.Until(start))
+			log.Debugf("store get one hit %v: %v", scheduleID, time.Since(start))
 			if err != nil {
 				log.Errorf("unexpected error: %v", err)
 				continue
@@ -296,7 +293,7 @@ func (d DB) Search(q db.SearchQuery) (total int, result chan schedule.Schedule, 
 			}
 			result <- schs[0]
 		}
-		log.Warnf("store get all hits: %v", time.Until(globalStart))
+		log.Debugf("store get all hits: %v", time.Since(globalStart))
 	}()
 
 	return int(hitsCount), result, nil

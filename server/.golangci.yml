@@ -29,13 +29,15 @@ linters-settings:
     min-complexity: 15
   goimports:
     local-prefixes: github.com/golangci/golangci-lint
-  golint:
-    min-confidence: 0
-  gomnd:
-    settings:
-      mnd:
-        # don't include the "operation" and "assign"
-        checks: argument,case,condition,return
+  revive:
+    confidence: 0
+  mnd:
+    # don't include the "operation" and "assign"
+    checks:
+      - argument
+      - case
+      - condition
+      - return
   govet:
     check-shadowing: true
     settings:
@@ -47,8 +49,6 @@ linters-settings:
           - (github.com/golangci/golangci-lint/pkg/logutils.Log).Fatalf
   lll:
     line-length: 140
-  maligned:
-    suggest-new: true
   misspell:
     locale: US
   nolintlint:
@@ -58,18 +58,14 @@ linters-settings:
     require-specific: false # don't require nolint directives to be specific about which linter is being skipped
 
 linters:
-  # please, do not use `enable-all`: it's deprecated and will be removed soon.
-  # inverted configuration with `enable-all` and `disable` is not scalable during updates of golangci-lint
   disable-all: true
   enable:
     - bodyclose
-    - deadcode
     - depguard
     - dogsled
     - dupl
     - errcheck
     - exhaustive
-    - exportloopref
     - funlen
     - gochecknoinits
     - goconst
@@ -77,8 +73,8 @@ linters:
     - gocyclo
     - gofmt
     - goimports
-    - golint
-    - gomnd
+    - revive
+    - mnd
     - goprintffuncname
     - gosimple
     - govet
@@ -90,13 +86,11 @@ linters:
     - nolintlint
     - rowserrcheck
     - staticcheck
-    - structcheck
     - stylecheck
     - typecheck
     - unconvert
     - unparam
     - unused
-    - varcheck
     - whitespace
 
   # don't enable:
@@ -106,14 +100,7 @@ linters:
   # - godot
   # - godox
   # - goerr113
-
-  # Following rule is disabled because of:
-  # retry/strategy_backoff.go:60:10: G404: Use of weak random number generator (math/rand instead of crypto/rand) (gosec)
-  # durf = rand.Float64()*(durf-minf) + minf
-  # It cannot be satisfied because crypto/rand does not expose a method to random a float number...
   # - gosec
-
-  # - maligned
   # - nestif
   # - prealloc
   # - testpackage
@@ -124,16 +111,14 @@ issues:
   exclude-rules:
     - path: _test\.go
       linters:
-        - gomnd
+        - mnd
         - gocyclo
         - errcheck
         - lll
         - unparam
         - funlen
         - goconst
-        - deadcode
         - dupl
-        - varcheck
         - unused
 
     # https://github.com/go-critic/go-critic/issues/926
@@ -148,9 +133,3 @@ run:
     - internal/renameio
     - internal/robustio
 
-# golangci.com configuration
-# https://github.com/golangci/golangci/wiki/Configuration
-service:
-  golangci-lint-version: 1.23.x # use the fixed version to not introduce new linters unexpectedly
-  prepare:
-    - echo "here I can run custom commands, but no preparation needed for this repo"

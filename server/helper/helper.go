@@ -4,23 +4,14 @@ import (
 	"crypto/rand"
 	"fmt"
 	"math/big"
-	"os"
 	"strings"
-	"testing"
 
-	lorem "github.com/drhodes/golorem"
 	log "github.com/sirupsen/logrus"
 )
 
 const (
-	MaxRand  = 1000000
-	LoremMin = 50
-	LoremMax = 100
+	MaxRand = 1000000
 )
-
-func Lipsum() string {
-	return lorem.Paragraph(LoremMin, LoremMax)
-}
 
 func SplitTrim(s string) []string {
 	arr := strings.Split(s, ",")
@@ -34,19 +25,6 @@ func SplitTrim(s string) []string {
 	return result
 }
 
-func VerifyIfSkipIntegrationTests(t *testing.T) {
-	if os.Getenv("RUN_INTEGRATION_TESTS") != "yes" {
-		t.Skipf("skipping integration tests")
-	}
-}
-
-// tells if the tests is running in docker
-func IsRunningInDocker() bool {
-	if _, err := os.Stat("/.dockerenv"); os.IsNotExist(err) {
-		return false
-	}
-	return true
-}
 
 func GenRandString(prefix string) string {
 	return fmt.Sprintf("%s%v", prefix, RandNum())

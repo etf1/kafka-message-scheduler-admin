@@ -1,14 +1,14 @@
-import { AppStat } from "business/scheduler/service/SchedulerService";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import Icon from "_common/component/element/icon/Icon";
+import Icon from '_common/component/element/icon/Icon';
 import {
-  resolvePath,
   ROUTE_ALL_SCHEDULES,
   ROUTE_HISTORY_SCHEDULES,
   ROUTE_LIVE_SCHEDULES,
   ROUTE_SCHEDULER_DETAIL,
-} from "_core/router/routes";
+  resolvePath,
+} from '_core/router/routes';
+import { AppStat } from 'business/scheduler/service/SchedulerService';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 type AppStatCardProps = {
   stat: AppStat;
@@ -17,20 +17,23 @@ type AppStatCardProps = {
 const AppStatCard: React.FC<AppStatCardProps> = ({ stat }) => {
   const { t } = useTranslation();
   return (
-    <div className="column is-4-tablet is-4-desktop">
-      <div className="card">
-        <div className="card-header" style={{ backgroundColor: "orange" }}>
+    <div className='column is-4-tablet is-4-desktop'>
+      <div className='card'>
+        <div
+          className='card-header'
+          style={{ backgroundColor: 'orange' }}
+        >
           <h3
-            className="card-header-title is-inline"
-            style={{ color: "white" }}
+            className='card-header-title is-inline'
+            style={{ color: 'white' }}
           >
             <Icon
-              name={"stopwatch"}
+              name={'stopwatch'}
               style={{ marginRight: 20 }}
-              className={"has-tooltip-right"}
-            />{" "}
+              className={'has-tooltip-right'}
+            />{' '}
             <Link
-              style={{ color: "white" }}
+              style={{ color: 'white' }}
               to={resolvePath(ROUTE_SCHEDULER_DETAIL, {
                 schedulerName: stat.scheduler,
               })}
@@ -40,68 +43,64 @@ const AppStatCard: React.FC<AppStatCardProps> = ({ stat }) => {
           </h3>
         </div>
         <div
-          className="card-content"
+          className='card-content'
           style={{
             maxHeight: 450,
-            backgroundColor: "#f5f5f5",
+            backgroundColor: '#f5f5f5',
             paddingLeft: 0,
             paddingRight: 0,
-            paddingTop: "1rem",
+            paddingTop: '1rem',
           }}
         >
           <h3
-            className="subtitle is-6"
+            className='subtitle is-6'
             style={{
               margin: 0,
-              padding: "1rem",
+              padding: '1rem',
             }}
           >
-            <Link
-              to={ROUTE_LIVE_SCHEDULES + "?schedulerName=" + stat.scheduler}
-            >
+            <Link to={ROUTE_LIVE_SCHEDULES + '?schedulerName=' + stat.scheduler}>
               <Icon
-                name={"bolt"}
+                name={'bolt'}
                 style={{ marginRight: 20 }}
-                className={"has-tooltip-right"}
-                data-tooltip={t("SchedulesLive")}
-              />{" "}
-              {stat.total_live} {t("SchedulesLive")}
+                className={'has-tooltip-right'}
+                data-tooltip={t('SchedulesLive')}
+              />{' '}
+              {stat.total_live} {t('SchedulesLive')}
             </Link>
           </h3>
           <h3
-            className="subtitle is-6"
+            className='subtitle is-6'
             style={{
               margin: 0,
-              padding: "1rem",
+              padding: '1rem',
             }}
           >
-            <Link to={ROUTE_ALL_SCHEDULES + "?schedulerName=" + stat.scheduler}>
+            <Link to={ROUTE_ALL_SCHEDULES + '?schedulerName=' + stat.scheduler}>
               <Icon
-                name={"calendar-alt"}
+                name={'calendar-alt'}
                 style={{ marginRight: 20 }}
-                className={"has-tooltip-right"}
-                data-tooltip={t("Schedules")}
-              />{" "}
-              {stat.total} {t("Schedules")}
+                className={'has-tooltip-right'}
+                data-tooltip={t('Schedules')}
+              />{' '}
+              {stat.total} {t('Schedules')}
             </Link>
           </h3>
           <h3
-            className="subtitle is-6"
+            className='subtitle is-6'
             style={{
               margin: 0,
-              padding: "1rem",
+              padding: '1rem',
             }}
           >
-            <Link
-              to={ROUTE_HISTORY_SCHEDULES + "?schedulerName=" + stat.scheduler}
-            >
+            <Link to={ROUTE_HISTORY_SCHEDULES + '?schedulerName=' + stat.scheduler}>
               <Icon
-                name={"history"}
+                name={'history'}
                 style={{ marginRight: 20 }}
-                className={"has-tooltip-right"}
-                data-tooltip={t("SchedulesHistory")}
-              />{" "}
-              {stat.total_history} {t("SchedulesHistory")}
+                className={'has-tooltip-right'}
+                data-tooltip={t('SchedulesHistory')}
+              />{' '}
+              {stat.total_history} {t('SchedulesHistory')}
             </Link>
           </h3>
         </div>

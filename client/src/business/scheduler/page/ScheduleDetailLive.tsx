@@ -1,13 +1,9 @@
-import ScheduleForm from "business/scheduler/component/ScheduleForm";
-import { useTranslation } from "react-i18next";
-import { useHistory, useParams } from "react-router-dom";
-import Breadcrumb from "_common/component/breadcrumb/Breadcrumb";
-import Panel from "_common/component/layout/panel/Panel";
-import {
-  resolvePath,
-  ROUTE_LIVE_SCHEDULES,
-  ROUTE_SCHEDULE_LIVE_DETAIL,
-} from "_core/router/routes";
+import Breadcrumb from '_common/component/breadcrumb/Breadcrumb';
+import Panel from '_common/component/layout/panel/Panel';
+import { ROUTE_LIVE_SCHEDULES, ROUTE_SCHEDULE_LIVE_DETAIL, resolvePath } from '_core/router/routes';
+import ScheduleForm from 'business/scheduler/component/ScheduleForm';
+import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
 
 type ScheduleDetailLiveUrlParams = {
   schedulerName: string;
@@ -16,38 +12,37 @@ type ScheduleDetailLiveUrlParams = {
 
 const ScheduleDetailLive = () => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const handleClose = () => {
-    history.goBack();
+    navigate(-1);
   };
 
-  const { schedulerName, scheduleId } =
-    useParams<ScheduleDetailLiveUrlParams>();
+  const { schedulerName, scheduleId } = useParams<ScheduleDetailLiveUrlParams>();
 
   return (
     <>
       <Breadcrumb
         data={[
-          { linkTo: ROUTE_LIVE_SCHEDULES, label: t("Menu-schedules-live") },
+          { linkTo: ROUTE_LIVE_SCHEDULES, label: t('Menu-schedules-live') },
           {
             linkTo: resolvePath(ROUTE_SCHEDULE_LIVE_DETAIL, {
               schedulerName: schedulerName,
               scheduleId: scheduleId,
             }),
-            label: scheduleId,
+            label: scheduleId ?? '',
           },
         ]}
       />
 
       <Panel
-        icon={"bolt"}
-        title={t("Page-title-schedule-detail", { id: scheduleId })}
+        icon={'bolt'}
+        title={t('Page-title-schedule-detail', { id: scheduleId })}
       >
         <ScheduleForm
-          schedulerName={schedulerName}
-          scheduleId={scheduleId}
+          schedulerName={schedulerName!}
+          scheduleId={scheduleId!}
           onClose={handleClose}
-          scheduleType="live"
+          scheduleType='live'
         />
       </Panel>
     </>

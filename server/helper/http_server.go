@@ -13,7 +13,7 @@ var (
 )
 
 func ShutdownHTTPServer(srv *http.Server) error {
-	defer log.Printf("http server shutted down")
+	defer log.Printf("http server shut down")
 	log.Printf("shutting down http server: %v", srv.Addr)
 
 	ctx, cancel := context.WithTimeout(context.Background(), defaultShutdownTimeout)

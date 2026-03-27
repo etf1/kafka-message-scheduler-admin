@@ -1,39 +1,29 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import format from "date-fns/format";
-import {
-  getSearchScheduleDetailByType,
-  SearchParams,
-  SortOrder,
-  SortType,
-} from "../service/SchedulerService";
-import { ScheduleInfo, ScheduleType } from "../type";
-import ScheduleTable from "./ScheduleTable";
-import { getRouteScheduleDetailByType } from "_core/router/routes";
-import useMedia from "_common/hook/useMedia";
-import SearchSchedulerForm, { SearchParamsModel } from "./SearchSchedulerForm";
-import { useHistory } from "react-router";
-import { pluralizeIf } from "_core/i18n";
-import Container from "_common/component/layout/container/Container";
-import Appear from "_common/component/transition/Appear";
-import { save } from "_common/service/SessionStorageService";
-import clsx from "clsx";
-import Icon from "_common/component/element/icon/Icon";
-import useRefresh from "_common/hook/useRefresh";
-import Loader from "_common/component/element/Loader";
-import NoResult from "_common/component/element/NoResult";
+import Icon from '_common/component/element/icon/Icon';
+import Loader from '_common/component/element/Loader';
+import NoResult from '_common/component/element/NoResult';
+import Container from '_common/component/layout/container/Container';
+import Appear from '_common/component/transition/Appear';
+import useMedia from '_common/hook/useMedia';
+import useRefresh from '_common/hook/useRefresh';
+import { save } from '_common/service/SessionStorageService';
+import { pluralizeIf } from '_core/i18n';
+import { getRouteScheduleDetailByType } from '_core/router/routes';
+import clsx from 'clsx';
+import { format } from 'date-fns';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { getSearchScheduleDetailByType, SearchParams, SortOrder, SortType } from '../service/SchedulerService';
+import { ScheduleInfo, ScheduleType } from '../type';
+import ScheduleTable from './ScheduleTable';
+import SearchSchedulerForm, { SearchParamsModel } from './SearchSchedulerForm';
 
-const makeParams = (
-  model: SearchParamsModel | undefined
-): SearchParams | undefined => {
+const makeParams = (model: SearchParamsModel | undefined): SearchParams | undefined => {
   if (model && model.scheduler?.name) {
     return {
       scheduleId: model.scheduleId,
-      epochFrom:
-        model.epochFrom &&
-        parseInt((model.epochFrom.getTime() / 1000).toFixed(0)),
-      epochTo:
-        model.epochTo && parseInt((model.epochTo.getTime() / 1000).toFixed(0)),
+      epochFrom: model.epochFrom && parseInt((model.epochFrom.getTime() / 1000).toFixed(0)),
+      epochTo: model.epochTo && parseInt((model.epochTo.getTime() / 1000).toFixed(0)),
       sort: model.sort,
       sortOrder: model.sortOrder,
       schedulerName: model.scheduler.name,
@@ -59,19 +49,13 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
   epochTo,
 }) => {
   const { t } = useTranslation();
-  const history = useHistory();
-  const [searchModel, setSearchModel] = useState<
-    SearchParamsModel | undefined
-  >(); //;load<SearchParamsModel>("SearchParamsModel"+live?"live":"all", undefined));
+  const navigate = useNavigate();
+  const [searchModel, setSearchModel] = useState<SearchParamsModel | undefined>(); //;load<SearchParamsModel>("SearchParamsModel"+live?"live":"all", undefined));
   const [result, setResult] = useState<{
     found: number;
     schedules: ScheduleInfo[];
   }>();
-  const smallScreen = useMedia(
-    ["(max-width: 1250px)", "(min-width: 1250px)"],
-    [true, false],
-    true
-  );
+  const smallScreen = useMedia(['(max-width: 1250px)', '(min-width: 1250px)'], [true, false], true);
   const schedules = result?.schedules || [];
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error>();
@@ -83,15 +67,15 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
     if (result && result.found > 0) {
       const limitedResultLabel =
         schedules.length < (result?.found || 0)
-          ? `(${t("Schedule-Search-limited-result-label")} ${schedules.length})`
-          : "";
+          ? `(${t('Schedule-Search-limited-result-label')} ${schedules.length})`
+          : '';
       return `${result.found} ${pluralizeIf(
         schedules.length,
-        t("Schedule-Search-result"),
-        t("Schedule-Search-results")
+        t('Schedule-Search-result'),
+        t('Schedule-Search-results'),
       )} ${limitedResultLabel}`;
     }
-    return "";
+    return '';
   };
 
   useEffect(() => {
@@ -102,7 +86,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
       (searchParams && searchParamStr !== prevSearhParamStr.current)
     ) {
       setIsLoading(true);
-      console.log("loading", count, prevCount.current);
+      console.log('loading', count, prevCount.current);
 
       prevSearhParamStr.current = searchParamStr;
       getSearchScheduleDetailByType(scheduleType)(searchParams)
@@ -123,54 +107,47 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
       const newPath = [];
       if (searchModel.scheduler) {
         newPath.push(`schedulerName=${searchModel.scheduler.name}`);
-        save(scheduleType + "SchedulerName", searchModel.scheduler.name);
+        save(scheduleType + 'SchedulerName', searchModel.scheduler.name);
       }
       if (searchModel.scheduleId) {
         newPath.push(`scheduleId=${searchModel.scheduleId}`);
       }
-      save(scheduleType + "ScheduleId", searchModel.scheduleId);
+      save(scheduleType + 'ScheduleId', searchModel.scheduleId);
 
-      const epochFrom =
-        searchModel.epochFrom &&
-        format(searchModel.epochFrom, t("Calendar-date-format"));
-      save(scheduleType + "EpochFrom", epochFrom);
+      const epochFrom = searchModel.epochFrom && format(searchModel.epochFrom, t('Calendar-date-format'));
+      save(scheduleType + 'EpochFrom', epochFrom);
       if (epochFrom) {
         newPath.push(`epochFrom=${epochFrom}`);
       }
-      const epochTo =
-        searchModel.epochTo &&
-        format(searchModel.epochTo, t("Calendar-date-format"));
-      save(scheduleType + "EpochTo", epochTo);
+      const epochTo = searchModel.epochTo && format(searchModel.epochTo, t('Calendar-date-format'));
+      save(scheduleType + 'EpochTo', epochTo);
       if (epochTo) {
         newPath.push(`epochTo=${epochTo}`);
       }
 
-      history.replace(window.location.pathname + "?" + newPath.join("&"));
+      navigate(window.location.pathname + '?' + newPath.join('&'), { replace: true });
       setSearchModel(searchModel);
     },
-    [history, scheduleType, t]
+    [history, scheduleType, t],
   );
 
   const handleSort = useCallback(
     (type: SortType, order: SortOrder) => {
-      if (
-        searchModel &&
-        (searchModel.sort !== type || searchModel.sortOrder !== order)
-      ) {
+      if (searchModel && (searchModel.sort !== type || searchModel.sortOrder !== order)) {
         searchModel.sort = type;
         searchModel.sortOrder = order;
         setSearchModel({ ...searchModel });
       }
     },
-    [searchModel]
+    [searchModel],
   );
 
   return (
-    <React.Fragment key="SearchScheduler">
-      <div className="app-box">
-        <div className="container">
+    <React.Fragment key='SearchScheduler'>
+      <div className='app-box'>
+        <div className='container'>
           <div style={{ paddingBottom: 0 }}>
-            <div className="space-top space-bottom">
+            <div className='space-top space-bottom'>
               <SearchSchedulerForm
                 onChange={handleSearchChange}
                 schedulerName={schedulerName}
@@ -181,15 +158,15 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
               />
             </div>
           </div>
-          <hr style={{ marginLeft: -20, width: "133%" }} />
+          <hr style={{ marginLeft: -20, width: '133%' }} />
           <Container title={buildResultLabel()}>
             <div>
               {error && (
                 <div
-                  className="animate-opacity"
-                  style={{ fontWeight: 800, color: "red" }}
+                  className='animate-opacity'
+                  style={{ fontWeight: 800, color: 'red' }}
                 >
-                  <Icon name="exclamation-triangle" /> {t("LoadingError")}
+                  <Icon name='exclamation-triangle' /> {t('LoadingError')}
                 </div>
               )}
               {!error && (
@@ -197,10 +174,10 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
                   {(nodeRef) => (
                     <div
                       ref={nodeRef}
-                      className={clsx(isLoading && "animate-opacity")}
+                      className={clsx(isLoading && 'animate-opacity')}
                     >
                       <ScheduleTable
-                        key="table"
+                        key='table'
                         data={schedules}
                         showAsTable={!smallScreen}
                         onSort={handleSort}
@@ -212,8 +189,7 @@ const SearchScheduler: React.FC<SearchSchedulerProps> = ({
               )}
             </div>
           </Container>
-          {(!schedules || schedules.length === 0) &&
-            (isLoading ? <Loader /> : <NoResult />)}
+          {(!schedules || schedules.length === 0) && (isLoading ? <Loader /> : <NoResult />)}
         </div>
       </div>
     </React.Fragment>

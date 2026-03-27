@@ -1,11 +1,11 @@
-import React from "react";
-import Calendar from "./Calendar";
-import clsx from "clsx";
-import { enGB } from "date-fns/locale";
-import { format } from "date-fns";
-import Style from "./DatePicker.module.css";
-import usePopup from "_common/hook/usePopup";
-import Control from "_common/component/element/Control";
+import Control from '_common/component/element/Control';
+import usePopup from '_common/hook/usePopup';
+import clsx from 'clsx';
+import { format, type Locale } from 'date-fns';
+import { enGB } from 'date-fns/locale';
+import React from 'react';
+import Calendar from './Calendar';
+import Style from './DatePicker.module.css';
 export type DatePickerHandler = (date: Date | undefined) => void;
 
 type DatePickerProps = {
@@ -37,8 +37,7 @@ function DatePicker({
   isRight,
   disabled,
 }: DatePickerProps) {
-  const { popupVisible, setPopupVisible, popupRef } =
-    usePopup<HTMLDivElement>(false);
+  const { popupVisible, setPopupVisible, popupRef } = usePopup<HTMLDivElement>(false);
 
   const handleItemClick = (item: Date) => {
     setPopupVisible(false);
@@ -50,13 +49,13 @@ function DatePicker({
     }
   };
 
-  const btnStyle = isError ? { borderColor: "#f14668" } : {};
+  const btnStyle = isError ? { borderColor: '#f14668' } : {};
 
   const formatDate = (value: any) => {
     try {
-      return (value && format(value, dateFormat || "MM/dd/yyyy")) || "";
+      return (value && format(value, dateFormat || 'MM/dd/yyyy')) || '';
     } catch (err) {
-      return "";
+      return '';
     }
   };
 
@@ -64,8 +63,14 @@ function DatePicker({
     ? {}
     : {
         rightIcon: (
-          <span className="icon" style={{ color: "#dc8080" }}>
-            <i className="fas fa-times" aria-hidden="true"></i>
+          <span
+            className='icon'
+            style={{ color: '#dc8080' }}
+          >
+            <i
+              className='fas fa-times'
+              aria-hidden='true'
+            ></i>
           </span>
         ),
         rightIconClassName: Style.DeleteIcon,
@@ -74,30 +79,28 @@ function DatePicker({
           onChange && onChange(undefined);
         },
         leftIcon: (
-          <span className="icon" style={{}}>
-            <i className="fas fa-calendar-alt" aria-hidden="true"></i>
+          <span
+            className='icon'
+            style={{}}
+          >
+            <i
+              className='fas fa-calendar-alt'
+              aria-hidden='true'
+            ></i>
           </span>
         ),
       };
 
   return (
-    <div
-      className={clsx(
-        "dropdown",
-        popupVisible && "is-active",
-        className,
-        isRight && "is-right",
-        isUp && "is-up"
-      )}
-    >
-      <div className="dropdown-trigger">
+    <div className={clsx('dropdown', popupVisible && 'is-active', className, isRight && 'is-right', isUp && 'is-up')}>
+      <div className='dropdown-trigger'>
         <div
-          aria-haspopup="true"
-          aria-controls="dropdown-menu"
+          aria-haspopup='true'
+          aria-controls='dropdown-menu'
           style={btnStyle}
         >
           <div
-            className="field is-grouped is-grouped-multiline has-addons"
+            className='field is-grouped is-grouped-multiline has-addons'
             style={{ minWidth: 160, minHeight: 30 }}
           >
             <Control
@@ -108,16 +111,10 @@ function DatePicker({
               <input
                 placeholder={placeholder}
                 value={formatDate(value)}
-                className={clsx(
-                  "input",
-                  className,
-                  isError && "is-danger",
-                  isSmall && "is-small",
-                  Style.Input
-                )}
+                className={clsx('input', className, isError && 'is-danger', isSmall && 'is-small', Style.Input)}
                 style={{
-                  backgroundColor: disabled ? "rgb(245, 245, 245)" : "#fff",
-                  cursor: disabled ? "not-allowed" : "pointer",
+                  backgroundColor: disabled ? 'rgb(245, 245, 245)' : '#fff',
+                  cursor: disabled ? 'not-allowed' : 'pointer',
                 }}
                 readOnly={true}
               />
@@ -127,12 +124,12 @@ function DatePicker({
       </div>
       {!disabled && (
         <div
-          className="dropdown-menu"
-          role="menu"
+          className='dropdown-menu'
+          role='menu'
           ref={popupRef}
           style={{ paddingTop: 0 }}
         >
-          <div className={clsx("dropdown-content", Style.DropDownContent)}>
+          <div className={clsx('dropdown-content', Style.DropDownContent)}>
             <Calendar
               ref={popupRef}
               date={value || new Date()}

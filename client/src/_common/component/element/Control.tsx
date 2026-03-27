@@ -1,7 +1,8 @@
-import React, { CSSProperties } from "react";
-import clsx from "clsx";
+import clsx from 'clsx';
+import React, { CSSProperties } from 'react';
 
 export type ControlProps = {
+  children?: React.ReactNode;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   isSmall?: boolean;
@@ -11,12 +12,8 @@ export type ControlProps = {
   leftIconClassName?: string;
   rightIconStyle?: CSSProperties;
   rightIconClassName?: string;
-  onRightIconClick?: (
-    event: React.MouseEvent<HTMLSpanElement, MouseEvent>
-  ) => void;
-  onClick?:
-    | ((event: React.MouseEvent<HTMLElement, MouseEvent>) => void)
-    | undefined;
+  onRightIconClick?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+  onClick?: ((event: React.MouseEvent<HTMLElement, MouseEvent>) => void) | undefined;
   highlighted?: boolean;
 };
 const Control: React.FC<ControlProps> = ({
@@ -36,11 +33,11 @@ const Control: React.FC<ControlProps> = ({
   return (
     <div
       className={clsx(
-        "control",
-        LeftIcon && "has-icons-left",
-        RightIcon && "has-icons-right",
+        'control',
+        LeftIcon && 'has-icons-left',
+        RightIcon && 'has-icons-right',
         className,
-        isSmall && "is-small"
+        isSmall && 'is-small',
       )}
       style={style}
       onClick={onClick}
@@ -48,7 +45,7 @@ const Control: React.FC<ControlProps> = ({
       {children}
       {LeftIcon && (
         <span
-          className={clsx("icon is-small is-left", leftIconClassName)}
+          className={clsx('icon is-small is-left', leftIconClassName)}
           style={leftIconStyle}
         >
           {LeftIcon}
@@ -56,7 +53,7 @@ const Control: React.FC<ControlProps> = ({
       )}
       {RightIcon && (
         <span
-          className={clsx("icon is-small is-right", rightIconClassName)}
+          className={clsx('icon is-small is-right', rightIconClassName)}
           style={rightIconStyle}
           onClick={(e) => {
             e.persist();

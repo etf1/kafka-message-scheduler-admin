@@ -1,0 +1,64 @@
+{
+  "name": "kafka-message-scheduler-admin-server",
+  "root": "server",
+  "projectType": "application",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "go run -tags musl -v ./cmd/kafka",
+        "cwd": "server"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "go build -tags musl -v ./...",
+        "cwd": "server"
+      }
+    },
+    "bin": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "go build -tags musl -v -o bin/admin ./cmd/kafka",
+        "cwd": "server"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "go test -v -tags musl -count=1 ./...",
+        "cwd": "server"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "golangci-lint --timeout 5m --build-tags musl run",
+        "cwd": "server"
+      }
+    },
+    "ci:test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "go test -v -tags musl -count=1 -coverprofile=coverage.out ./...",
+        "cwd": "server"
+      }
+    },
+    "ci:sonar": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "go test -v -tags musl -count=1 -coverprofile=coverage.out ./... && sonar-scanner",
+        "cwd": "server"
+      }
+    },
+    "docker": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker build -t admin:local -f ./cmd/kafka/Dockerfile ..",
+        "cwd": "server"
+      }
+    }
+  }
+}
+

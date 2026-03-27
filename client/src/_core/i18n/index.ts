@@ -1,14 +1,13 @@
-import i18n, { TFunction } from "i18next";
-import { initReactI18next } from "react-i18next";
+import { isNumber } from '_common/type/utils';
+import { Locale } from 'date-fns';
+import { enGB, enUS, fr } from 'date-fns/locale';
+import type { TFunction } from 'i18next';
+import i18n from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import Backend from 'i18next-http-backend';
+import { initReactI18next } from 'react-i18next';
 
-import LanguageDetector from "i18next-browser-languagedetector";
-import Backend from "i18next-http-backend";
-import { isNumber } from "_common/type/utils";
-
-import { Locale } from "date-fns";
-import { fr, enGB, enUS } from "date-fns/locale";
-
-export type Lang = "en-US" | "fr-FR";
+export type Lang = 'en-US' | 'fr-FR';
 
 i18n
   // load translation using http -> see /public/locales (i.e. https://github.com/i18next/react-i18next/tree/master/example/react/public/locales)
@@ -22,7 +21,7 @@ i18n
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
-    fallbackLng: "en",
+    fallbackLng: 'en',
     debug: false,
 
     interpolation: {
@@ -38,7 +37,7 @@ export function pluralizeIf(
   count: number | undefined | { length: number },
   label: string,
   labels: string | undefined,
-  t?: TFunction
+  t?: TFunction,
 ) {
   const nb = hasLength(count) ? count.length : count;
   if (nb === undefined || nb === 0 || nb === 1 || labels === undefined) {
@@ -48,7 +47,7 @@ export function pluralizeIf(
 }
 
 export function getShortLanguageFromLS(): Lang | null {
-  const locale = localStorage.getItem("i18nextLng");
+  const locale = localStorage.getItem('i18nextLng');
   if (locale) {
     return locale as Lang;
   }
@@ -56,9 +55,9 @@ export function getShortLanguageFromLS(): Lang | null {
 }
 export function changeLanguage(
   lng: Lang,
-  callback?: ((error: any, t: TFunction) => void) | undefined
+  callback?: ((error: unknown, t: TFunction) => void) | undefined,
 ): Promise<TFunction> {
-  return i18n.changeLanguage(lng, callback);
+  return i18n.changeLanguage(lng, callback as Parameters<typeof i18n.changeLanguage>[1]);
 }
 
 /**
@@ -71,9 +70,9 @@ export function getDateLocale(): Locale {
   const language = getShortLanguageFromLS();
 
   switch (language) {
-    case "fr-FR":
+    case 'fr-FR':
       return fr;
-    case "en-US":
+    case 'en-US':
       return enUS;
     default:
       return enGB;

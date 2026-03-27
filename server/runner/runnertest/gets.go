@@ -49,6 +49,9 @@ func get(path string, timeout time.Duration) (*http.Response, error) {
 
 	client := &http.Client{
 		Timeout: timeout,
+		Transport: &http.Transport{
+			DisableKeepAlives: true,
+		},
 	}
 
 	log.Printf("calling get url (2): %v", url)

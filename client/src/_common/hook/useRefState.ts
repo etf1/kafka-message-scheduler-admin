@@ -1,15 +1,13 @@
-import { useRef, useMemo } from "react";
-import { isFunction } from "_common/type/utils";
-import useRefresh from "./useRefresh";
+import { isFunction } from '_common/type/utils';
+import { useMemo, useRef } from 'react';
+import useRefresh from './useRefresh';
 
 export default function useRefState<S>(
-  initialValueOrInitializer: S | (() => S)
+  initialValueOrInitializer: S | (() => S),
 ): [() => S, (value: S | ((old: S) => S)) => void] {
   const [refresh] = useRefresh();
   const valueRef = useRef<S>(
-    isFunction(initialValueOrInitializer)
-      ? initialValueOrInitializer()
-      : initialValueOrInitializer
+    isFunction(initialValueOrInitializer) ? initialValueOrInitializer() : initialValueOrInitializer,
   );
   return useMemo(
     () => [
@@ -19,7 +17,6 @@ export default function useRefState<S>(
         refresh();
       },
     ],
-    // eslint-disable-next-line
-    []
+    [],
   );
 }

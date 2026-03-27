@@ -1,20 +1,9 @@
-import clsx from "clsx";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { changeLanguage, Lang } from "_core/i18n";
-import { ROUTE_HOME } from "_core/router/routes";
-import Style from "./AppNavbar.module.css";
-
-const highlightFirstLetter = (text: string, color: string) => {
-  const first = text.charAt(0);
-  const rest = text.substring(1);
-  return (
-    <>
-      <span style={{ color }}>{first}</span>
-      {rest}
-    </>
-  );
-};
+import { changeLanguage, Lang } from '_core/i18n';
+import { ROUTE_HOME } from '_core/router/routes';
+import clsx from 'clsx';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import Style from './AppNavbar.module.css';
 
 const AppNavbar = () => {
   const { t } = useTranslation();
@@ -28,116 +17,97 @@ const AppNavbar = () => {
 
   const getLangLabel = (lang: Lang) => {
     switch (lang) {
-      case "en-US": {
-        return "Menu-Display-In-English";
+      case 'en-US': {
+        return 'Menu-Display-In-English';
       }
-      case "fr-FR": {
-        return "Menu-Display-In-French";
+      case 'fr-FR': {
+        return 'Menu-Display-In-French';
       }
       default:
-        return "Menu-Display-In-English";
+        return 'Menu-Display-In-English';
     }
   };
 
   return (
-    <nav className={clsx("navbar", Style.Nav)}>
-      <div className="container">
-        <div className="navbar-brand">
-          <span
-            role="button"
-            className={clsx(
-              "navbar-burger burger white",
-              isOpen ? "is-active" : null,
-              Style.NavbarMenu
-            )}
-            aria-label="menu"
-            aria-expanded="false"
-            data-target="navbarMenu"
+    <nav className={clsx('navbar', Style.Nav)}>
+      <div className='container'>
+        <div className='navbar-brand'>
+          <button
+            type='button'
+            className={clsx('navbar-burger burger white', isOpen ? 'is-active' : null, Style.NavbarMenu)}
+            aria-label='menu'
+            aria-expanded={isOpen}
+            data-target='navbarMenu'
             onClick={handleBurgerClick}
           >
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </span>
+            <span aria-hidden='true'></span>
+            <span aria-hidden='true'></span>
+            <span aria-hidden='true'></span>
+          </button>
         </div>
         <div
-          id="navbarMenu"
-          className={clsx(
-            "navbar-menu",
-            Style.NavbarMenu,
-            isOpen ? "is-active" : null
-          )}
+          id='navbarMenu'
+          className={clsx('navbar-menu', Style.NavbarMenu, isOpen ? 'is-active' : null)}
         >
-          <div className="navbar-start">
-            <span className={clsx("navbar-item", Style.Brand)}>
+          <div className='navbar-start'>
+            <span className={clsx('navbar-item', Style.Brand)}>
               <a
-                className={clsx("button is-white", Style.NavbarLink)}
+                className={clsx('button is-white', Style.NavbarLink)}
                 href={ROUTE_HOME}
               >
-                <span className={Style.BrandTitle}>
-                  {highlightFirstLetter(t("App-title"), "#00b89c")}
+                <span className='icon'>
+                  <i className='fas fa-calendar-alt'></i>
                 </span>
+                <span className={Style.BrandTitle}>{t('App-title')}</span>
               </a>
             </span>
           </div>
-          <div className="navbar-end">
-            <span className={clsx("navbar-item")}>
+          <div className='navbar-end'>
+            <div className='navbar-item'>
               <a
-                className={clsx(
-                  "button is-white is-outlined",
-                  Style.NavbarLink
-                )}
-                target="_blank"
-                rel="noreferrer"
-                href="https://github.com/etf1/kafka-message-scheduler-admin"
-                style={{ color: "gray" }}
+                className={clsx('button is-white', Style.NavbarLink)}
+                href='https://github.com/Yoann-Abbes/kafka-message-scheduler-admin'
+                target='_blank'
+                rel='noopener noreferrer'
               >
-                <span className="icon">
-                  <i className="fab fa-github"></i>
+                <span className='icon'>
+                  <i className='fab fa-github'></i>
                 </span>
-                <span>{t("Menu-Source")}</span>
+                <span>Source</span>
               </a>
-            </span>
-            <div
-              className={clsx(
-                "navbar-item has-dropdown is-hoverable",
-                Style.NavbarDropdown
-              )}
-            >
-              <label
-                className={clsx("navbar-link", Style.NavbarLink)}
-                style={{ color: "#5d5d5d !important" }}
-              >
-                <span className="icon">
-                  <i className="fa fa-flag"></i>
+            </div>
+            <div className={clsx('navbar-item has-dropdown is-hoverable', Style.NavbarDropdown)}>
+              <span className={clsx('navbar-link', Style.NavbarLink)}>
+                <span className='icon'>
+                  <i className='fa fa-flag'></i>
                 </span>
-              </label>
+              </span>
 
-              <div className="navbar-dropdown">
-                <span
-                  onClick={() => setLang("en-US")}
-                  className={clsx("navbar-item", "has-tooltip-left")}
-                  style={{ cursor: "pointer", paddingRight: 30 }}
-                  data-tooltip={t(getLangLabel("en-US"))}
+              <div className='navbar-dropdown'>
+                <button
+                  type='button'
+                  onClick={() => setLang('en-US')}
+                  className={clsx('navbar-item', 'has-tooltip-left', Style.LangButton)}
+                  data-tooltip={t(getLangLabel('en-US'))}
                 >
                   <img
-                    src="/asset/english_flag.svg"
-                    width="32"
-                    alt={t(getLangLabel("en-US"))}
+                    src='/asset/english_flag.svg'
+                    width='32'
+                    alt={t(getLangLabel('en-US'))}
                   />
-                </span>
-                <span
-                  onClick={() => setLang("fr-FR")}
-                  className={clsx("navbar-item", "has-tooltip-left")}
-                  style={{ cursor: "pointer", paddingRight: 30 }}
-                  data-tooltip={t(getLangLabel("fr-FR"))}
+                </button>
+                <button
+                  type='button'
+                  onClick={() => setLang('fr-FR')}
+                  className={clsx('navbar-item', 'has-tooltip-left', Style.LangButton)}
+                  data-tooltip={t(getLangLabel('fr-FR'))}
                 >
                   <img
-                    src="/asset/french_flag.svg"
-                    width="32"
-                    alt={t(getLangLabel("fr-FR"))}
+                    src='/asset/french_flag.svg'
+                    width='32'
+                    alt={t(getLangLabel('fr-FR'))}
                   />
-                </span>
+                </button>
               </div>
             </div>
           </div>

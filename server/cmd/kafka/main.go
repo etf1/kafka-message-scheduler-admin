@@ -31,7 +31,7 @@ func main() {
 	}
 
 	defer initProm()()
-	defer initPprof(true)()
+	defer initPprof(config.PprofEnabled())()
 
 	sigchan := make(chan os.Signal, 1)
 	signal.Notify(sigchan, syscall.SIGINT, syscall.SIGTERM)

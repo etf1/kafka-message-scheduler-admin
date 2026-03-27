@@ -1,11 +1,8 @@
-import { Dictionary, isPrimitive } from "_common/type/utils";
+import { Dictionary, isPrimitive } from '_common/type/utils';
 
-const BASE_KEY = "kafka-msg-scheduler-admin-v0";
+const BASE_KEY = 'kafka-msg-scheduler-admin-v0';
 
-export function load<T>(
-  key: string,
-  defaultValue: T | undefined
-): T | undefined {
+export function load<T>(key: string, defaultValue: T | undefined): T | undefined {
   const store = sessionStorage.getItem(BASE_KEY);
   if (store) {
     try {
@@ -45,8 +42,8 @@ export function save<T>(key: string, value: T) {
 export function clear(keepKeyPredicat: (key: string) => boolean) {
   const store = sessionStorage.getItem(BASE_KEY);
   if (store) {
-    let data: any = JSON.parse(window.atob(store));
-    let result: Dictionary = {};
+    const data: any = JSON.parse(window.atob(store));
+    const result: Dictionary = {};
     Object.keys(data).forEach((key) => {
       if (keepKeyPredicat(key)) {
         result[key] = data[key];

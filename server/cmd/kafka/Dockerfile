@@ -1,14 +1,16 @@
-FROM golang:alpine as builder
+FROM golang:alpine AS builder
 RUN apk --no-cache update && apk --no-cache add gcc musl-dev git make bash
 WORKDIR /source
 COPY ./server .
-RUN ls -l
 RUN GOOS=linux GOARCH=amd64 make bin
-
 FROM alpine
-RUN apk --no-cache update
+RUN apk --no-cache update && apk --no-cache add ca-certificates
+RUN addgroup -S app && adduser -S app -G app
 COPY ./client/build /public
 WORKDIR /bin
 COPY --from=builder /source/bin/admin admin
+RUN chown -R app:app /bin /public
 ENV STATIC_FILES_DIR=/public
+USER app
+EXPOSE 9000
 CMD ["./admin"]

@@ -40,9 +40,11 @@ func (h *Hmap) Clear() {
 
 func NewSchedulerSchedules(schedulerName string, schedules []schedule.Schedule) SchedulerSchedules {
 	result := SchedulerSchedules{}
+	key := SchedulerName(schedulerName)
+	result[key] = SchedulesMap{}
 	for _, s := range schedules {
-		var arr = result[SchedulerName(schedulerName)][ScheduleID(s.ID())]
-		result[SchedulerName(schedulerName)][ScheduleID(s.ID())] = append(arr, s)
+		id := ScheduleID(s.ID())
+		result[key][id] = append(result[key][id], s)
 	}
 	return result
 }

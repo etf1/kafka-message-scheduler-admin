@@ -1,7 +1,6 @@
 package kafka
 
 import (
-	"fmt"
 	"reflect"
 	"time"
 
@@ -79,7 +78,7 @@ func (ws *WatchableStore) AddBuckets(buckets ...Bucket) {
 			// nothing changed
 			continue
 		}
-		fmt.Printf("setting new consumer %v\n", bucket)
+		log.Debugf("setting new consumer %v", bucket)
 		// starting new consumer
 		c, err := newConsumer(bucket.Name, bucket.BootstrapServers, bucket.Topics)
 		if err != nil {

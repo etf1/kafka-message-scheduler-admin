@@ -21,13 +21,19 @@ const (
 )
 
 func NewRouter(coldDB, liveDB, historyDB db.DB, resv schedulers.Resolver) http.Handler {
-	return cors.AllowAll().Handler(initRouter(coldDB, liveDB, historyDB, resv))
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"http://localhost:*", "https://localhost:*"},
+		AllowedMethods: []string{http.MethodGet, http.MethodOptions},
+		AllowedHeaders: []string{"Accept", "Content-Type"},
+	})
+	return c.Handler(initRouter(coldDB, liveDB, historyDB, resv))
 }
 
 // coldDB represents schedules stored in a persistent database
 // liveDB represents schedules live in the schedulers' instances
 func initRouter(coldDB, liveDB, historyDB db.DB, resv schedulers.Resolver) *mux.Router {
 	router := mux.NewRouter()
+	router.HandleFunc("/health", health()).Methods(http.MethodGet)
 	router.HandleFunc("/stats", stats(liveDB, coldDB, historyDB, resv)).Methods(http.MethodGet)
 	router.HandleFunc("/schedulers", listSchedulers(resv)).Methods(http.MethodGet)
 	router.HandleFunc("/scheduler/{name}/schedules", searchSchedules(coldDB)).Methods(http.MethodGet)
@@ -39,18 +45,12 @@ func initRouter(coldDB, liveDB, historyDB db.DB, resv schedulers.Resolver) *mux.
 	return router
 }
 
-// type ResponseSchedule struct {
-// 	ID          string `json:"id"`
-// 	Epoch       int64  `json:"epoch"`
-// 	Timestamp   int64  `json:"timestamp"`
-// 	Topic       string `json:"topic"`
-// 	TargetTopic string `json:"target-topic"`
-// 	TargetKey   string `json:"target-key"`
-// }
-// type ResponseList struct {
-// 	SchedulerName string           `json:"scheduler"`
-// 	Schedule      ResponseSchedule `json:"schedule"`
-// }
+
+func health() func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		respondWithJSON(w, http.StatusOK, map[string]string{"status": "ok"})
+	}
+}
 
 func searchSchedules(d db.DB) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -63,7 +63,7 @@ func searchSchedules(d db.DB) func(w http.ResponseWriter, r *http.Request) {
 		epochFrom := r.URL.Query().Get("epoch-from")
 		epochTo := r.URL.Query().Get("epoch-to")
 		sortBy := r.URL.Query().Get("sort-by")
-		max := max(r.URL.Query().Get("max"))
+		max := parseMax(r.URL.Query().Get("max"))
 
 		query := db.SearchQuery{
 			Limit: db.Limit{
@@ -113,7 +113,7 @@ func searchSchedules(d db.DB) func(w http.ResponseWriter, r *http.Request) {
 				log.Errorf("unable to encode json: %v", err)
 				return
 			}
-			log.Warnf("searchSchedules.encode done elapsed=%v", time.Since(start))
+			log.Debugf("searchSchedules.encode done elapsed=%v", time.Since(start))
 		}
 
 		_, err = w.Write([]byte("]}"))
@@ -121,7 +121,7 @@ func searchSchedules(d db.DB) func(w http.ResponseWriter, r *http.Request) {
 			log.Errorf("cannot write response end: %v", err)
 		}
 
-		log.Warnf("searchSchedules.all done elapsed=%v", time.Since(globalStart))
+		log.Debugf("searchSchedules.all done elapsed=%v", time.Since(globalStart))
 	}
 }
 
@@ -155,7 +155,7 @@ func stats(liveDB, coldDB, historyDB db.DB, resv schedulers.Resolver) func(w htt
 			}
 			total, _, err := coldDB.Search(q)
 			if err != nil {
-				log.Errorf("stats on live DB failed: %v", err)
+				log.Errorf("stats on cold DB failed: %v", err)
 			}
 			result = append(result, stat{
 				SchedulerName: sch.Name(),
@@ -209,7 +209,7 @@ func epoch(s string) int64 {
 	return 0
 }
 
-func max(s string) int {
+func parseMax(s string) int {
 	if s != "" {
 		n, err := strconv.Atoi(s)
 		if err != nil {

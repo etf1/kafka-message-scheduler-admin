@@ -1,36 +1,42 @@
-import { Suspense } from "react";
-import Style from "./App.module.css";
+import ModalProvider from '_common/component/modal/ModalProvider';
+import { Suspense } from 'react';
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
-import routes from "../router/routes";
-import AppNavbar from "./app-navbar/AppNavbar";
-import AppLeftSidebar from "./app-left-sidebar/AppLeftSidebar";
-import ModalProvider from "_common/component/modal/ModalProvider";
+import routes from '../router/routes';
+import Style from './App.module.css';
+import AppLeftSidebar from './app-left-sidebar/AppLeftSidebar';
+import AppNavbar from './app-navbar/AppNavbar';
 
 function App() {
-  /*useEffect( ()=> {
-    changeLanguage("en-US")
-  }, [])*/
-
   return (
     <>
       <Router>
-        <Switch>
+        <Routes>
           {routes.map((route) => {
+            const Component = route.component;
             return (
-              <Route key={route.key} exact={route.exact} path={route.path}>
-                <AppLeftSidebar />
-                <AppNavbar />
-                <main role="main" className={Style.AppContainer}>
-                  <Suspense fallback={<div></div>}>
-                    <route.component />
-                  </Suspense>
-                </main>
-              </Route>
+              <Route
+                key={route.key}
+                path={route.path}
+                element={
+                  <>
+                    <AppLeftSidebar />
+                    <AppNavbar />
+                    <main
+                      role='main'
+                      className={Style.AppContainer}
+                    >
+                      <Suspense fallback={<div></div>}>
+                        <Component />
+                      </Suspense>
+                    </main>
+                  </>
+                }
+              />
             );
           })}
-        </Switch>
+        </Routes>
       </Router>
       <ModalProvider />
     </>

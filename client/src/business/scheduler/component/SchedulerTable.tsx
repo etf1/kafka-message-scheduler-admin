@@ -1,9 +1,9 @@
-import clsx from "clsx";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import { resolvePath } from "_core/router/routes";
-import { Scheduler } from "../type";
-import Style from "./SchedulerTable.module.css";
+import { resolvePath } from '_core/router/routes';
+import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { Scheduler } from '../type';
+import Style from './SchedulerTable.module.css';
 
 export type SchedulerTableProps = {
   schedulers: Scheduler[];
@@ -11,25 +11,18 @@ export type SchedulerTableProps = {
   detailUrl: string;
 };
 
-const SchedulerTable: React.FC<SchedulerTableProps> = ({
-  schedulers,
-  detailUrl,
-  onClick,
-}) => {
+const SchedulerTable: React.FC<SchedulerTableProps> = ({ schedulers, detailUrl, onClick }) => {
   const { t } = useTranslation();
   return (
-    <table key="table" className="table is-striped is-hoverable is-fullwidth">
+    <table
+      key='table'
+      className='table is-striped is-hoverable is-fullwidth'
+    >
       <thead>
         <tr>
-          <th style={{ cursor: "pointer" }}>
-            {t("SchedulerTable-column-Name")}
-          </th>
-          <th style={{ cursor: "pointer" }}>
-            {t("SchedulerTable-column-Port")}
-          </th>
-          <th style={{ cursor: "pointer" }}>
-            {t("SchedulerTable-column-Nb-Instances")}
-          </th>
+          <th style={{ cursor: 'pointer' }}>{t('SchedulerTable-column-Name')}</th>
+          <th style={{ cursor: 'pointer' }}>{t('SchedulerTable-column-Port')}</th>
+          <th style={{ cursor: 'pointer' }}>{t('SchedulerTable-column-Nb-Instances')}</th>
         </tr>
       </thead>
 

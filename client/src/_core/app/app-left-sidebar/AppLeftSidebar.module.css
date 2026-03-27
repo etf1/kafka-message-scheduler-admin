@@ -1,14 +1,12 @@
 .Container {
   width: 65px;
-  background-color: white;
   border-right: 1px solid #ddd;
   padding: 0 0;
-  height: 100vh;
   background-color: #374256;
 
   position: fixed;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   z-index: 30;
   height: 100%;
   padding-top: 52px;
@@ -22,7 +20,6 @@
   cursor: pointer;
   color: white !important;
   align-items: center;
-  /* align-content: center; */
   display: flex;
   justify-content: center;
 }

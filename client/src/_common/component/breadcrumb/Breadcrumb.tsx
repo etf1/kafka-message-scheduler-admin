@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 export type BreadcrumbProps = {
   data: { label: string; linkTo: string }[];
@@ -9,9 +9,9 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ data }) => {
 
   return (
     <nav
-      className="breadcrumb"
-      aria-label="breadcrumbs"
-      style={{ marginLeft: "1rem" }}
+      className='breadcrumb'
+      aria-label='breadcrumbs'
+      style={{ marginLeft: '1rem' }}
     >
       <ul>
         {data.map((u, index) => {
@@ -20,7 +20,10 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ data }) => {
               <Link to={u.linkTo}>{u.label}</Link>
             </li>
           ) : (
-            <li key={u.linkTo} className="is-active">
+            <li
+              key={u.linkTo}
+              className='is-active'
+            >
               <Link to={u.linkTo}>{u.label}</Link>
             </li>
           );

@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"time"
 
-	confluent "github.com/confluentinc/confluent-kafka-go/kafka"
+	confluent "github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"github.com/etf1/kafka-message-scheduler/schedule"
 	kafka_schedule "github.com/etf1/kafka-message-scheduler/schedule/kafka"
 	"github.com/etf1/kafka-message-scheduler/schedule/simple"
@@ -110,10 +110,10 @@ func isRunningInDocker() bool {
 // Get the bootstrap servers because in or out the docker the kafka server is different
 func GetDefaultBootstrapServers() string {
 	if isRunningInDocker() {
-		fmt.Println("kafka bootstrap servers=kafka:29092")
+		log.Debugf("kafka bootstrap servers=kafka:29092")
 		return "kafka:29092"
 	}
-	fmt.Println("kafka bootstrap servers=localhost:9092")
+	log.Debugf("kafka bootstrap servers=localhost:9092")
 	return "localhost:9092"
 }
 

@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -17,7 +18,11 @@ var (
 func getBool(name string, defaultValue bool) bool {
 	value, set := os.LookupEnv(name)
 	if set {
-		return value == "yes"
+		parsed, err := strconv.ParseBool(value)
+		if err != nil {
+			return defaultValue
+		}
+		return parsed
 	}
 	return defaultValue
 }
@@ -82,11 +87,19 @@ func APIServerOnly() bool {
 
 // URL for the http decoder can start with http:// or not
 func KafkaMessageBodyDecoder() string {
-	u := strings.ToLower(getString("KAFKA_MESSAGE_BODY_DECODER", ""))
-	if strings.HasPrefix(u, "http://") || strings.HasPrefix(u, "https://") {
+	u := getString("KAFKA_MESSAGE_BODY_DECODER", "")
+	if u == "" {
+		return ""
+	}
+	lower := strings.ToLower(u)
+	if strings.HasPrefix(lower, "http://") || strings.HasPrefix(lower, "https://") {
 		return u
 	}
 	return "http://" + u
+}
+
+func PprofEnabled() bool {
+	return getBool("PPROF_ENABLED", false)
 }
 
 func DataRootDir() string {

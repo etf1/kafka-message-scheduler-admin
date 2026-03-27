@@ -1,30 +1,24 @@
-// These must be the first lines in src/index.js
-import "react-app-polyfill/ie11";
-import "react-app-polyfill/stable";
+import React, { Suspense } from 'react';
+import { createRoot } from 'react-dom/client';
+import 'bulma/css/bulma.css';
+import './bulma-tooltip.css';
+import './index.css';
+import App from '_core/app/App';
 
-import React, { Suspense } from "react";
-import ReactDOM from "react-dom";
-import "bulma/css/bulma.css";
-import "./bulma-tooltip.css";
-import "./index.css";
-import App from "_core/app/App";
+import '_core/i18n';
 
-import "_core/i18n";
-
-import init from "_core/service/config";
+import init from '_core/service/config';
 
 init().then(() => {
-  /*if (process.env.NODE_ENV === "development") {
-    const { worker } = require("./mocks/browser");
-    worker.start();
-  }*/
+  const container = document.getElementById('root');
+  if (!container) throw new Error('Root element not found');
 
-  ReactDOM.render(
+  const root = createRoot(container);
+  root.render(
     <React.StrictMode>
       <Suspense fallback={<div></div>}>
         <App />
       </Suspense>
     </React.StrictMode>,
-    document.getElementById("root")
   );
 });

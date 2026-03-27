@@ -44,6 +44,19 @@ type indexer struct {
 }
 
 func newIndexer(path string) (*indexer, error) {
+	// Try to open an existing index first (server restart case).
+	index, err := bleve.Open(path)
+	if err == nil {
+		log.Infof("opened existing bleve index at %s", path)
+		return &indexer{
+			make(chan event, MaxChanSize),
+			index,
+		}, nil
+	}
+
+	// Index does not exist yet — create a new one.
+	log.Infof("creating new bleve index at %s", path)
+
 	// a generic reusable mapping for keyword text
 	keywordFieldMapping := bleve.NewTextFieldMapping()
 	keywordFieldMapping.Analyzer = keyword.Name
@@ -61,7 +74,7 @@ func newIndexer(path string) (*indexer, error) {
 	mapping.DefaultMapping.AddFieldMappingsAt("epoch", bleve.NewNumericFieldMapping())
 	mapping.DefaultMapping.AddFieldMappingsAt("timestamp", bleve.NewNumericFieldMapping())
 
-	index, err := bleve.New(path, mapping)
+	index, err = bleve.New(path, mapping)
 	if err != nil {
 		return nil, err
 	}
@@ -172,47 +185,3 @@ func (i indexer) delete(id string) {
 	}
 }
 
-/*
-func describeDocument(doc index.Document) string {
-	rv := struct {
-		ID     string                 `json:"id"`
-		Fields map[string]interface{} `json:"fields"`
-	}{
-		ID:     doc.ID(),
-		Fields: map[string]interface{}{},
-	}
-	doc.VisitFields(func(field index.Field) {
-		var newval interface{}
-		switch field := field.(type) {
-		case index.TextField:
-			newval = field.Text()
-		case index.NumericField:
-			n, err := field.Number()
-			if err == nil {
-				newval = n
-			}
-		case index.DateTimeField:
-			d, err := field.DateTime()
-			if err == nil {
-				newval = d.Format(time.RFC3339Nano)
-			}
-		}
-		existing, existed := rv.Fields[field.Name()]
-		if existed {
-			switch existing := existing.(type) {
-			case []interface{}:
-				rv.Fields[field.Name()] = append(existing, newval)
-			case interface{}:
-				arr := make([]interface{}, 2)
-				arr[0] = existing
-				arr[1] = newval
-				rv.Fields[field.Name()] = arr
-			}
-		} else {
-			rv.Fields[field.Name()] = newval
-		}
-	})
-
-	return fmt.Sprintf("doc: %+v\n", rv)
-}
-*/

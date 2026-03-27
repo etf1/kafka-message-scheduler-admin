@@ -1,12 +1,9 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["dom", "dom.iterable", "ES2020"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -14,14 +11,19 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "types": ["vitest/globals", "@testing-library/jest-dom"],
+    "paths": {
+      "_common/*": ["_common/*"],
+      "_core/*": ["_core/*"],
+      "business/*": ["business/*"],
+      "mocks/*": ["mocks/*"]
+    }
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src", "vite.config.ts"]
 }

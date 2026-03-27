@@ -1,11 +1,10 @@
-import { useEffect } from "react";
-
-import { later } from "_common/service/FunUtil";
+import { later } from '_common/service/FunUtil';
+import { useEffect } from 'react';
 
 const useKeyDown = (
   predicat: (e: KeyboardEvent) => boolean,
   action: (e: KeyboardEvent) => void,
-  stopPropagation = true
+  stopPropagation = true,
 ): void => {
   useEffect(() => {
     const listener = (message: KeyboardEvent) => {
@@ -18,9 +17,9 @@ const useKeyDown = (
       }
     };
 
-    document.addEventListener("keydown", listener);
+    document.addEventListener('keydown', listener);
     return () => {
-      document.removeEventListener("keydown", listener);
+      document.removeEventListener('keydown', listener);
     };
   }, [predicat, action, stopPropagation]);
 };

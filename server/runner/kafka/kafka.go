@@ -60,10 +60,6 @@ func (r *Runner) Start() error {
 		return fmt.Errorf("cannot directories %v: %w", dir, err)
 	}
 
-	for _, element := range os.Environ() {
-		variable := strings.Split(element, "=")
-		log.Println(variable[0], "=>", variable[1])
-	}
 
 	var dec decoder.Decoder
 

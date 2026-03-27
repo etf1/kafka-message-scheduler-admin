@@ -8,6 +8,7 @@ import (
 	"net"
 	"time"
 
+	lorem "github.com/drhodes/golorem"
 	"github.com/etf1/kafka-message-scheduler-admin/server/db/simple"
 	"github.com/etf1/kafka-message-scheduler-admin/server/helper"
 	"github.com/etf1/kafka-message-scheduler-admin/server/resolver/schedulers/httpresolver"
@@ -19,9 +20,17 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+const (
+	loremMin = 50
+	loremMax = 100
+)
+
+func lipsum() string {
+	return lorem.Paragraph(loremMin, loremMax)
+}
+
 var (
 	newKafkaSchedule = helper.NewKafkaSchedule
-	lipsum           = helper.Lipsum
 	logErr           = helper.LogErr
 )
 
@@ -66,9 +75,11 @@ func (r Runner) Close() {
 	log.Printf("after close return")
 }
 
+// rng is a package-level random source seeded once; rand.Seed is deprecated since Go 1.20.
+var rng = rand.New(rand.NewSource(time.Now().UnixNano()))
+
 func randInt(min, max int) int {
-	rand.Seed(time.Now().UnixNano())
-	return rand.Intn(max-min+1) + min
+	return rng.Intn(max-min+1) + min
 }
 
 func ARandInt() int {
@@ -151,6 +162,7 @@ func (r *Runner) Start() error {
 	logErr(historyStore.Add(sch3.Name(), genRandVersions(schs[200:250])...))
 
 	srv := runner.NewServer(coldDB, liveDB, historyDB, resolver)
+	srv.SetKeepAlivesEnabled(false)
 
 	helper.StartupHTTPServer(srv)
 	<-r.stopChan

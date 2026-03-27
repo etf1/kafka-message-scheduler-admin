@@ -1,15 +1,11 @@
-import React, { CSSProperties } from "react";
-import Style from "./Calendar.module.css";
-import { Locale, subMonths, addMonths } from "date-fns";
-import {
-  getDayLabelsOfWeek,
-  getDaysOfMonth,
-  DayOfMonth,
-} from "_common/service/DateUtil";
-import CalendarDay from "./CalendarDay";
-import CalendarNav from "./CalendarNav";
-import clsx from "clsx";
-import useStateWithUpdate from "_common/hook/useStateWithUpdate";
+import useStateWithUpdate from '_common/hook/useStateWithUpdate';
+import { DayOfMonth, getDayLabelsOfWeek, getDaysOfMonth } from '_common/service/DateUtil';
+import clsx from 'clsx';
+import { addMonths, Locale, subMonths } from 'date-fns';
+import React, { CSSProperties } from 'react';
+import Style from './Calendar.module.css';
+import CalendarDay from './CalendarDay';
+import CalendarNav from './CalendarNav';
 
 // sources : https://gist.github.com/stevensacks/79c60d0f8b1f8bc06b475438f59d687e
 
@@ -33,9 +29,9 @@ type CalendarProps = /*HTMLAttributes<HTMLDivElement> &*/ {
 };
 
 const defaultTheme: CalendarTheme = {
-  fontSize: "11px",
-  primaryColor: "rgb(0, 209, 178)",
-  border: "#ddd thin solid",
+  fontSize: '11px',
+  primaryColor: 'rgb(0, 209, 178)',
+  border: '#ddd thin solid',
   cellsPadding: 2,
   cellsWidth: 36,
   cellsBorderRadius: 36,
@@ -43,16 +39,8 @@ const defaultTheme: CalendarTheme = {
 
 const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
   (
-    {
-      date,
-      locale,
-      theme: inputTheme,
-      onDayClick,
-      position,
-      todayLabel,
-      headerMonthLabelFormat,
-    }: CalendarProps,
-    ref
+    { date, locale, theme: inputTheme, onDayClick, position, todayLabel, headerMonthLabelFormat }: CalendarProps,
+    ref,
   ) => {
     const [currentDate, setCurrentDate] = useStateWithUpdate(date);
 
@@ -84,14 +72,14 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
     if (position) {
       style = {
         ...style,
-        position: "absolute",
+        position: 'absolute',
         top: position.top,
         left: position.left,
       };
     }
     return (
       <div
-        className={clsx("calendar-container", Style.CalendarContainer)}
+        className={clsx('calendar-container', Style.CalendarContainer)}
         style={style}
         ref={ref}
       >
@@ -104,7 +92,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
           headerMonthLabelFormat={headerMonthLabelFormat}
         />
         <div
-          className={clsx("calendar-header", Style.CalendarHeader)}
+          className={clsx('calendar-header', Style.CalendarHeader)}
           style={{
             width,
             gridTemplateColumns,
@@ -114,12 +102,12 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
           {labels.map((day) => (
             <div
               key={day}
-              className="calendar-date"
+              className='calendar-date'
               style={{
-                textAlign: "center",
+                textAlign: 'center',
                 padding: theme.cellsPadding,
                 fontSize: theme.fontSize,
-                textDecoration: "none",
+                textDecoration: 'none',
                 color: theme.primaryColor,
                 lineHeight: `${theme.cellsWidth - 8}px`,
               }}
@@ -129,7 +117,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
           ))}
         </div>
         <div
-          className={clsx("calendar-body", Style.CalendarBody)}
+          className={clsx('calendar-body', Style.CalendarBody)}
           style={{
             width,
             gridTemplateColumns,
@@ -146,12 +134,15 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
             />
           ))}
         </div>
-        <div className={Style.TodayLinkButton} onClick={handleTodayClick}>
-          {todayLabel ? todayLabel : "Today"}
+        <div
+          className={Style.TodayLinkButton}
+          onClick={handleTodayClick}
+        >
+          {todayLabel ? todayLabel : 'Today'}
         </div>
       </div>
     );
-  }
+  },
 );
 
 export default Calendar;

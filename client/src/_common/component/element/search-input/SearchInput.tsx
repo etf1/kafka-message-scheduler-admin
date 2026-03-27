@@ -1,14 +1,11 @@
-import clsx from "clsx";
-import { ChangeEventHandler, useEffect, useState } from "react";
-import useSeachText from "_common/hook/useSearchText";
-import Style from "./SearchInput.module.css";
+import useSeachText from '_common/hook/useSearchText';
+import clsx from 'clsx';
+import { ChangeEventHandler, useEffect, useState } from 'react';
+import Style from './SearchInput.module.css';
 
 export type SearchInputProps = Omit<
-  React.DetailedHTMLProps<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  >,
-  "value" | "onChange"
+  React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+  'value' | 'onChange'
 > & {
   value: string | undefined;
   onChange: (value: string | undefined) => void;
@@ -23,11 +20,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   ...others
 }) => {
   const [searchString, setSearchString] = useState<string | undefined>(value);
-  const handleSearchChange = useSeachText(
-    onChange,
-    debounceDelay,
-    discardDuplicates
-  );
+  const handleSearchChange = useSeachText(onChange, debounceDelay, discardDuplicates);
 
   useEffect(() => {
     setSearchString(value);
@@ -41,7 +34,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
 
   return (
     <input
-      className={clsx("input", Style.Input)}
+      className={clsx('input', Style.Input)}
       onChange={handleChange}
       value={searchString}
       {...others}

@@ -1,38 +1,24 @@
-import React from "react";
-import {
-  isString,
-  isNumber,
-  isPrimitive,
-  isArray,
-  isFunction,
-  isDictionary,
-  sameKey,
-} from "_common/type/utils";
+import { isArray, isDictionary, isFunction, isNumber, isPrimitive, isString, sameKey } from '_common/type/utils';
+import React from 'react';
 
-function isSelectedValueType(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  value: any
-): value is string | ReadonlyArray<string> | number | undefined {
+function isSelectedValueType(value: any): value is string | ReadonlyArray<string> | number | undefined {
   return isString(value) || isNumber(value) || isArray<string>(value);
 }
 
 function getSelectedValue<T>(
   value: T,
-  keyFieldName: string | undefined
+  keyFieldName: string | undefined,
 ): string | ReadonlyArray<string> | number | undefined {
   if (isSelectedValueType(value)) {
     return value;
-  } else if (
-    keyFieldName &&
-    isDictionary<string | ReadonlyArray<string> | number | undefined>(value)
-  ) {
+  } else if (keyFieldName && isDictionary<string | ReadonlyArray<string> | number | undefined>(value)) {
     return value[keyFieldName];
   }
 }
 
 export type SelectProps<T> = Omit<
   React.SelectHTMLAttributes<HTMLSelectElement>,
-  "defaultValue" | "value" | "onBlur" | "onChange"
+  'defaultValue' | 'value' | 'onBlur' | 'onChange'
 > & {
   value?: T | undefined;
   defaultValue?: T | undefined;
@@ -40,9 +26,7 @@ export type SelectProps<T> = Omit<
   onChange?: (value: T | undefined) => void;
   onBlur?: (value: T | undefined) => void;
   keyField?: string;
-  labelField?:
-    | string
-    | ((value: T | undefined, asString?: boolean) => string | undefined);
+  labelField?: string | ((value: T | undefined, asString?: boolean) => string | undefined);
 };
 
 function Select<T>({
@@ -51,8 +35,8 @@ function Select<T>({
   onBlur,
   value,
   defaultValue,
-  keyField = "key",
-  labelField = "label",
+  keyField = 'key',
+  labelField = 'label',
   ...restProps
 }: SelectProps<T>): JSX.Element {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -66,9 +50,9 @@ function Select<T>({
     onBlur && onBlur(value);
   };
   return (
-    <div className="field">
-      <div className="control">
-        <div className="select is-fullwidth">
+    <div className='field'>
+      <div className='control'>
+        <div className='select is-fullwidth'>
           <select
             defaultValue={getSelectedValue(defaultValue, keyField)}
             value={getSelectedValue(value, keyField)}
@@ -80,22 +64,19 @@ function Select<T>({
               if (isPrimitive(option)) {
                 return (
                   <option
-                    key={option + ""}
+                    key={option + ''}
                     value={getSelectedValue(option, keyField)}
                   >
                     {option}
                   </option>
                 );
-              } else if (
-                isDictionary<
-                  string | ReadonlyArray<string> | number | undefined
-                >(option)
-              ) {
+              } else if (isDictionary<string | ReadonlyArray<string> | number | undefined>(option)) {
                 return (
-                  <option key={"" + option[keyField]} value={option[keyField]}>
-                    {isFunction(labelField)
-                      ? labelField(option)
-                      : option[labelField]}
+                  <option
+                    key={'' + option[keyField]}
+                    value={option[keyField]}
+                  >
+                    {isFunction(labelField) ? labelField(option) : option[labelField]}
                   </option>
                 );
               } else {

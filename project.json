@@ -1,0 +1,58 @@
+{
+  "name": "kafka-message-scheduler-admin",
+  "root": ".",
+  "projectType": "application",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "cd client && pnpm exec vite --port=3000",
+          "cd server && go run -tags musl -v ./cmd/kafka"
+        ],
+        "parallel": true
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "cd client && pnpm exec tsc -b && pnpm exec vite build",
+          "cd server && go build -tags musl -v ./..."
+        ],
+        "parallel": true
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "cd client && pnpm exec vitest run",
+          "cd server && go test -v -tags musl -count=1 ./..."
+        ],
+        "parallel": true
+      }
+    },
+    "ci:test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "cd client && JEST_JUNIT_OUTPUT_NAME=junit-kafka-message-scheduler-admin-front.xml pnpm exec vitest run --coverage --reporter=default --reporter=junit",
+          "cd server && go test -v -tags musl -count=1 -coverprofile=coverage.out ./..."
+        ],
+        "parallel": true
+      }
+    },
+    "ci:sonar": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "cd client && pnpm exec vitest run --coverage && pnpm exec sonar-scanner",
+          "cd server && go test -v -tags musl -count=1 -coverprofile=coverage.out ./... && sonar-scanner"
+        ],
+        "parallel": false
+      }
+    }
+  }
+}
+

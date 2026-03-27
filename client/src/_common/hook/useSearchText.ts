@@ -1,6 +1,5 @@
-import { useRef, useEffect } from "react";
-import { Subject, identity } from "rxjs";
-import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { useEffect, useRef } from 'react';
+import { debounceTime, distinctUntilChanged, identity, Subject } from 'rxjs';
 
 /**
  * useSeachText
@@ -15,14 +14,14 @@ import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 function useSeachText(
   onChange: (value: string | undefined) => void,
   debounceDelay: number = 650,
-  discardDuplicates: boolean = true
+  discardDuplicates: boolean = true,
 ) {
   const searchSubject = useRef<Subject<string>>(new Subject());
 
   useEffect(() => {
     const searchResultObservable = searchSubject.current.pipe(
       debounceTime(debounceDelay),
-      discardDuplicates ? distinctUntilChanged() : identity
+      discardDuplicates ? distinctUntilChanged() : identity,
     );
     const subscription = searchResultObservable.subscribe(onChange);
     return () => subscription.unsubscribe();
